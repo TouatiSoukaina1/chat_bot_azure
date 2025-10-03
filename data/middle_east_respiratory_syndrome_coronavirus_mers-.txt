@@ -1,0 +1,47 @@
+Middle East respiratory syndrome coronavirus (MERS-CoV)
+
+Symptoms
+
+The clinical spectrum of MERS-CoV infection ranges from no symptoms (asymptomatic) or mild respiratory symptoms to severe acute respiratory disease and death. A typical presentation of MERS is fever, cough and shortness of breath. Pneumonia is a common finding, but MERS patients may not always develop this condition. Gastrointestinal symptoms, including diarrhoea, have also been reported. Severe illness can cause respiratory failure that requires mechanical ventilation or support in an intensive care unit. Older people, people with weakened immune systems, and those with chronic diseases such as renal disease, cancer, chronic lung disease, hypertension, cardiovascular disease and diabetes appear to be at greater risk of developing severe disease.
+
+Approximately 35% of cases reported to WHO have died, but this may be an overestimate of the true mortality rate, as mild cases of MERS may be missed by existing surveillance systems.
+
+Since the identification of MERS-CoV in 2012, 27 Member States have reported cases of MERS to WHO under the International Health Regulations (2005): Algeria, Austria, Bahrain, China, Egypt, France, Germany, Greece, Islamic Republic of Iran, Italy, Jordan, Kuwait, Lebanon, Malaysia, the Netherlands, Oman, Philippines, Qatar, Republic of Korea, Kingdom of Saudi Arabia, Thailand, Tunisia, Türkiye, United Arab Emirates, United Kingdom, United States of America, and Yemen.
+
+Transmission
+
+Zoonotic transmission: MERS-CoV is a zoonotic virus, which means that is transmitted between animals and people. Studies have shown that humans are infected through direct or indirect contact with infected dromedary camels, although the exact route of transmission remains unclear. MERS-CoV has been identified in dromedary camels in several Member States in the Middle East, Africa and South Asia. Despite a limited number of human infections reported outside the Middle East, recent studies in human populations with occupational exposure to dromedary camels in a number of Member States indicate that there is also zoonotic transmission occurring in Member States in the African continent.
+
+Human-to-human transmission: Human-to-human transmission is possible and has occurred predominantly among close contacts and in health care settings. This includes family and household members, health care workers and other patients. The largest outbreaks have occurred in health care facilities in Saudi Arabia, the United Arab Emirates, and the Republic of Korea. Outside the health care setting, there has been no sustained human-to-human transmission documented anywhere in the world.
+
+Approximately 80% of human cases have been reported by Saudi Arabia, largely as a result of direct or indirect contact with infected dromedary camels or infected individuals in health care facilities. Cases identified outside the Middle East are usually individuals who appear to have been infected in the Middle East and then travelled to areas outside the region. To date, a limited number of outbreaks have occurred outside the Middle East.
+
+Prevention and treatment
+
+No vaccine or specific treatment are currently available, however several MERS-CoV specific vaccines and treatments are in clinical development. In the absence of MERS-specific therapeutics, treatment of MERS patients is supportive and based on the patient’s clinical condition.
+
+As a general precaution, anyone visiting farms, markets, barns, or other places where dromedary camels and other animals are present should practice general hygiene measures, including regular hand washing before and after touching animals, and should avoid contact with sick animals.
+
+The consumption of raw or undercooked animal products, including milk and meat, carries a high risk of infection from a variety of pathogens that may cause disease in humans. Animal products that are processed appropriately through cooking or pasteurization are safe for consumption, but should also be handled with care to avoid cross contamination with uncooked foods. Camel meat and camel milk are nutritious products that can continue to be consumed after pasteurization, cooking, or other heat treatments.
+
+Individuals at greater risk of developing severe disease should avoid contact with dromedary camels, drinking raw camel milk or camel urine, or eating meat that has not been properly cooked.
+
+Health care facilities
+
+Transmission of MERS-CoV has occurred in health care facilities in several Member States, including from patients to health care workers and between patients in a health care setting before MERS-CoV was diagnosed. However, it is not always possible to identify patients with MERS‐CoV early or without testing because symptoms and other clinical features may be non‐specific.
+
+There have been clusters of cases and larger outbreaks in health care facilities, especially when infection prevention and control practices are inadequate or inappropriate. Infection prevention and control measures are therefore critical to prevent the possible spread of MERS‐CoV in health care facilities. Facilities that provide care for patients suspected or confirmed MERS‐CoV infection should take appropriate measures to decrease the risk of transmission of the virus from an infected patient to other patients, health care workers, or visitors. Health care workers should be educated and trained in infection prevention and control and should refresh these skills regularly.
+
+Travel
+
+WHO does not recommend the application of any travel or trade restrictions or entry screening related to MERS-CoV.
+
+WHO response
+
+WHO continues to work with public health and animal health specialists, clinicians and scientists in affected and at-risk Member States to gather and share scientific evidence to better understand the virus and the disease it causes, and to determine optimal and integrated surveillance strategies for MERS and other respiratory diseases, outbreak response priorities including comprehensive field investigations that follow a One Health approach, and clinical management and treatment approaches. WHO is also working with the Food and Agriculture Organization of the United Nations (FAO) and the World Organization for Animal Health (WOAH) and national governments to develop public health prevention strategies to limit zoonotic transmission and amplification in humans, including the development of human and dromedary camel vaccine candidates.
+
+Together with affected Member States and international technical partners and networks, WHO is coordinating the global health response to MERS, including: the provision of updated information on the epidemiological situation; conducting risk assessments and joint investigations with national authorities; convening scientific meetings; and developing technical guidance and training materials for health authorities and technical health agencies.
+
+The Director‐General first convened an Emergency Committee under the International Health Regulations (2005) in 2013 to provide advice as to whether the outbreaks of MERS constitute a Public Health Emergency of International Concern (PHEIC) and on the public health measures that should be taken. The Committee has met on ten occasions and, on each occasion, the Committee has concluded that the outbreaks do not meet the criteria of a PHEIC. WHO continues to strongly encourage all Member States maintain surveillance for severe acute respiratory infections (SARI), including MERS in Member States where MERS-CoV is known to be circulating in dromedary camels, and to carefully review any unusual patterns in SARI or pneumonia cases.
+
+Both affected and at-risk Member States should maintain a high level of vigilance, especially those with large numbers of travellers or migrant workers returning from the Middle East. Surveillance should continue to be enhanced in affected Member States according to WHO guidance, along with infection prevention and control procedures in health care facilities. Under the provisions of the International Health Regulations (2005), WHO continues to request that Member States report to WHO all confirmed and probable cases of infection with MERS-CoV, as well as information about exposure(s), testing, and clinical course to inform preparedness and response activities and guidance.

@@ -1,0 +1,113 @@
+Chagas disease (also known as American trypanosomiasis)
+
+Key facts
+
+More than 7 million people worldwide, mostly in Latin America, are estimated to be infected with Trypanosoma cruzi , the parasite that causes Chagas disease.
+
+It can be transmitted by the triatomine bug (vector-borne), as well as orally (food-borne), during pregnancy or birth (congenital), through blood/blood products, organ transplantation and laboratory accidents.
+
+Chagas disease is curable if antiparasitic treatment is initiated early, in the acute phase. In chronic infection, the treatment and follow up can potentially prevent or curb disease progression and prevent transmission, for instance, during pregnancy and birth.
+
+Without early diagnosis and treatment, up to a third of people with chronic infection develop cardiac alterations and 1 in 10 develop digestive, neurological or mixed alterations which may require specific treatment.
+
+Key strategies to prevent Chagas disease include vector control (in Latin America); blood screening prior transfusion and transplantation; testing and treating girls, women of reproductive age, newborns and siblings of mothers with the infection; earliest possible diagnosis and comprehensive follow-up and health care; and information, education and communication for communities and health professionals.
+
+Overview
+
+Chagas disease is caused by the infection of a protozoan parasite ( Trypanosoma cruzi ). However, this condition is the result of a complex health problem typical of neglected tropical diseases and socially determined diseases. A missed or late diagnosis with absent or incomplete treatment and follow-up can transform this infection into a life-threatening condition.
+
+More than 7 million people worldwide are estimated to be infected with T. cruzi , leading to more than 10 000 deaths every year. Although a condition of increasing global presence, Chagas disease is found mainly in endemic areas of 21 continental Latin American countries (1) , where transmission is largely related to the presence of the insect vector. Today, more than 100 million people are considered at risk of infection.
+
+Chagas disease is named after Carlos Chagas, a Brazilian physician and researcher who on 14 April 1909 diagnosed the disease in a person for the first time. Today, 14 April marks World Chagas Disease Day.
+
+Distribution
+
+Chagas disease was once entirely confined to continental rural areas of the Americas. Due to socioenvironmental changes and increased population mobility, most infected people now live in urban settings and the infection has been detected in 44 countries (including Canada, the United States of America, and many European and some Western Pacific, African and Eastern Mediterranean countries).
+
+Transmission
+
+In Latin America, T. cruzi parasites are mainly transmitted by contact with faeces/urine of infected blood-sucking triatomine bugs. These bugs typically live in the wall or roof cracks of homes and surrounding structures, such as chicken coops, pens and warehouses, in rural or suburban areas. Normally they hide during the day and become active at night when they feed on animal and human blood. They usually bite an exposed area of skin such as the face, and defecate or urinate close to the bite. The parasites enter the body when the person instinctively smears the bug’s faeces or urine into the bite, other skin breaks, the eyes or the mouth. T. cruzi can also infect animals; common opossums are considered one of the most important wild reservoirs of infection.
+
+T. cruzi can also be transmitted:
+
+by consumption of food or beverages contaminated with T. cruzi through, for example, contact with faeces or urine of infected triatomine bugs or common opossums; this kind of transmission typically causes outbreaks;
+
+during pregnancy or childbirth;
+
+through blood or blood product transfusion;
+
+through transplants of some organs (such as heart or kidney); and
+
+through laboratory accidents.
+
+Signs and symptoms
+
+Chagas disease presents in two phases. The initial acute phase lasts for about two months after infection. Although a high number of parasites can circulate in the blood, in most cases symptoms are absent or mild and non-specific (fever, headache, enlarged lymph glands, pallor, muscle pain, difficulty in breathing, swelling, and abdominal or chest pain). Much less frequently, people bitten by a triatomine bug show characteristic first visible signs, which can be either a skin lesion (chagoma) or a purplish swelling of the lids of one eye (Romaña’s sign).
+
+During the chronic phase, the parasites are hidden mainly in the heart and digestive muscles. One to three decades after infection, up to a third of patients suffer from cardiac disorders and up to 1 in 10 suffer from digestive (typically enlargement of the oesophagus or colon), neurological or mixed alterations. In later years these patients may experience the damage to the nervous system and muscles of the heart and digestive system, leading to cardiac arrhythmias, progressive heart failure, and sudden death, among other clinical manifestations and complications.
+
+Treatment
+
+Chagas disease can be treated with benznidazole or nifurtimox. Both medicines kill the parasite and are fully effective in curing the disease if given early, in the acute phase, including in case of congenital transmission. Their efficacy diminishes, however, the longer a person has been infected; also, adverse reactions are more frequent and potentially severe in older age. Treatment is also indicated for patients in whom infection has been reactivated (for example, due to immunosuppression), and during the early chronic phase, including for girls and women of childbearing age (before or after pregnancy) to prevent congenital transmission.
+
+Adults with infection, especially those with no symptoms, should be offered treatment because antiparasitic medicines can also prevent or curb disease progression. In other cases, the potential benefits in preventing or delaying the development of Chagas disease should be weighed against the duration of treatment (up to 2 months) and possible adverse reactions (occurring in up to 40% of adults). Benznidazole and nifurtimox should not be administered to pregnant women or people with kidney or liver failure. Nifurtimox is also contraindicated for people with a background of neurological or psychiatric disorders. Additionally, life-lasting follow up and specific treatment for cardiac, digestive or neurological manifestations are usually required.
+
+Control and prevention
+
+The large number of triatomine bug species and wild animals (reservoirs) infected with T. cruzi throughout the Americas mean that the infection cannot be eradicated. Instead, the public health targets are elimination of the transmission to humans, early health-care access and life-long follow up of the infected people.
+
+There is no vaccine to prevent Chagas disease. Vector control, reducing interaction between humans and vector insects, has been the most effective method of prevention in Latin America. Blood screening is necessary to prevent infection through transfusion, organ transplantation, and congenital transmission, and to increase detection and care of the affected population all over the world.
+
+Depending on the geographical area, WHO recommends the following approaches to prevention and control:
+
+development of information, education and communication materials and activities, contextualized for the different scenarios and actors, and based on a One Health approach;
+
+early access to diagnosis, treatment and follow up;
+
+screening of newborns and other children of infected mothers;
+
+screening of blood donors;
+
+testing of organ, tissue or cell donors and receivers;
+
+spraying of dwellings and surrounding areas with residual insecticides;
+
+house improvements and house cleanliness to prevent vector infestation; and
+
+personal preventive measures such as bednets, good hygiene practices in food preparation, transportation, storage and consumption.
+
+The medical care cost of patients with chronic cardiac, digestive, neurologic or mixed forms of the disease has been calculated to be >80% higher than the cost of spraying residual insecticide to control vectors and prevent infection.
+
+All health professionals, beginning at the first level of care (primary health care), and appropriately trained and updated, have a crucial role in enhancing the detection, treatment, follow-up, and notification of cases.
+
+Assessment of the available diagnostics (including rapid serologic or chemiluminescence tests, molecular biology tests) and the most cost-effective algorithms is fundamental to increase early case detection.
+
+Innovation, research and development, and evaluation of new diagnostics and medicines can accelerate the path towards the elimination of the disease as a public health problem.
+
+Promotion of biomedical, psychosocial and environmental studies focused on the determinants and risk factors of Chagas disease is essential to identify novel approaches for prevention and control.
+
+National information systems are essential to monitor the number of acute and chronic cases and the active transmission routes. However, they are only in place in 6 out of the 44 countries that have reported cases so far.
+
+WHO response
+
+Since the 1990s there have been successful intergovernmental initiatives in the Americas, leading to a substantial reduction in transmission and increased access to diagnosis and antiparasitic treatment for Chagas disease. The risk of T. cruzi transmission by transfusion has decreased sharply following the universal screening in all blood banks of continental Latin American countries, and progressively in other countries and continents.
+
+WHO recognized Chagas disease as a neglected tropical disease (NTD) in 2005. This facilitated its greater recognition as a global public health problem and was instrumental to strengthen prevention, early diagnosis and antiparasitic treatment, comprehensive care, psychosocial follow up, as well as information, education and communication activities. It also promoted the fight against misinformation, the lack of social demand and the weak political commitment to face the burden of disease. In May 2019, the 72nd World Health Assembly established World Chagas Disease Day, to be celebrated annually on 14 April.
+
+The NTD road map 2021–2030 includes Chagas disease among the conditions targeted for elimination as a public health problem and proposes five targets:
+
+verification of interruption of domiciliary vectorial transmission
+
+verification of interruption of transfusional transmission
+
+verification of interruption of transmission by organ transplants
+
+verification of interruption of congenital transmission
+
+75% coverage of antiparasitic treatment of the eligible population.
+
+To attain the goal of elimination of Chagas disease transmission to humans and provide health care for affected people worldwide, WHO aims to strengthen networking at the global level and reinforcing regional and national capacities.
+
+Notes
+
+Argentina, Belize, Bolivia (Plurinational State of), Brazil, Chile, Colombia, Costa Rica, Ecuador, El Salvador, French Guiana, Guatemala, Guyana, Honduras, Mexico, Nicaragua, Panama, Paraguay, Peru, Suriname, Uruguay, and Venezuela (Bolivarian Republic of).

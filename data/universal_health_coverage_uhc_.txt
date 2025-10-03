@@ -1,0 +1,77 @@
+Universal health coverage (UHC)
+
+Key facts
+
+The world is off track to make significant progress towards universal health coverage (Sustainable Development Goals (SDGs) target 3.8) by 2030. Improvements to health services coverage have stagnated since 2015, and the proportion of the population that faced catastrophic levels of out-of-pocket health spending increased continuously since 2000. This global pattern is consistent across all regions and the majority of countries.
+
+The UHC service coverage index increased from 45 to 68 between 2000 and 2021. However, recent progress in increasing coverage has slowed compared to pre-2015 gains, rising only 3 index points between 2015 and 2021 and showing no change since 2019.
+
+The proportion of the population not covered by essential health services decreased by about 15% between 2000 and 2021, with minimal progress made after 2015. This indicates that in 2021, about 4.5 billion people were not fully covered by essential health services.
+
+About 2 billion people are facing financial hardship including 1 billion experiencing catastrophic out-of-pocket health spending (SDG indicator 3.8.2) or 344 million people going deeper into extreme poverty due to health costs.
+
+The COVID-19 pandemic further disrupted essential services in 92% of countries at the height of the pandemic in 2021. In 2022, 84% of countries still reported disruptions.
+
+To build back better, WHO’s recommendation is to reorient health systems using a primary health care (PHC) approach.
+
+Scaling up PHC interventions across low and middle-income countries could save 60 million lives and increase average life expectancy by 3.7 years by 2030.
+
+Overview
+
+Universal health coverage (UHC) means that all people have access to the full range of quality health services they need, when and where they need them, without financial hardship. It covers the full continuum of essential health services, from health promotion to prevention, treatment, rehabilitation and palliative care across the life course.
+
+The delivery of these services requires health and care workers with an optimal skills mix at all levels of the health system, who are equitably distributed, adequately supported with access to quality assured products, and enjoying decent work.
+
+Protecting people from the financial consequences of paying for health services out of their own pockets reduces the risk that people will be pushed into poverty because the cost of needed services and treatments requires them to use up their life savings, sell assets, or borrow – destroying their futures and often those of their children.
+
+Achieving UHC is one of the targets the nations of the world set when they adopted the 2030 Sustainable Development Goals (SDGs) in 2015. At the United Nations General Assembly High Level Meeting on UHC in 2019, countries reaffirmed that health is a precondition for and an outcome and indicator of the social, economic and environmental dimensions of sustainable development. WHO’s Thirteenth General Programme of Work aims to have 1 billion more people benefit from UHC by 2025, while also contributing to the targets of 1 billion more people better protected from health emergencies and 1 billion more people enjoying better health and well-being.
+
+Progress towards UHC
+
+Prior to the COVID-19 pandemic, progress towards UHC was already faltering. The impressive pace of progress in expanding service coverage prior to 2015 did not continue as the UHC service coverage index (SDG indicator 3.8.1) increased only 3 points to 68 by 2019 and stagnated at this level through 2021. This indicates that in 2021, about 4.5 billion people were not fully covered by essential health services. The portion of the population incurring catastrophic out-of-pocket health spending (SDG 3.8.2) increased continuously from 9.6% in 2000 to 13.5% in 2019 when it surpassed 1 billion people. Moreover, in 2019, out-of-pocket health spending dragged 344 million people further into extreme poverty and 1.3 billion into relative poverty. In total, in 2019, 2 billion people faced any form of financial hardship (catastrophic, impoverishing or both).
+
+The global pattern of the recent stagnating progress in service coverage while catastrophic health spending increases continuously is consistent across all regions, country income groups and most countries at all income levels.
+
+Inequalities continue to be a fundamental challenge for UHC. Even where there is national progress on health service coverage, the aggregate data mask inequalities within-countries. For example, coverage of reproductive, maternal, child and adolescent health services tends to be higher among those who are richer, more educated, and living in urban areas, especially in low-income countries. On financial hardship, catastrophic out-of-pocket health spending is more prevalent among people living in households with older members (age 60 years or over). People living in poorer households, rural areas and in households with older family members (those aged 60 and older) are more likely to be further dragged into poverty by out-of-pocket health spending. Monitoring health inequalities is essential to identify and track disadvantaged populations to provide decision-makers with an evidence base to formulate more equity-oriented policies, programmes and practices towards the progressive realization of UHC. Better data are also needed on gender inequalities, socioeconomic disadvantages, and specific issues faced by indigenous peoples and refugee and migrant populations displaced by conflict and economic and environmental crises.
+
+At the height of the COVID-19 pandemic in 2021, essential services were disrupted in 92% of countries. In 2022, 84% of countries still reported disruptions. In 2021, some 25 million children under 5 years missed out on routine immunization. There were glaring disparities in access to COVID-19 vaccines, with an average of 34% of the population vaccinated in low-income countries compared to almost 73% in high-income countries as of June 2023. Potentially life-saving emergency, critical and operative care interventions also showed increased service disruptions, likely resulting in significant near-term impact on health outcomes.
+
+As a foundation for and way to move towards UHC, WHO recommends reorienting health systems using a primary health care (PHC) approach. PHC is the most inclusive, equitable, cost-effective and efficient approach to enhance people’s physical and mental health, as well as social well-being. It enables universal, integrated access to health services as close as possible to people’s everyday environments. It also helps deliver the full range of quality services and products that people need for health and well-being, thereby improving coverage and financial protection. Significant cost efficiencies can be achieved and most (90%) essential UHC interventions can be delivered through a PHC approach. Some 75% of the projected health gains from the SDGs could also be realized through PHC, including saving over 60 million lives and increasing average global life expectancy by 3.7 years by 2030.
+
+Strengthening health systems based on PHC should result in measurable health impact in countries.
+
+Can UHC be measured?
+
+Yes.
+
+The UHC target of the SDGs measures the ability of countries to ensure that everyone receives the health care they need, when and where they need it, without facing financial hardship. It covers the full continuum of key services from health promotion to prevention, protection, treatment, rehabilitation and palliative care. Progress on UHC is tracked using two indicators:
+
+coverage of essential health services (SDG 3.8.1)
+
+catastrophic health spending (and related indicators) (SDG 3.8.2).
+
+More information can be found in this questions and answers page .
+
+Detailed data is provided in the WHO Global Health Observatory Data Repository for UHC . Country profiles can be downloaded from https://data.who.int/ .
+
+Based on this data, WHO publishes global reports on UHC every two years. See the reports here.
+
+WHO response
+
+UHC is firmly based on the 1948 WHO Constitution, which declares health a fundamental human right and commits to ensuring the highest attainable level of health for all.
+
+As a foundation for UHC, WHO recommends reorienting health systems towards primary health care (PHC). In countries with fragile health systems, WHO focuses on technical assistance to build national institutions and service delivery to fill critical gaps in emergencies. In more robust health system settings, WHO drives public health impact towards health coverage for all through policy dialogue for the systems of the future and strategic support to improve performance.
+
+But WHO is not alone: WHO works with many different partners in different situations and for different purposes to advance UHC around the world.
+
+Some of WHO’s partnerships include:
+
+UHC2030
+
+UHC Partnership
+
+Global Action Plan for Healthy Lives and Well-being for All (SDG3 GAP)
+
+Alliance for Health Policy and Systems Research
+
+P4H Social Health Protection Network

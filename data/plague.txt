@@ -1,0 +1,75 @@
+Plague
+
+the bite of infected vector fleas
+
+unprotected contact with infectious bodily fluids or contaminated materials
+
+the inhalation of respiratory droplets/small particles from a patient with pneumonic plague.
+
+Plague is a very severe disease in people, particularly in its septicaemic (systemic infection caused by circulating bacteria in bloodstream) and pneumonic forms, with a case-fatality ratio of 30% to 100% if left untreated. The pneumonic form is invariably fatal unless treated early. It is especially contagious and can trigger severe epidemics through person-to-person contact via droplets in the air.
+
+Historically, plague was responsible for widespread pandemics with high mortality. It was known as the "Black Death" during the fourteenth century, causing more than 50 million deaths in Europe. Nowadays, plague is easily treated with antibiotics and the use of standard precautions to prevent acquiring infection.
+
+Signs and symptoms
+
+People infected with plague usually develop acute febrile disease with other non-specific systemic symptoms after an incubation period of one to seven days, such as sudden onset of fever, chills, head and body aches, and weakness, vomiting and nausea.
+
+There are two main forms of plague infection, depending on the route of infection: bubonic and pneumonic.
+
+Bubonic plague is the most common form of plague and is caused by the bite of an infected flea. Plague bacillus, Y. pestis , enters at the bite and travels through the lymphatic system to the nearest lymph node where it replicates itself. The lymph node then becomes inflamed, tense and painful, and is called a ‘bubo’. At advanced stages of the infection the inflamed lymph nodes can turn into open sores filled with pus. Human to human transmission of bubonic plague is rare. Bubonic plague can advance and spread to the lungs, which is the more severe type of plague called pneumonic plague.
+
+Pneumonic plague, or lung-based plague, is the most virulent form of plague. Incubation can be as short as 24 hours. Any person with pneumonic plague may transmit the disease via droplets to other humans. Untreated pneumonic plague, if not diagnosed and treated early, can be fatal. However, recovery rates are high if detected and treated in time (within 24 hours of onset of symptoms).
+
+Where is plague found?
+
+As an animal disease, plague is found in all continents, except Oceania. There is a risk of human plague wherever the presence of plague natural foci (the bacteria, an animal reservoir and a vector) and human population co-exist.
+
+Global distribution of natural plague foci as of March 2016
+
+Plague epidemics have occurred in Africa, Asia, and South America; but since the 1990s, most human cases have occurred in Africa. The three most endemic countries are the Democratic Republic of Congo, Madagascar, and Peru. In Madagascar cases of bubonic plague are reported nearly every year, during the epidemic season (between September and April).
+
+Diagnosing plague
+
+Confirmation of plague requires lab testing. The best practice is to identify Y. pestis from a sample of pus from a bubo, blood or sputum. A specific Y. pestis antigen can be detected by different techniques. One of them is a laboratory validated rapid dipstick test now widely used in Africa and South America, with the support of WHO.
+
+Treatment
+
+Untreated pneumonic plague can be rapidly fatal, so early diagnosis and treatment is essential for survival and reduction of complications. Antibiotics and supportive therapy are effective against plague if patients are diagnosed in time. Pneumonic plague can be fatal within 18 to 24 hours of disease onset if left untreated, but common antibiotics for enterobacteria (gram negative rods) can effectively cure the disease if they are delivered early.
+
+Prevention
+
+Preventive measures include informing people when zoonotic plague is present in their environment and advising them to take precautions against flea bites and not to handle animal carcasses. Generally people should be advised to avoid direct contact with infected body fluids and tissues. When handling potentially infected patients and collecting specimens, standard precautions should apply.
+
+Vaccination
+
+WHO does not recommend vaccination, except for high-risk groups (such as laboratory personnel who are constantly exposed to the risk of contamination, and health care workers).
+
+Managing plague outbreaks
+
+Find and stop the source of infection. Identify the most likely source of infection in the area where the human case(s) was exposed, typically looking for clustered areas with large numbers of small animal deaths. Institute appropriate infection, prevention and control procedures. Institute vector control, then rodent control. Killing rodents before vectors will cause the fleas to jump to new hosts, this is to be avoided.
+
+Protect health workers. Inform and train them on infection prevention and control. Workers in direct contact with pneumonic plague patients must wear standard precautions and receive a chemoprophylaxis with antibiotics for the duration of seven days or at least as long as they are exposed to infected patients.
+
+Ensure correct treatment: Verify that patients are being given appropriate antibiotic treatment and that local supplies of antibiotics are adequate.
+
+Isolate patients with pneumonic plague. Patients should be isolated so as not to infect others via air droplets. Providing masks for pneumonic patients can reduce spread.
+
+Surveillance: identify and monitor close contacts of pneumonic plague patients and give them a seven-day chemoprophylaxis. Chemoprophylaxis should also be given to household members of bubonic plague patients.
+
+Obtain specimens which should be carefully collected using appropriate infection, prevention and control procedures and sent to labs for testing.
+
+Disinfection. Routine hand-washing is recommended with soap and water or use of alcohol hand rub. Larger areas can be disinfected using 10% of diluted household bleach (made fresh daily).
+
+Ensure safe burial practices. Spraying of face/chest area of suspected pneumonic plague deaths should be discouraged. The area should be covered with a disinfectant-soaked cloth or absorbent material.
+
+Surveillance and control
+
+Surveillance and control requires investigating animal and flea species implicated in the plague cycle in the region and developing environmental management programmes to understand the natural zoonosis of the disease cycle and to limit spread. Active long-term surveillance of animal foci, coupled with a rapid response during animal outbreaks has successfully reduced numbers of human plague outbreaks.
+
+In order to effectively and efficiently manage plague outbreaks it is crucial to have an informed and vigilant health care work force (and community) to quickly diagnose and manage patients with infection, to identify risk factors, to conduct ongoing surveillance, to control vectors and hosts, to confirm diagnosis with laboratory tests, and to communicate findings with appropriate authorities.
+
+WHO Response
+
+WHO aims to prevent plague outbreaks by maintaining surveillance and supporting at-risk countries to prepare. As the type of animal reservoir differs according to the region and influences the risk and conditions of human transmission, WHO has developed specific guidelines for the Indian sub-continent, South-America and Sub-Saharan Africa.
+
+WHO works with ministries of health to support countries facing outbreaks for field control activities.

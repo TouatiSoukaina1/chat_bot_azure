@@ -1,0 +1,99 @@
+Lung cancer
+
+Overview
+
+Lung cancer is a type of cancer that starts when abnormal cells grow in an uncontrolled way in the lungs. It is a serious health issue that can cause severe harm and death.
+
+Symptoms of lung cancer include a cough that does not go away, chest pain and shortness of breath.
+
+It is important to seek medical care early to avoid serious health effects. Treatments depend on the person’s medical history and the stage of the disease.
+
+The most common types of lung cancer are non-small cell carcinoma (NSCLC) and small cell carcinoma (SCLC). NSCLC is more common and grows slowly, while SCLC is less common but often grows quickly.
+
+Lung cancer is a significant public health concern, causing a considerable number of deaths globally. GLOBOCAN 2020 estimates of cancer incidence and mortality produced by the International Agency for Research on Cancer (IARC) show as lung cancer remains the leading cause of cancer death, with an estimated 1.8 million deaths (18%) in 2020.
+
+Smoking tobacco (including cigarettes, cigars, and pipes) is the primary risk factor for lung cancer but it can also affect non-smokers. Other risk factors include exposure to secondhand smoke, occupational hazards (such as asbestos, radon and certain chemicals), air pollution, hereditary cancer syndromes, and previous chronic lung diseases.
+
+Symptoms
+
+Lung cancer can cause several symptoms that may indicate a problem in the lungs.
+
+The most common symptoms include:
+
+cough that does not go away
+
+chest pain
+
+shortness of breath
+
+coughing up blood (haemoptysis)
+
+fatigue
+
+weight loss with no known cause
+
+lung infections that keep coming back.
+
+Early symptoms may be mild or dismissed as common respiratory issues, leading to delayed diagnosis.
+
+Prevention
+
+Not smoking tobacco is the best way to prevent lung cancer.
+
+Other risk factors to avoid include:
+
+secondhand smoke
+
+air pollution
+
+workplace hazards like chemicals and asbestos.
+
+Early treatment can prevent lung cancer from becoming worse and spreading to other parts of the body.
+
+Prevention of lung cancer include primary and secondary prevention measures. Primary prevention aims to prevent the initial occurrence of a disease through risk reduction and promoting healthy behaviour. In public health, these preventive measures include smoking cessation, promoting smoke-free environments, implementing tobacco control policies, addressing occupational hazards, and reducing air pollution levels.
+
+Secondary prevention for lung cancer involves screening methods that aim to detect the disease in its early stages, before symptoms become apparent and can be indicated for high-risk individuals. In this population, early detection can significantly increase the chances of successful treatment and improve outcomes. The primary screening method for lung cancer is low-dose computed tomography (LDCT).
+
+Diagnosis
+
+Diagnostic methods for lung cancer include physical examination, imaging (such as chest X-rays, computed tomography scans, and magnetic resonance imaging), examination of the inside of the lung using a bronchoscopy, taking a sample of tissue (biopsy) for histopathology examination and definition of the specific subtype (NSCLC versus SCLC), and molecular testing to identify specific genetic mutations or biomarkers to guide the best treatment option.
+
+Treatment and care
+
+Treatments for lung cancer are based on the type of cancer, how much it has spread, and the person’s medical history. Early detection of lung cancer can lead to better treatments and outcomes.
+
+Treatments include:
+
+surgery
+
+radiotherapy (radiation)
+
+chemotherapy
+
+targeted therapy
+
+immunotherapy.
+
+Surgery is often used in the early stages of lung cancer if the tumour has not spread to other areas of the body. Chemotherapy and radiation therapy can help shrink the tumour.
+
+Doctors from several disciplines often work together to provide treatment and care of people with lung cancer.
+
+Supportive care is important for people with lung cancer. It aims to manage symptoms, provide pain relief, and give emotional support. It can help to increase quality of life for people with lung cancer and their families.
+
+Stages of care
+
+a) Early stage disease : The primary treatment for early stage lung cancer (i.e. tumour limited to the lung, with no metastatic dissemination to distant organs or lymph nodes) is surgical removal of the tumour through procedures such as lobectomy, segmentectomy, or wedge resection. Neoadjuvant therapy (chemotherapy and/or radiation therapy before surgery) can help reduce tumour size, making it more manageable for surgical removal. Adjuvant treatment (chemotherapy and/or radiation therapy) is very often recommended after surgery to reduce the risk of cancer recurrence. In cases where surgery is not feasible, radiation therapy or stereotactic body radiation therapy (SBRT) may be used as the primary treatment. Targeted therapy and immunotherapy may also be considered based on specific tumour characteristics. Individualized treatment plans should be discussed with healthcare professionals.
+
+b) Advanced disease: The treatment for metastatic stage lung cancer, where the cancer has spread to distant organs or lymph nodes, is based on various factors, including the patient's overall health, the extent and location of metastases, histology, genetic profile, and individual preferences. The primary goal is to prolong survival, alleviate symptoms, and improve quality of life. Systemic therapies, such as chemotherapy, targeted therapy, and immunotherapy, play a crucial role in the treatment of metastatic lung cancer.
+
+Chemotherapy is often the first-line treatment for the majority of patients around the world and involves the use of drugs that circulate throughout the body to kill cancer cells. Combination chemotherapy regimens are commonly used, and the choice of drugs depends on factors such as the histological type of the cancer and the patient's general health conditions. Targeted therapy, designed to block the signalling pathways that drive the growth of cancer cells, is an important option for patients with specific genetic mutations or biomarkers identified in their tumour. Immunotherapy, specifically immune checkpoint inhibitors, has revolutionized the treatment of metastatic lung cancer. These drugs help to stimulate the immune system to recognize and attack cancer cells. Local treatments, such as radiation therapy and surgery, may be used to manage specific metastatic sites or alleviate symptoms caused by tumour growth.
+
+Clinical Trials
+
+Clinical trials offer opportunities to access novel treatments or experimental therapies for patients. Participation in clinical trials helps advance medical knowledge and potentially offers new treatment options.
+
+WHO response
+
+WHO recognizes the significant impact of lung cancer on global health and has implemented several initiatives to address the disease comprehensively. The WHO's response focuses on tobacco control, cancer prevention, early detection, and improving access to quality treatment and care. WHO supports countries in implementing evidence-based tobacco control policies, including increasing tobacco taxes, enforcing comprehensive bans on tobacco advertising, promotion, and sponsorship, and implementing strong graphic health warnings on tobacco products.
+
+The Organization also promotes cancer prevention strategies by advocating for healthy lifestyles, including regular physical activity, a healthy diet, and minimizing exposure to environmental risk factors. Additionally, WHO supports early detection programs and encourages countries to implement screening measures for high-risk populations to detect lung cancer at earlier stages when treatment options are more effective. Last, WHO works towards ensuring access to quality treatment and care for lung cancer patients by providing technical guidance to member states, promoting equitable access to essential cancer medicines, and fostering international collaboration to share best practices and improve cancer care outcomes.
