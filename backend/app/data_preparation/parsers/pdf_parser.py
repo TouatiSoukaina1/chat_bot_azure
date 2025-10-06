@@ -4,7 +4,7 @@ import logging
 class PdfParser:
     def __init__(self, file_path: str):
         self.file_path = file_path
-
+        self.logger = logging.getLogger("app.pdfparser")
     def extract_text(self) -> str:
         ''''
             Extract text from a PDF file.
@@ -18,7 +18,7 @@ class PdfParser:
             return text.strip()
         
         except Exception as e:
-            print(f"Error extracting text from PDF: {e}")
+            self.logger.error("%s", e)
             return None
     
     def parse(self) -> dict:
@@ -28,8 +28,9 @@ class PdfParser:
         logging.info(f"Parsing PDF file: {self.file_path}")
         text = self.extract_text()
         if not text:
-            logging.warning(f"No text extracted from PDF file: {self.file_path}")
+            self.error.warning(f"No text extracted from PDF file: {self.file_path}")
         if text:
+            self.logger.info("Lecture de PDF ...")
             return text
         else:
             return ""

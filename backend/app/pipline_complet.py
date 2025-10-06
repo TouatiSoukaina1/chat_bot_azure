@@ -1,4 +1,6 @@
 from data_preparation.parsers.pdf_parser import PdfParser
+from data_preparation.parsers.image_parser import DoctrOCR
+
 import logging
 
 logger = logging.getLogger("app")
@@ -17,6 +19,10 @@ fh_error = logging.FileHandler("errors.log", encoding="utf-8")
 fh_error.setLevel(logging.ERROR)  # seulement ERROR et CRITICAL
 fh_error.setFormatter(formatter)
 
+fh_error = logging.FileHandler("warning.log", encoding="utf-8")
+fh_error.setLevel(logging.WARNING)  # seulement ERROR et CRITICAL
+fh_error.setFormatter(formatter)
+
 # Handler console
 ch = logging.StreamHandler()
 ch.setLevel(logging.DEBUG)
@@ -28,7 +34,16 @@ logger.addHandler(fh_error)
 logger.addHandler(ch)
 
 if __name__ == "__main__":
-    pdf_path = "data/batch/disease-handbook-complete.pdf"  # Remplacez par le chemin de votre fichier PDF
-    parser = PdfParser(pdf_path)
-    content = parser.parse()
-    print(content)
+    pdf_path = "data/batch/disease-handbook-completed_removed.pdf"  # Remplacez par le chemin de votre fichier PDF
+
+
+    ocr = DoctrOCR(gpu=False)
+
+    image_path = "data/capture1.png"
+    text = ocr.extract_text(image_path)
+
+    if text:
+        print("\n=== Texte détecté ===")
+        print(text[:500])
+    else:
+        print("❌ Aucun texte extrait.")
