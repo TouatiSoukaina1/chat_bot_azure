@@ -1,8 +1,8 @@
 import os
 import logging
+import re
 from doctr.io import DocumentFile
 from doctr.models import ocr_predictor
-
 
 class DoctrOCR:
     def __init__(self, det_arch="db_resnet50", reco_arch="crnn_vgg16_bn", gpu=True):
@@ -12,14 +12,28 @@ class DoctrOCR:
         self.logger = logging.getLogger("app.imageparser")
         self.model = ocr_predictor(det_arch=det_arch, reco_arch=reco_arch, pretrained=True)
         self.device = "cuda" if gpu else "cpu"
-
         self.logger.info(f"Modèle OCR chargé avec det_arch={det_arch}, reco_arch={reco_arch}, device={self.device}")
 
-    def extract_text(self, image_path: str) -> str:
+    def _nettoyer_texte(self, texte: str, mots_a_supprimer=None) -> str:
+        """Nettoie le texte extrait : supprime les mots indésirables et normalise les espaces"""
+        if mots_a_supprimer is None:
+            mots_a_supprimer = ["Français", "Espanol", "Pyccknn", "py", "a"]
+
+        # Supprimer les mots-clés
+        pattern = r'\b(?:' + '|'.join(re.escape(m) for m in mots_a_supprimer) + r')\b'
+        texte = re.sub(pattern, '', texte, flags=re.IGNORECASE)
+
+        # Remplacer les sauts de ligne et espaces multiples par un seul espace
+        texte = re.sub(r'\s+', ' ', texte).strip()
+
+        return texte
+
+    def extract_text(self, image_path: str, nettoyer=True) -> str:
         '''
             Extrait le texte d'une image à l'aide de Doctr.
-            param :
+            param : 
                 image_path: chemin vers le fichier image (.png, .jpg, etc.)
+                nettoyer: bool, si True applique le nettoyage du texte
             return: texte extrait (chaîne)
         '''
         self.logger.info(f"Traitement OCR de l'image : {image_path}")
@@ -45,6 +59,9 @@ class DoctrOCR:
 
             text_output = "\n".join(texts).strip()
 
+            if nettoyer:
+                text_output = self._nettoyer_texte(text_output)
+
             if not text_output:
                 self.logger.warning(f"Aucun texte détecté dans l'image : {image_path}")
             else:
@@ -60,16 +77,17 @@ class DoctrOCR:
             self.logger.exception(f"Erreur inattendue lors du traitement de {image_path}: {e}")
         return ""
 
-    def process_batch(self, image_paths: list) -> dict:
+    def process_batch(self, image_paths: list, nettoyer=True) -> dict:
         '''
             Traite un lot d'images et retourne un dictionnaire avec les résultats.
             param :
                 image_paths: liste de chemins vers les fichiers images
+                nettoyer: bool, si True applique le nettoyage du texte
             return: dictionnaire {chemin_image: texte_extrait}
         '''
         self.logger.info(f"Traitement en lot de {len(image_paths)} images")
         results = {}
         for path in image_paths:
-            results[path] = self.extract_text(path)
+            results[path] = self.extract_text(path, nettoyer=nettoyer)
         self.logger.info("Traitement OCR du lot terminé")
         return results

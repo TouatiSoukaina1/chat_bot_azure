@@ -1,7 +1,10 @@
 from data_preparation.parsers.pdf_parser import PdfParser
 from data_preparation.parsers.image_parser import DoctrOCR
-
+import os, glob
 import logging
+
+LOG_DIR = os.path.join(os.getcwd(), "logs") 
+os.makedirs(LOG_DIR, exist_ok=True)
 
 logger = logging.getLogger("app")
 logger.setLevel(logging.DEBUG)  # on prend tout
@@ -10,16 +13,19 @@ logger.setLevel(logging.DEBUG)  # on prend tout
 formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 
 # Handler pour logs généraux
-fh_app = logging.FileHandler("application.log", encoding="utf-8")
+app_logs_path = os.path.join(LOG_DIR, "application.log") 
+fh_app = logging.FileHandler(app_logs_path, encoding="utf-8")
 fh_app.setLevel(logging.INFO)  # INFO et plus
 fh_app.setFormatter(formatter)
 
 # Handler pour logs d'erreurs uniquement
-fh_error = logging.FileHandler("errors.log", encoding="utf-8")
+error_logs_path = os.path.join(LOG_DIR, "errors.log") 
+fh_error = logging.FileHandler(error_logs_path, encoding="utf-8")
 fh_error.setLevel(logging.ERROR)  # seulement ERROR et CRITICAL
 fh_error.setFormatter(formatter)
 
-fh_error = logging.FileHandler("warning.log", encoding="utf-8")
+warning_logs_path = os.path.join(LOG_DIR, "warning.log") 
+fh_error = logging.FileHandler(warning_logs_path, encoding="utf-8")
 fh_error.setLevel(logging.WARNING)  # seulement ERROR et CRITICAL
 fh_error.setFormatter(formatter)
 
@@ -34,16 +40,19 @@ logger.addHandler(fh_error)
 logger.addHandler(ch)
 
 if __name__ == "__main__":
-    pdf_path = "data/batch/disease-handbook-completed_removed.pdf"  # Remplacez par le chemin de votre fichier PDF
-
+    PDF_PATH = "data/pdf"  
+    IMAGES_PATH = "data/images"
+    TXT_PATH = "data/txt"
 
     ocr = DoctrOCR(gpu=False)
-
-    image_path = "data/capture1.png"
-    text = ocr.extract_text(image_path)
-
-    if text:
+    pdf_parser = PdfParser(PDF_PATH)    
+    list_images= glob.glob(os.path.join(IMAGES_PATH, "*.jpg"))
+    list_pdfs = glob.glob(os.path.join(PDF_PATH, "*.pdf"))
+    
+    data_pdf =  pdf_parser.parse()
+    #text_dict = ocr.process_batch(list_images)
+    if data_pdf:
         print("\n=== Texte détecté ===")
-        print(text[:500])
+        print(data_pdf)
     else:
         print("❌ Aucun texte extrait.")

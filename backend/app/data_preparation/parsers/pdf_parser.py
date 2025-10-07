@@ -26,7 +26,7 @@ class PdfParser:
             Parse the PDF file and return its content in a structured format.
         '''
         logging.info(f"Parsing PDF file: {self.file_path}")
-        text = self.extract_text()
+        text = self.process_batch(["data/images/page1.jpg"])
         if not text:
             self.error.warning(f"No text extracted from PDF file: {self.file_path}")
         if text:
