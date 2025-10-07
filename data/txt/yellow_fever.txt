@@ -1,0 +1,75 @@
+Yellow fever
+
+Overview
+
+Yellow fever is an epidemic-prone mosquito-borne vaccine preventable disease that is transmitted to humans by the bites of infected mosquitoes. Yellow fever is caused by an arbovirus (a virus transmitted by vectors such mosquitoes, ticks or other arthropods) transmitted to humans by the bites of infected Aedes and Haemagogus mosquitoes.
+
+These day-biting mosquitoes breed around houses (domestic), in forests or jungles (sylvatic), or in both habitats (semi-domestic). Yellow fever is a high-impact high-threat disease, with risk of international spread, which represents a potential threat to global health security.
+
+Symptoms
+
+The incubation period for yellow fever is 3 to 6 days. Many people do not experience symptoms. Common symptoms include fever, muscle pain, headache, loss of appetite, nausea or vomiting. In most cases, symptoms disappear after 3 to 4 days.
+
+A small percentage of patients enter a second, more toxic phase within 24 hours of recovering from initial symptoms. High fever returns and several body systems are affected, usually the liver and the kidneys. In this phase, people are likely to develop jaundice (yellowing of the skin and eyes, hence the name yellow fever), dark urine, and abdominal pain with vomiting. Bleeding can occur from the mouth, nose, eyes, or stomach. Half of the patients who enter the toxic phase die within 7–10 days.
+
+Treatment
+
+There is no specific anti-viral drug for yellow fever. Patients should rest, stay hydrated and seek medical advice. Depending on the clinical manifestations and other circumstances, patients may be sent home, be referred for in-hospital management, or require emergency treatment and urgent referral. Treatment for dehydration, liver and kidney failure, and fever improves outcomes. Associated bacterial infections can be treated with antibiotics.
+
+Diagnosis
+
+Yellow fever is difficult to diagnose, especially during the early stages. A more severe case can be confused with malaria, leptospirosis, viral hepatitis, other haemorrhagic fevers, infection with other flaviviruses (such as dengue), and poisoning.
+
+Polymerase chain reaction (PCR) testing in blood can sometimes detect the virus in early stages of the disease. In later stages, testing to identify antibodies is needed (ELISA and PRNT).
+
+Prevention
+
+1. Vaccination
+
+Vaccination is the most important means of preventing yellow fever. The yellow fever vaccine is safe, affordable and a single dose provides life-long protection against yellow fever disease. A booster dose of yellow fever vaccine is not needed.
+
+The vaccine provides effective immunity within 10 days for 80–100% of people vaccinated, and within 30 days for more than 99% of people vaccinated.
+
+Side-effects from the yellow fever vaccine are rare. People who are usually excluded from vaccination include:
+
+infants aged less than 9 months;
+
+pregnant women – except during a yellow fever outbreak when the risk of infection is high;
+
+people with severe allergies to egg protein; and
+
+people with severe immunodeficiency due to symptomatic HIV/AIDS or other causes, or who have a thymus disorder.
+
+In accordance with the International Health Regulations (IHR), countries have the right to require travellers to provide a certificate of yellow fever vaccination. If there are medical grounds for not getting vaccinated, this must be certified by the appropriate authorities.
+
+Countries with risk of yellow fever transmission and countries requiring yellow fever vaccination (November 2022) (who.int)
+
+Vaccination requirements and recommendations for international travellers; and malaria situation per country – 2022 edition (who.int)
+
+2. Vector control
+
+The risk of yellow fever transmission in urban areas can be reduced by eliminating potential mosquito breeding sites, including by applying larvicides to water storage containers and other places where standing water collects.
+
+Preventive measures, such as wearing clothing to minimize skin exposure and repellents are recommended to avoid mosquito bites. The use of insecticide-treated bed nets is limited by the fact that Aedes mosquitos bite during the daytime.
+
+Both vector surveillance and control are components of the prevention and control of vector-borne diseases, especially for transmission control in epidemic situations. For yellow fever, vector surveillance targeting Aedes aegypti and other Aedes species will help inform where there is a risk of an urban outbreak.
+
+3. Epidemic preparedness and response
+
+Prompt detection of yellow fever and rapid response through emergency vaccination campaigns are essential for controlling outbreaks. However, underreporting is a concern; WHO estimates the true number of cases to be 10 to 250 times what is now being reported.
+
+WHO recommends that every at-risk country has at least one national laboratory where basic yellow fever blood tests can be performed. A confirmed case of yellow fever in an unvaccinated population is considered an outbreak. A confirmed case in any context must be fully investigated. Investigation teams must assess and respond to the outbreak with both emergency measures and longer-term immunization plans.
+
+WHO response
+
+The Eliminate Yellow Fever Epidemics (EYE) Strategy was developed in response to two urban yellow fever outbreaks – in Luanda (Angola) and Kinshasa (Democratic Republic of the Congo), with international exportation to other countries, including China, showing that yellow fever poses a serious global threat requiring new strategic thinking.
+
+The EYE strategy is comprehensive, multi-component and multi-partner. In addition to recommending vaccination activities, it calls for building resilient urban centres, planning for urban readiness, and strengthening the application of the International Health Regulations (2005).
+
+To find out more about the EYE Strategy, click here: Eliminate yellow fever epidemics (EYE) strategy 2017-2026 (who.int)
+
+It is expected that by the end of 2026, almost 1 billion people will be protected against yellow fever through vaccination.
+
+References
+
+Garske T. et al. Yellow fever in Africa: Estimating the burden of disease and impact of mass vaccination from outbreak and serological data. PLoS Med. 2014;11(5):e1001638 - https://pubmed.ncbi.nlm.nih.gov/24800812/

@@ -1,0 +1,42 @@
+2025-10-07 12:08:30,638 - app.imageparser - INFO - Modèle OCR chargé avec det_arch=db_resnet50, reco_arch=crnn_vgg16_bn, device=cpu
+2025-10-07 12:08:30,639 - app.imageparser - INFO - Traitement OCR de l'image : data/images/page1.jpg
+2025-10-07 12:08:41,434 - app.imageparser - INFO - Texte extrait avec succès (1361 caractères)
+2025-10-07 13:29:33,940 - app.imageparser - INFO - Modèle OCR chargé avec det_arch=db_resnet50, reco_arch=crnn_vgg16_bn, device=cpu
+2025-10-07 13:29:33,944 - app.imageparser - INFO - Traitement OCR de l'image : data/images/page1.jpg
+2025-10-07 13:29:44,341 - app.imageparser - INFO - Texte extrait avec succès (1361 caractères)
+2025-10-07 16:30:29,618 - app.imageparser - INFO - Modèle OCR chargé avec det_arch=db_resnet50, reco_arch=crnn_vgg16_bn, device=cpu
+2025-10-07 16:30:29,620 - app.imageparser - INFO - Traitement en lot de 1 images
+2025-10-07 16:30:29,621 - app.imageparser - INFO - Traitement OCR de l'image : data/images
+2025-10-07 16:30:29,621 - app.imageparser - ERROR - unable to access data/images
+2025-10-07 16:30:29,622 - app.imageparser - INFO - Traitement OCR du lot terminé
+2025-10-07 16:32:36,424 - app.imageparser - INFO - Modèle OCR chargé avec det_arch=db_resnet50, reco_arch=crnn_vgg16_bn, device=cpu
+2025-10-07 16:32:36,427 - app.imageparser - INFO - Traitement en lot de 6 images
+2025-10-07 16:32:36,428 - app.imageparser - INFO - Traitement OCR de l'image : data/images\page1.jpg
+2025-10-07 16:32:45,339 - app.imageparser - INFO - Texte extrait avec succès (1223 caractères)
+2025-10-07 16:32:45,343 - app.imageparser - INFO - Traitement OCR de l'image : data/images\page2.jpg
+2025-10-07 16:32:53,151 - app.imageparser - INFO - Texte extrait avec succès (1338 caractères)
+2025-10-07 16:32:53,156 - app.imageparser - INFO - Traitement OCR de l'image : data/images\page3.jpg
+2025-10-07 16:33:05,903 - app.imageparser - INFO - Texte extrait avec succès (2589 caractères)
+2025-10-07 16:33:05,906 - app.imageparser - INFO - Traitement OCR de l'image : data/images\page4.jpg
+2025-10-07 16:33:17,884 - app.imageparser - INFO - Texte extrait avec succès (2113 caractères)
+2025-10-07 16:33:17,888 - app.imageparser - INFO - Traitement OCR de l'image : data/images\page5.jpg
+2025-10-07 16:33:27,848 - app.imageparser - INFO - Texte extrait avec succès (2062 caractères)
+2025-10-07 16:33:27,851 - app.imageparser - INFO - Traitement OCR de l'image : data/images\page6.jpg
+2025-10-07 16:33:37,075 - app.imageparser - INFO - Texte extrait avec succès (2082 caractères)
+2025-10-07 16:33:37,078 - app.imageparser - INFO - Traitement OCR du lot terminé
+2025-10-07 16:43:56,741 - app.imageparser - INFO - Modèle OCR chargé avec det_arch=db_resnet50, reco_arch=crnn_vgg16_bn, device=cpu
+2025-10-07 16:43:56,744 - app.imageparser - INFO - Traitement en lot de 6 images
+2025-10-07 16:43:56,745 - app.imageparser - INFO - Traitement OCR de l'image : data/images\page1.jpg
+2025-10-07 16:44:05,233 - app.imageparser - INFO - Texte extrait avec succès (1187 caractères)
+2025-10-07 16:44:05,239 - app.imageparser - INFO - Traitement OCR de l'image : data/images\page2.jpg
+2025-10-07 16:44:15,306 - app.imageparser - INFO - Texte extrait avec succès (1338 caractères)
+2025-10-07 16:44:15,312 - app.imageparser - INFO - Traitement OCR de l'image : data/images\page3.jpg
+2025-10-07 16:44:28,621 - app.imageparser - INFO - Texte extrait avec succès (2582 caractères)
+2025-10-07 16:44:28,625 - app.imageparser - INFO - Traitement OCR de l'image : data/images\page4.jpg
+2025-10-07 16:44:42,326 - app.imageparser - INFO - Texte extrait avec succès (2099 caractères)
+2025-10-07 16:44:42,330 - app.imageparser - INFO - Traitement OCR de l'image : data/images\page5.jpg
+2025-10-07 16:44:55,120 - app.imageparser - INFO - Texte extrait avec succès (2056 caractères)
+2025-10-07 16:44:55,125 - app.imageparser - INFO - Traitement OCR de l'image : data/images\page6.jpg
+2025-10-07 16:45:07,738 - app.imageparser - INFO - Texte extrait avec succès (2080 caractères)
+2025-10-07 16:45:07,742 - app.imageparser - INFO - Traitement OCR du lot terminé
+2025-10-07 16:50:25,540 - app.imageparser - INFO - Modèle OCR chargé avec det_arch=db_resnet50, reco_arch=crnn_vgg16_bn, device=cpu
