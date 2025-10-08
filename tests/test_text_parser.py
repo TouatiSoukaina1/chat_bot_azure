@@ -1,44 +1,52 @@
-import sys, os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-
+import unittest
+import tempfile
+import os
 from backend.app.data_preparation.parsers.txt_parser import TxtParser
 
-def test_list_txt_files(tmp_path):
-    # Crée des fichiers texte temporaires
-    (tmp_path / "file1.txt").write_text("Contenu du fichier 1")
-    (tmp_path / "file2.txt").write_text("Contenu du fichier 2")
-    (tmp_path / "not_a_text.doc").write_text("Ceci n'est pas un fichier texte")
+class TestTxtParser(unittest.TestCase):
+    def setUp(self):
+        """Créer un dossier temporaire avec quelques fichiers texte"""
+        self.temp_dir = tempfile.TemporaryDirectory()
+        self.file1_path = os.path.join(self.temp_dir.name, "file1.txt")
+        self.file2_path = os.path.join(self.temp_dir.name, "file2.txt")
+        
+        with open(self.file1_path, "w", encoding="utf-8") as f:
+            f.write("Hello  world\n\nThis  is  file1.")
+        
+        with open(self.file2_path, "w", encoding="utf-8") as f:
+            f.write("Another   file\nwith  text.")
 
-    parser = TxtParser(data_dir=tmp_path)
-    files = parser.list_txt_files()
-    assert len(files) == 2
-    assert all(f.endswith(".txt") for f in files)
+        self.parser = TxtParser(data_dir=self.temp_dir.name)
 
-def test_clean_text():
-    raw_text = "Ceci   est un   test.\n\n\nAvec des espaces   multiples.\n\n"
-    cleaned = TxtParser.clean_text(raw_text)
-    expected = "Ceci est un test.\n\nAvec des espaces multiples."
-    assert cleaned == expected
+    def tearDown(self):
+        """Nettoyer le dossier temporaire"""
+        self.temp_dir.cleanup()
 
-def test_parse_txt(tmp_path):
-    """Teste la lecture et le nettoyage d’un fichier texte."""
-    file_path = tmp_path / "sample.txt"
-    file_path.write_text("Some text   with  spaces", encoding="utf-8")
+    def test_list_txt_files(self):
+        files = self.parser.list_txt_files()
+        self.assertIn(self.file1_path, files)
+        self.assertIn(self.file2_path, files)
+        self.assertEqual(len(files), 2)
 
-    parser = TxtParser(data_dir=str(tmp_path))
-    text = parser.parse_txt(str(file_path))
-    assert "  " not in text
-    assert "Some text" in text
+    def test_clean_text(self):
+        raw_text = "Hello  \n\n\nWorld  "
+        cleaned = self.parser.clean_text(raw_text)
+        self.assertEqual(cleaned, "Hello\n\nWorld")
 
-def test_load_corpus(tmp_path):
-    """Teste le chargement complet d’un corpus."""
-    (tmp_path / "doc1.txt").write_text("File one")
-    (tmp_path / "doc2.txt").write_text("File two")
+    def test_parse_txt(self):
+        text = self.parser.parse_txt(self.file1_path)
+        self.assertEqual(text, "Hello world\n\nThis is file1.")
 
-    parser = TxtParser(data_dir=str(tmp_path))
-    corpus = parser.load_corpus()
+    def test_load_corpus(self):
+        corpus = self.parser.load_corpus()
+        # corpus doit être un dictionnaire {chemin: texte}
+        self.assertIn(self.file1_path, corpus)
+        self.assertIn(self.file2_path, corpus)
+        self.assertEqual(corpus[self.file1_path], "Hello world\n\nThis is file1.")
+        self.assertEqual(corpus[self.file2_path], "Another file\nwith text.")
+        self.assertEqual(len(corpus), 2)
 
-    assert len(corpus) == 2
-    assert all("title" in doc for doc in corpus)
-    assert all("content" in doc for doc in corpus)
-    assert all("path" in doc for doc in corpus)
+    def test_load_corpus_empty_dir(self):
+        empty_parser = TxtParser(data_dir=tempfile.mkdtemp())
+        corpus = empty_parser.load_corpus()
+        self.assertEqual(corpus, {})

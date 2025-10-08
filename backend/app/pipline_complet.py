@@ -1,58 +1,29 @@
 from data_preparation.parsers.pdf_parser import PdfParser
 from data_preparation.parsers.image_parser import DoctrOCR
-import os, glob
+from data_preparation.parsers.txt_parser import TxtParser
+from utils.logging_config import *
 import logging
 
-LOG_DIR = os.path.join(os.getcwd(), "logs") 
-os.makedirs(LOG_DIR, exist_ok=True)
+def data_preparation_pipeline(pdf_dir="data/pdf", img_dir="data/images", txt_dir="data/batch_txt"):
+    logger = logging.getLogger("app.pipeline")
+    logger.info("🚀 Lancement du pipeline complet")
 
-logger = logging.getLogger("app")
-logger.setLevel(logging.DEBUG)  # on prend tout
 
-# Formatter
-formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+    image_parser = DoctrOCR(gpu=False, images_path=img_dir)
+    pdf_parser = PdfParser(pdf_dir)    
+    text_parser = TxtParser(txt_dir)
 
-# Handler pour logs généraux
-app_logs_path = os.path.join(LOG_DIR, "application.log") 
-fh_app = logging.FileHandler(app_logs_path, encoding="utf-8")
-fh_app.setLevel(logging.INFO)  # INFO et plus
-fh_app.setFormatter(formatter)
+    data_pdf = pdf_parser.process_directory()
+    data_images = image_parser.process_batch()
+    data_txt = text_parser.load_corpus()
 
-# Handler pour logs d'erreurs uniquement
-error_logs_path = os.path.join(LOG_DIR, "errors.log") 
-fh_error = logging.FileHandler(error_logs_path, encoding="utf-8")
-fh_error.setLevel(logging.ERROR)  # seulement ERROR et CRITICAL
-fh_error.setFormatter(formatter)
+    logger.info("Pipeline terminé avec succès")
 
-warning_logs_path = os.path.join(LOG_DIR, "warning.log") 
-fh_error = logging.FileHandler(warning_logs_path, encoding="utf-8")
-fh_error.setLevel(logging.WARNING)  # seulement ERROR et CRITICAL
-fh_error.setFormatter(formatter)
-
-# Handler console
-ch = logging.StreamHandler()
-ch.setLevel(logging.DEBUG)
-ch.setFormatter(formatter)
-
-# Ajout des handlers au logger
-logger.addHandler(fh_app)
-logger.addHandler(fh_error)
-logger.addHandler(ch)
-
-if __name__ == "__main__":
-    PDF_PATH = "data/pdf"  
-    IMAGES_PATH = "data/images"
-    TXT_PATH = "data/txt"
-
-    ocr = DoctrOCR(gpu=False)
-    pdf_parser = PdfParser(PDF_PATH)    
-    list_images= glob.glob(os.path.join(IMAGES_PATH, "*.jpg"))
-    list_pdfs = glob.glob(os.path.join(PDF_PATH, "*.pdf"))
+    return data_images, data_pdf, data_txt
     
-    data_pdf =  pdf_parser.parse()
-    #text_dict = ocr.process_batch(list_images)
-    if data_pdf:
-        print("\n=== Texte détecté ===")
-        print(data_pdf)
-    else:
-        print("❌ Aucun texte extrait.")
+    
+if __name__ == "__main__":
+    
+    data_images, data_pdf, data_txt = data_preparation_pipeline()
+    print(data_images)
+
