@@ -23,7 +23,7 @@ class BaseParser(ABC):
            Méthode abstraite pour extraire le texte d'un fichier.
         '''
         pass
-    def process_file(self, extensions=None, **kwargs) -> Optional[str]:
+    def process_file(self, extensions=None, **kwargs) -> Dict:
         '''
             Traite un lot des fichiers dans le répertoire source et retourne un dictionnaire {chemin_fichier: texte_extrait}
         '''
@@ -48,7 +48,7 @@ class BaseParser(ABC):
                 text = self.extract_text(path, **kwargs)
                 if text:
                     results[path] = text
-                    self.repository.mark_as_processed(path, self.__class__.__name__)
+                    self.repository.mark_as_processed(path, self.__class__.__name__, text)
                 else:
                     self.logger.warning(f"Aucun texte extrait de {path}")
             except Exception as e:
