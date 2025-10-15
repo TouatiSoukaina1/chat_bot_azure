@@ -23,36 +23,48 @@ class BaseParser(ABC):
            Méthode abstraite pour extraire le texte d'un fichier.
         '''
         pass
-    def process_file(self, extensions=None, **kwargs) -> Dict:
+    def process_file(self, extensions=None, **kwargs):
         '''
-            Traite un lot des fichiers dans le répertoire source et retourne un dictionnaire {chemin_fichier: texte_extrait}
+            Traite les fichiers du répertoire source et stocke directement les résultats dans la base de donnée.
         '''
-        results = {}
         if extensions is None:
             extensions = ['.txt', '.pdf', '.png', '.jpg', '.jpeg']
-        
+
         all_paths = []
         for ext in extensions:
             all_paths.extend(glob.glob(os.path.join(self.source_dir, f"**/*{ext}"), recursive=True))
 
         if not all_paths:
             self.logger.warning(f"Aucun fichier trouvé dans {self.source_dir} avec les extensions {extensions}")
-            return results
-        
+            return
+
         for path in all_paths:
+            filename = os.path.basename(path)
+            file_ext = os.path.splitext(path)[1].lower()
+
+            # Vérifie si le document a déjà été traité
             if self.repository.is_processed(path):
-               self.logger.debug(f"Fichier déjà traité, passage : {path}")
-               continue
-            
+                self.logger.debug(f"Fichier déjà traité, passage : {path}")
+                continue
+
             try:
                 text = self.extract_text(path, **kwargs)
+
                 if text:
-                    results[path] = text
-                    self.repository.mark_as_processed(path, self.__class__.__name__, text)
+                    document = {
+                        "id": filename,
+                        "filename": filename,
+                        "path": path,
+                        "file_type": file_ext.replace('.', ''),
+                        "text_content": text,
+                        "status": "parsed"
+                    }
+                    self.repository.insert_document(document)
+                    self.logger.info(f"✅ Document ajouté : {filename}")
                 else:
-                    self.logger.warning(f"Aucun texte extrait de {path}")
+                    self.logger.warning(f"⚠️ Aucun texte extrait de {path}")
+
             except Exception as e:
                 self.logger.exception(f"Erreur lors du traitement de {path}: {e}")
-        
-        self.logger.info(f"Traitement terminé. {len(results)} fichiers traités avec succès.")
-        return results
+
+        self.logger.info("Extraction OCR/PDF/TXT terminée et synchronisée avec CosmosDB.")
