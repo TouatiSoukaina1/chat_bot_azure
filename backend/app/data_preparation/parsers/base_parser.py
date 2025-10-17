@@ -60,9 +60,9 @@ class BaseParser(ABC):
                         "status": "parsed"
                     }
                     self.repository.insert_document(document)
-                    self.logger.info(f"✅ Document ajouté : {filename}")
+                    self.logger.info(f"Document ajouté : {filename}")
                 else:
-                    self.logger.warning(f"⚠️ Aucun texte extrait de {path}")
+                    self.logger.warning(f"Aucun texte extrait de {path}")
 
             except Exception as e:
                 self.logger.exception(f"Erreur lors du traitement de {path}: {e}")
