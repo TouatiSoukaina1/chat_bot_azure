@@ -6,10 +6,6 @@ import logging
 from typing import List, Optional, Dict
 from openai import AzureOpenAI, RateLimitError, APIError, APIConnectionError
 
-try:
-    from app.config.settings import settings
-except Exception:
-    settings = None  # fallback si settings n'est pas disponible pendant les tests
 
 
 class Embedder:
@@ -38,11 +34,11 @@ class Embedder:
         self.logger = logger or logging.getLogger("app.embedder")
 
         # --- Config depuis settings ou .env ---
-        self.endpoint = endpoint or (settings.AZURE_OPENAI_ENDPOINT if settings else os.getenv("AZURE_OPENAI_ENDPOINT"))
-        self.api_key = api_key or (settings.AZURE_OPENAI_KEY if settings else (os.getenv("AZURE_OPENAI_API_KEY") or os.getenv("AZURE_OPENAI_KEY")))
-        self.api_version = api_version or (settings.AZURE_OPENAI_API_VERSION if settings else os.getenv("AZURE_OPENAI_API_VERSION"))
-        self.deployment_name = deployment_name or (settings.AZURE_OPENAI_EMBEDDING_DEPLOYMENT if settings else os.getenv("AZURE_OPENAI_EMBEDDING_DEPLOYMENT"))
-        self.embedding_dimensions = embedding_dimensions or (getattr(settings, "AZURE_OPENAI_EMBEDDING_DIMENSIONS", None) if settings else None)
+        self.endpoint = endpoint or  os.getenv("AZURE_OPENAI_ENDPOINT")
+        self.api_key = api_key or  os.getenv("AZURE_OPENAI_KEY")
+        self.api_version = api_version or os.getenv("AZURE_OPENAI_API_VERSION")
+        self.deployment_name = deployment_name or os.getenv("AZURE_OPENAI_EMBEDDING_DEPLOYMENT")
+        self.embedding_dimensions = embedding_dimensions 
 
         if not all([self.endpoint, self.api_key, self.api_version, self.deployment_name]):
             raise ValueError(
