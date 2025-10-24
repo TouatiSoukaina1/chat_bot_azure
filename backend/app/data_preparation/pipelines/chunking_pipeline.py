@@ -1,12 +1,12 @@
 import logging
 from app.core.database import DocumentRepository
-from app.data_preparation.processors.chunker import TextChunker
+from app.data_preparation.processors.chunker import Chunker
 
 class ChunkingPipeline:
     def __init__(self, repo=None, chunker=None, status_in="parsed", status_out="chunked"):
         self.logger = logging.getLogger("app.ChunkingPipeline")
         self.repo = repo or DocumentRepository()
-        self.chunker = chunker or TextChunker(chunk_size=500, overlap=50)
+        self.chunker = chunker or Chunker(chunk_size=500, overlap=50)
         self.status_in = status_in
         self.status_out = status_out
 
