@@ -1,3 +1,4 @@
+#chat_bot_azure/backend/app/data_preparation/parsers/image_parser.py
 from app.data_preparation.parsers.base_parser import BaseParser
 from doctr.io import DocumentFile
 from doctr.models import ocr_predictor

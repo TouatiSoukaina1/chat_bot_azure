@@ -1,4 +1,4 @@
-# app/data_preparation/processors/embedder.py
+# chat_bot_azure/backend/app/data_preparation/processors/embedder.py
 
 import os
 import time

@@ -1,3 +1,4 @@
+# chat_bot_azure/backend/app/data_preparation/pipelines/ingestion_pipeline.py
 import logging
 import time
 from typing import List, Dict, Optional, Callable
@@ -6,6 +7,7 @@ from dataclasses import dataclass, field
 from app.core.database import DocumentRepository
 from app.data_preparation.processors.embedder import Embedder
 from app.core.azure_search_client import AzureSearchIndexer
+from app.core.metrics import record_latency, record_chunk, embedding_latency
 
 
 @dataclass
@@ -31,10 +33,10 @@ class IngestionStats:
 
 class IngestionPipeline:
     """
-    Chunks -> Embeddings -> Index Azure Search
-    - Idempotence (pas de doublons)
-    - Pas de retry automatique (relance manuelle via méthodes dédiées)
-    - Injection de dépendances (testable et maintenable)
+    Pipeline industriel :
+    - Étapes : Chunking → Embedding → Indexation Azure Search
+    - Idempotent et traçable
+    - Gestion des erreurs et relances robustes
     """
 
     def __init__(
@@ -74,14 +76,12 @@ class IngestionPipeline:
             return stats
 
         # 3️⃣ Génère les embeddings
-        chunks = self._generate_embeddings(chunks, stats)
+        enriched_chunks = self._generate_embeddings(chunks, stats)
 
         # 4️⃣ Indexation Azure Search
-        indexed = self._index_chunks(chunks)
-        stats.indexed = indexed
-
-        # 5️⃣ Mise à jour des statuts
-        self._mark_indexed(chunks)
+        res = self._index_chunks(enriched_chunks)
+        stats.indexed = len(res["succeeded"])
+        stats.failed += len(res["failed"])
 
         stats.duration_seconds = time.time() - start
         self._log_summary(stats, title="Pipeline terminé")
@@ -92,27 +92,28 @@ class IngestionPipeline:
     # -------------------------------------------------------------------------
     def rerun_failed_embeddings(self, limit: Optional[int] = None) -> Dict:
         """
-        Relance uniquement les chunks échoués à l’étape d’embedding.
-        - Sélectionne status='failed' avec last_error contenant 'embedding'
-        - Regénère les embeddings en batch
-        - Met à jour les statuts et compte les réussites
+        Relance robuste des embeddings échoués.
+        - Sélectionne uniquement les chunks encore 'failed' avec erreur d'embedding.
+        - Batchs avec backoff léger.
+        - Mise à jour Cosmos DB fiable.
+        - Retourne un rapport complet : embedded, failed, IDs corrigés.
         """
-        self.logger.info("♻️ Relance des embeddings échoués (mode batch)...")
+        self.logger.info("♻️ Relance industrielle des embeddings échoués...")
         stats = IngestionStats()
+        fixed_ids, still_failed = [], []
 
-        # 1️⃣ Récupération des chunks échoués
         failed_chunks = self.repo.get_failed_chunks(limit=limit)
         embedding_failed = [
             c for c in failed_chunks
-            if c.get("last_error") and "embedding" in c.get("last_error", "").lower()
+            if c.get("status") == "failed" and "embedding" in str(c.get("last_error", "")).lower()
         ]
 
+        total = len(embedding_failed)
         if not embedding_failed:
-            self.logger.info("Aucun chunk échoué à l’étape d’embedding.")
+            self.logger.info("Aucun chunk à retraiter pour l’étape d’embedding.")
             return stats.to_dict()
 
-        total = len(embedding_failed)
-        batch_size = self.embedder.batch_size  # souvent 16
+        batch_size = self.embedder.batch_size
         self.logger.info(f"➡️ {total} chunks à retraiter (embedding). Batch size = {batch_size}")
 
         for start in range(0, total, batch_size):
@@ -125,40 +126,34 @@ class IngestionPipeline:
             try:
                 embeddings = self.embedder.generate_embeddings(texts)
             except Exception as e:
-                self.logger.warning(f"⚠️ Erreur batch embedding ({start}-{start+batch_size}): {e}")
+                self.logger.warning(f"⚠️ Erreur embedding batch ({start}-{start+batch_size}): {e}")
                 embeddings = [self.embedder.generate_embedding(t) for t in texts]
 
-            # 2️⃣ Traitement des résultats du batch
             for c, emb in zip(batch, embeddings):
-                if emb:
-                    try:
-                        self.repo.save_chunk_embedding(chunk_id=c["id"], embedding=emb)
-                        self.repo.update_chunk_status(chunk_id=c["id"], status="embedded", last_error=None)
+                cid = c["id"]
+                try:
+                    if emb:
+                        self.repo.save_chunk_embedding(chunk_id=cid, embedding=emb)
+                        self.repo.update_chunk_status(chunk_id=cid, status="embedded", last_error=None)
                         stats.embedded += 1
-                    except Exception as e2:
-                        stats.failed += 1
-                        err = f"Erreur sauvegarde embedding (chunk {c.get('id')}): {e2}"
-                        stats.errors.append(err)
-                        self.logger.warning(err)
-                        self.repo.update_chunk_status(
-                            chunk_id=c["id"],
-                            status="failed",
-                            last_error=str(e2)
-                        )
-                else:
+                        fixed_ids.append(cid)
+                    else:
+                        raise ValueError("Embedding vide ou invalide")
+                except Exception as e2:
                     stats.failed += 1
-                    err = f"Embedding vide pour chunk {c.get('id')}"
+                    still_failed.append(cid)
+                    err = f"Erreur embedding (chunk={cid}): {e2}"
                     stats.errors.append(err)
                     self.logger.warning(err)
-                    self.repo.update_chunk_status(
-                        chunk_id=c["id"],
-                        status="failed",
-                        last_error="Empty embedding"
-                    )
+                    try:
+                        self.repo.update_chunk_status(chunk_id=cid, status="failed", last_error=str(e2))
+                    except Exception as e3:
+                        self.logger.warning(f"⚠️ Échec update status pour {cid}: {e3}")
 
-        self.logger.info(f" Relance embeddings terminée : {stats.embedded} corrigés, {stats.failed} toujours en échec.")
-        return stats.to_dict()
+            time.sleep(0.3)
 
+        self.logger.info(f"🔁 Relance terminée : {stats.embedded} corrigés / {stats.failed} échecs persistants.")
+        return {**stats.to_dict(), "fixed_ids": fixed_ids, "still_failed_ids": still_failed}
 
     # -------------------------------------------------------------------------
     # RELANCE DES INDEXATIONS ÉCHOUÉES
@@ -184,7 +179,6 @@ class IngestionPipeline:
         ready_to_index = []
         for c in index_failed:
             if not c.get("embedding"):
-                # Recharge l’embedding depuis la base si manquant
                 doc_chunks = self.repo.get_chunks_by_document(c["document_id"])
                 found = next((ch.get("embedding") for ch in doc_chunks if ch.get("id") == c["id"]), None)
                 if not found:
@@ -204,7 +198,6 @@ class IngestionPipeline:
             stats.indexed += result.get("indexed", 0)
             stats.failed += result.get("failed", 0)
             self.logger.info(f"🔁 Réindexation: {stats.indexed} succès / {stats.failed} échecs.")
-
             for c in ready_to_index:
                 self.repo.update_chunk_status(chunk_id=c["id"], status="indexed", last_error=None)
         except Exception as e:
@@ -216,21 +209,15 @@ class IngestionPipeline:
         return stats.to_dict()
 
     # -------------------------------------------------------------------------
-    #  CYCLE COMPLET D'INGESTION (FULL PIPELINE)
+    #  CYCLE COMPLET D'INGESTION
     # -------------------------------------------------------------------------
     def full_ingestion_cycle(self) -> Dict[str, Dict]:
-        """
-        Exécute le pipeline complet + relances automatiques :
-        1. run()
-        2. rerun_failed_embeddings()
-        3. rerun_failed_indexation()
-        """
-        self.logger.info(" Démarrage du cycle complet d’ingestion...")
+        """Exécute le pipeline complet + relances automatiques"""
+        self.logger.info("🚀 Démarrage du cycle complet d’ingestion...")
         stats_run = self.run()
         stats_emb = self.rerun_failed_embeddings()
         stats_idx = self.rerun_failed_indexation()
-
-        self.logger.info("Cycle complet terminé.")
+        self.logger.info("✅ Cycle complet terminé.")
         return {
             "initial_run": stats_run.to_dict(),
             "retry_embeddings": stats_emb,
@@ -252,7 +239,7 @@ class IngestionPipeline:
         """Embeddings par lots (optimisé via Embedder.generate_embeddings)."""
         enriched = []
         total = len(chunks)
-        batch_size = self.embedder.batch_size  # souvent 16
+        batch_size = self.embedder.batch_size
 
         for start in range(0, total, batch_size):
             batch = chunks[start:start + batch_size]
@@ -265,7 +252,6 @@ class IngestionPipeline:
                 embeddings = self.embedder.generate_embeddings(texts)
             except Exception as e:
                 self.logger.warning(f"⚠️ Erreur embedding batch ({start}-{start+batch_size}): {e}")
-                # fallback unitaire si le batch échoue
                 embeddings = [self.embedder.generate_embedding(t) for t in texts]
 
             for c, emb in zip(batch, embeddings):
@@ -286,31 +272,49 @@ class IngestionPipeline:
                     self.logger.warning(err)
                     self.repo.update_chunk_status(chunk_id=c["id"], status="failed", last_error="Empty embedding")
 
+        self.logger.info(f"✅ Embeddings générés pour {stats.embedded}/{stats.total_chunks} chunks.")
         return enriched
 
+    def _index_chunks(self, chunks: List[Dict]) -> Dict[str, List[str]]:
+        """Indexation robuste et traçable."""
+        succeeded_all, failed_all = [], []
 
-    def _index_chunks(self, chunks: List[Dict]) -> int:
-        if not chunks:
-            return 0
-
-        total_indexed = 0
         for start in range(0, len(chunks), self.batch_size):
             batch = chunks[start:start + self.batch_size]
+            self.logger.info(f"🚀 Indexation batch {start}-{start + len(batch)} ({len(batch)} docs)...")
+
             try:
                 res = self.indexer.index_documents(batch)
-                total_indexed += res.get("indexed", 0)
-            except Exception as e:
-                self.logger.error(f"Indexation batch erreur: {e}", exc_info=True)
-                for c in batch:
-                    self.repo.update_chunk_status(chunk_id=c["id"], status="failed", last_error=str(e))
-        return total_indexed
+                succeeded_ids = res.get("succeeded_ids", [])
+                failed_ids = res.get("failed_ids", [])
 
-    def _mark_indexed(self, chunks: List[Dict]) -> None:
-        for c in chunks:
-            try:
-                self.repo.update_chunk_status(chunk_id=c["id"], status="indexed", last_error=None)
+                succeeded_all.extend(succeeded_ids)
+                failed_all.extend(failed_ids)
+
+                for cid in succeeded_ids:
+                    try:
+                        self.repo.update_chunk_status(chunk_id=cid, status="indexed", last_error=None)
+                    except Exception as e2:
+                        self.logger.warning(f"⚠️ Impossible de marquer 'indexed' pour {cid}: {e2}")
+
+                for cid in failed_ids:
+                    try:
+                        self.repo.update_chunk_status(chunk_id=cid, status="failed", last_error="Indexation partielle échouée")
+                    except Exception as e2:
+                        self.logger.warning(f"⚠️ Impossible de marquer 'failed' pour {cid}: {e2}")
+
+                self.logger.info(f"✅ Batch terminé: {len(succeeded_ids)} succès / {len(failed_ids)} échecs")
+
             except Exception as e:
-                self.logger.warning(f"Impossible de marquer 'indexed' {c['id']}: {e}")
+                self.logger.error(f"🔥 Erreur critique indexation batch: {e}", exc_info=True)
+                for c in batch:
+                    failed_all.append(c["id"])
+                    try:
+                        self.repo.update_chunk_status(chunk_id=c["id"], status="failed", last_error=str(e))
+                    except Exception as e2:
+                        self.logger.warning(f"⚠️ Impossible de marquer 'failed' pour {c['id']}: {e2}")
+
+        return {"succeeded": succeeded_all, "failed": failed_all}
 
     def _log_summary(self, stats: IngestionStats, title: str) -> None:
         self.logger.info("=" * 50)

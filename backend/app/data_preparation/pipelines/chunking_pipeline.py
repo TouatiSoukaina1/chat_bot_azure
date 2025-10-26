@@ -1,3 +1,4 @@
+#chat_bot_azure/backend/app/data_preparation/pipelines/chunking_pipeline.py
 import logging
 from app.core.database import DocumentRepository
 from app.data_preparation.processors.chunker import Chunker
@@ -37,14 +38,14 @@ class ChunkingPipeline:
                 self.repo.insert_chunk({
                     "id": f"{doc_id}_chunk_{ch['id']}",
                     "document_id": doc_id,
-                    "text": ch["text"],
+                    "content": ch["text"],        # <-- corrigé
                     "order": ch["id"],
                     "status": self.status_out,
                     "type": ftype,
                     "source_path": path
                 })
 
-            self.repo.update_document_status(document_id=doc_id, new_status=self.status_out, partition_key=ftype)
+            self.repo.update_document_status(document_id=doc_id, file_type=ftype, new_status=self.status_out)  # <-- corrigé
             total_chunks += len(chunks)
             self.logger.info(f"✅ {path} → {len(chunks)} chunks")
 
