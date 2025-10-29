@@ -6,7 +6,7 @@ from azure.core.exceptions import AzureError
 from azure.search.documents import SearchClient
 from azure.search.documents.indexes import SearchIndexClient
 from azure.search.documents.indexes.models import SearchIndex
-from azure.identity import AzureKeyCredential
+from azure.core.credentials import AzureKeyCredential
 import os
 
 class AzureSearchIndexer:

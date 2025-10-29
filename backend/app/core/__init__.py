@@ -1,4 +1,4 @@
-from .azure_search_client import AzureSearchService
+from .azure_search_client import AzureSearchIndexer
 from .database import DocumentRepository
 from .metrics import (
     record_chunk,
@@ -9,7 +9,7 @@ from .metrics import (
 )
 
 __all__ = [
-    "AzureSearchService",
+    "AzureSearchIndexer",
     "DocumentRepository",
     "record_chunk",
     "record_latency",

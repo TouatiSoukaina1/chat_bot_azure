@@ -1,14 +1,43 @@
-#chat_bot_azure/backend/app/data_preparation/pipelines/extraction_pipeline.py
-from app.data_preparation.parsers import DoctrOCR, PdfParser, TxtParser
+import os
+import glob
 import logging
+from backend.app.data_preparation.parsers import DoctrOCR, PdfParser, TxtParser
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("app.extraction")
+
 
 def run_extraction():
     """
-    Pipeline d'extraction : OCR pour images, PDF et texte brut.
+    Pipeline d'extraction centralisé :
+      - Détecte les fichiers dans data/raw
+      - Filtre par type (TXT, PDF, image)
+      - Envoie les fichiers au parseur correspondant
     """
-    parsers = [DoctrOCR(), PdfParser(), TxtParser()]
-    for parser in parsers:
-        parser.process_file()
-    logging.info("Extraction terminée.")
+    base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../../.."))
+    raw_dir = os.path.join(base_dir, "data", "raw")
+
+    parser_map = {
+        TxtParser(): [".txt"],
+        PdfParser(): [".pdf"],
+        DoctrOCR(): [".jpg", ".jpeg", ".png", ".bmp", ".tiff"],
+    }
+
+    total_files = 0
+
+    for parser, extensions in parser_map.items():
+        matching_files = []
+        for ext in extensions:
+            matching_files.extend(glob.glob(os.path.join(raw_dir, f"**/*{ext}"), recursive=True))
+
+        if not matching_files:
+            logger.info(f"🔸 Aucun fichier {extensions} trouvé pour {parser.__class__.__name__}")
+            continue
+
+        total_files += len(matching_files)
+        logger.info(f"🚀 {len(matching_files)} fichiers envoyés à {parser.__class__.__name__}")
+        parser.process_file(file_paths=matching_files)
+
+    if total_files == 0:
+        logger.warning("⚠️ Aucun fichier trouvé dans data/raw pour aucun parseur.")
+    else:
+        logger.info(f"🏁 Extraction terminée — {total_files} fichiers traités au total.")

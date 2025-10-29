@@ -3,7 +3,8 @@ import time
 import logging
 from typing import List, Dict, Optional, Iterable
 from azure.cosmos import CosmosClient, exceptions
-
+from dotenv import load_dotenv
+load_dotenv()
 # Optionnel si tu veux relier au monitoring Prometheus
 # from app.core.metrics import record_chunk
 
@@ -34,6 +35,7 @@ class DocumentRepository:
         self.container_chunks = container_chunks or os.getenv("COSMOSDB_CONTAINER_CHUNKS")
 
         if not all([self.uri, self.key, self.database_name, self.container_documents, self.container_chunks]):
+            self.logger.error("Configuration Cosmos DB incomplète (URI/KEY/DATABASE/CONTAINERS manquants).")
             raise ValueError("Configuration Cosmos DB incomplète (URI/KEY/DATABASE/CONTAINERS manquants).")
 
         try:
