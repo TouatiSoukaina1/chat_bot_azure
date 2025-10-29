@@ -13,9 +13,9 @@ def run_extraction():
       - Filtre par type (TXT, PDF, image)
       - Envoie les fichiers au parseur correspondant
     """
-    base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../../.."))
+    base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../.."))
     raw_dir = os.path.join(base_dir, "data", "raw")
-
+    print("---------- ",raw_dir)
     parser_map = {
         TxtParser(): [".txt"],
         PdfParser(): [".pdf"],
@@ -30,6 +30,7 @@ def run_extraction():
             matching_files.extend(glob.glob(os.path.join(raw_dir, f"**/*{ext}"), recursive=True))
 
         if not matching_files:
+            print("🔸 Aucun fichier {extensions} trouvé pour {parser.__class__.__name__}")
             logger.info(f"🔸 Aucun fichier {extensions} trouvé pour {parser.__class__.__name__}")
             continue
 
@@ -39,5 +40,7 @@ def run_extraction():
 
     if total_files == 0:
         logger.warning("⚠️ Aucun fichier trouvé dans data/raw pour aucun parseur.")
+        print("⚠️ Aucun fichier trouvé dans data/raw pour aucun parseur.")
     else:
         logger.info(f"🏁 Extraction terminée — {total_files} fichiers traités au total.")
+        print("🏁 Extraction terminée — {total_files} fichiers traités au total.")
