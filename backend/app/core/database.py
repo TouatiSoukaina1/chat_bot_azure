@@ -7,7 +7,8 @@ from dotenv import load_dotenv
 load_dotenv()
 # Optionnel si tu veux relier au monitoring Prometheus
 # from app.core.metrics import record_chunk
-
+from azure.cosmos import exceptions
+from azure.core import MatchConditions
 
 class DocumentRepository:
     """
@@ -33,6 +34,14 @@ class DocumentRepository:
         self.database_name = database_name or os.getenv("COSMOS_DATABASE")
         self.container_documents = container_documents or os.getenv("COSMOSDB_CONTAINER_DOCUMENTS")
         self.container_chunks = container_chunks or os.getenv("COSMOSDB_CONTAINER_CHUNKS")
+        #print("==================================. ", self.container_chunks)
+        #print(f"uri : {self.uri}. - key : {self.key}")
+        self.container_work_items = os.getenv("COSMOSDB_CONTAINER_WORK_ITEMS")
+
+        if not all([self.uri, self.key, self.database_name, self.container_documents, self.container_chunks, self.container_work_items]):
+            raise ValueError("Configuration Cosmos DB incomplète.")
+
+        self.work_container = self.database.get_container_client(self.container_work_items)
 
         if not all([self.uri, self.key, self.database_name, self.container_documents, self.container_chunks]):
             self.logger.error("Configuration Cosmos DB incomplète (URI/KEY/DATABASE/CONTAINERS manquants).")
@@ -312,3 +321,100 @@ class DocumentRepository:
             if limit and i + 1 >= limit:
                 break
         return out
+    
+    def enqueue_work_item(self, work_item: Dict) -> None:
+        """
+        Upsert d'un work item.
+        Container work_items: PK = /work_type
+        """
+        if "id" not in work_item or "work_type" not in work_item:
+            raise ValueError("work_item doit contenir 'id' et 'work_type'.")
+
+        self.work_container.upsert_item(work_item)
+
+    def claim_work_items(
+        self,
+        work_type: str,
+        limit: int = 32,
+        lease_seconds: int = 60,
+        worker_id: str = "worker-1",
+    ) -> List[Dict]:
+        """
+        Claim (lock) des work items en status='queued' avec un lease (anti double-traitement).
+        - Lecture dans UNE partition (partition_key=work_type) => rapide/peu coûteux
+        - Claim via replace_item + etag (IfNotModified) => évite que 2 workers prennent le même job
+        """
+        now = int(time.time())
+        lease_until = now + lease_seconds
+
+        query = """
+            SELECT TOP @n *
+            FROM c
+            WHERE c.work_type = @wt
+            AND c.status = 'queued'
+            AND (NOT IS_DEFINED(c.lease_until) OR c.lease_until < @now)
+            ORDER BY c.created_at
+        """
+        params = [
+            {"name": "@n", "value": limit},
+            {"name": "@wt", "value": work_type},
+            {"name": "@now", "value": now},
+        ]
+
+        it = self.work_container.query_items(
+            query=query,
+            parameters=params,
+            partition_key=work_type,  # ✅ single partition
+        )
+
+        claimed: List[Dict] = []
+        for item in it:
+            try:
+                etag = item.get("_etag")
+                item["status"] = "processing"
+                item["lease_until"] = lease_until
+                item["worker_id"] = worker_id
+                item["updated_at"] = now
+
+                # Claim atomique par ETag (optimistic concurrency)
+                self.work_container.replace_item(
+                    item=item["id"],
+                    body=item,
+                    etag=etag,
+                    match_condition=MatchConditions.IfNotModified,
+                )
+                claimed.append(item)
+            except exceptions.CosmosHttpResponseError as e:
+                # 412 = quelqu'un l'a modifié avant nous (déjà claim)
+                if getattr(e, "status_code", None) in (409, 412):
+                    continue
+                self.logger.exception(f"Erreur claim_work_items: {e}")
+                continue
+
+        return claimed
+
+    def complete_work_item(self, work_id: str, work_type: str) -> None:
+        now = int(time.time())
+        try:
+            item = self.work_container.read_item(item=work_id, partition_key=work_type)
+            item["status"] = "done"
+            item["lease_until"] = 0
+            item["updated_at"] = now
+            item.pop("last_error", None)
+            self.work_container.upsert_item(item)
+        except exceptions.CosmosHttpResponseError as e:
+            self.logger.warning(f"complete_work_item failed: {work_id} err={e}")
+
+    def fail_work_item(self, work_id: str, work_type: str, error: str, inc_attempts: bool = True) -> None:
+        now = int(time.time())
+        try:
+            item = self.work_container.read_item(item=work_id, partition_key=work_type)
+            item["status"] = "failed"
+            item["lease_until"] = 0
+            item["updated_at"] = now
+            item["last_error"] = error
+            if inc_attempts:
+                item["attempts"] = int(item.get("attempts", 0)) + 1
+            self.work_container.upsert_item(item)
+        except exceptions.CosmosHttpResponseError as e:
+            self.logger.warning(f"fail_work_item failed: {work_id} err={e}")

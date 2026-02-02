@@ -51,7 +51,7 @@ class Embedder:
                 "Requis: AZURE_OPENAI_ENDPOINT / KEY / API_VERSION / EMBEDDING_DEPLOYMENT."
             )
 
-        self.batch_size = min(max(batch_size, 1), 16)  # Azure limite 16
+        self.batch_size = min(max(batch_size, 1), 16)  
         self.max_retries = max(0, max_retries)
         self.base_retry_delay = max(0.1, base_retry_delay)
 

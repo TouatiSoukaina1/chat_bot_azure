@@ -1,24 +1,31 @@
 from backend.app.core.database import DocumentRepository
+from app.data_preparation.pipelines.chunking_pipeline import ChunkingPipeline
+from app.data_preparation.pipelines.extraction_pipeline import *
+from app.data_preparation.pipelines.ingestion_pipeline import IngestionStats, IngestionPipeline
+import json
+from pathlib import Path
+from dotenv import load_dotenv
 
+# Charge toujours le .env de la racine du projet
+load_dotenv(Path(__file__).resolve().parent / ".env")
+
+def show_chunks(chunks, limit=10, content_chars=300):
+    print(f"\n✅ {len(chunks)} chunks trouvés. Affichage des {min(limit, len(chunks))} premiers:\n")
+    for i, c in enumerate(chunks[:limit], start=1):
+        content = (c.get("content") or "")
+        print(f"[{i}] id={c.get('id')} doc={c.get('document_id')} status={c.get('status')} len={len(content)}")
+        print(content[:content_chars].replace("\n", " "))
+        print("-" * 100)
+        
 if __name__ == "__main__":
     repo = DocumentRepository()
-    print("📂 Lecture des documents dans le conteneur 'documents'...")
+    chunk_pip = ChunkingPipeline()
+    chunk_pip.run()
+    chunks = repo.get_chunks(status="chunked", document_ids=None)
+    show_chunks(chunks, limit=10)
 
-    documents = repo.docs_container.query_items(
-        query="SELECT * FROM c",
-        enable_cross_partition_query=True
-    )
+    # # 2) Si tu veux inspecter un chunk en détail
+    if chunks:
+        print("\n🔎 Chunk complet (JSON) :\n")
+        print(json.dumps(chunks[0], ensure_ascii=False, indent=2))
 
-    count = 0
-    for doc in documents:
-        count += 1
-        print(f"\n📝 Document {count}:")
-        print(f"ID: {doc.get('id')}")
-        print(f"Filename: {doc.get('filename')}")
-        print(f"Type: {doc.get('file_type')}")
-        print(f"Status: {doc.get('status')}")
-        text_preview = (doc.get('text_content') or "")[:300]
-        print(f"Texte extrait (aperçu): {text_preview}...")
-        print("-" * 80)
-
-    print(f"\n✅ Total de documents extraits : {count}")

@@ -12,13 +12,9 @@ chat_bot_azure/
 │   │   ├── core/
 │   │   │   ├── __init__.py
 │   │   │   ├── database.py              # Connexion DB
-│   │   │   └── azure_clients.py         # Clients Azure (OpenAI, Search, Storage)
-│   │   │
-│   │   ├── models/
-│   │   │   ├── __init__.py
-│   │   │   ├── document.py              # Modèle Document
-│   │   │   ├── chunk.py                 # Modèle Chunk
-│   │   │   └── chat_history.py          # Modèle Historique Chat
+│   │   │   └── azure_search_client.py         # Clients Azure (OpenAI, Search, Storage)
+│   │   │   └── metrics.py
+│   │   │   └── chat_history.py 
 │   │   │
 │   │   ├── data_preparation/
 │   │   │   ├── __init__.py
