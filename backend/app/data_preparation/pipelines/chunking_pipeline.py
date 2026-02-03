@@ -1,5 +1,3 @@
-# chat_bot_azure/backend/app/data_preparation/pipelines/chunking_pipeline.py
-
 import logging
 import time
 import hashlib
@@ -17,7 +15,6 @@ class ChunkingPipeline:
         self.logger = logging.getLogger("app.ChunkingPipeline")
         self.repo = repo or DocumentRepository()
 
-        # ✅ réglage choisi : 1500/150
         self.chunker = chunker or Chunker(chunk_size=1500, overlap=150)
 
         self.status_in = status_in
@@ -80,7 +77,7 @@ class ChunkingPipeline:
                 else:
                     self.logger.debug("Chunk déjà présent, skip insert: %s", chunk_id)
 
-                # 2) Enqueue job indexing (Option B) seulement s'il n'existe pas
+                # 2) Enqueue job indexing seulement s'il n'existe pas
                 work_id = f"indexing::{chunk_id}"
                 work_type = "indexing"  # pk work_items
 

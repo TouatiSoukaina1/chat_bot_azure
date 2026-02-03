@@ -13,6 +13,7 @@ from openai import (
     APIConnectionError,
     APITimeoutError,
 )
+from azure.identity import DefaultAzureCredential, get_bearer_token_provider
 
 class Embedder:
     """
@@ -40,27 +41,29 @@ class Embedder:
 
         # --- Config depuis env ---
         self.endpoint = endpoint or os.getenv("AZURE_OPENAI_ENDPOINT")
-        self.api_key = api_key or os.getenv("AZURE_OPENAI_KEY")
+        #self.api_key = api_key or os.getenv("AZURE_OPENAI_KEY")
         self.api_version = api_version or os.getenv("AZURE_OPENAI_API_VERSION")
         self.deployment_name = deployment_name or os.getenv("AZURE_OPENAI_EMBEDDING_DEPLOYMENT")
         self.embedding_dimensions = embedding_dimensions
 
-        if not all([self.endpoint, self.api_key, self.api_version, self.deployment_name]):
-            raise ValueError(
-                "Configuration Azure OpenAI incomplète. "
-                "Requis: AZURE_OPENAI_ENDPOINT / KEY / API_VERSION / EMBEDDING_DEPLOYMENT."
-            )
+        if not all([self.endpoint, self.api_version, self.deployment_name]):
+            raise ValueError("Config Azure OpenAI incomplète (ENDPOINT / API_VERSION / EMBEDDING_DEPLOYMENT).")
 
         self.batch_size = min(max(batch_size, 1), 16)  
         self.max_retries = max(0, max_retries)
         self.base_retry_delay = max(0.1, base_retry_delay)
 
+        token_provider = get_bearer_token_provider(
+            DefaultAzureCredential(),
+            "https://cognitiveservices.azure.com/.default",
+        )
+
         # Client Azure
         self.client = AzureOpenAI(
-            api_key=self.api_key,
-            api_version=self.api_version,
-            azure_endpoint=self.endpoint,
-        )
+                    azure_endpoint=self.endpoint,
+                    api_version=self.api_version,
+                    azure_ad_token_provider=token_provider,
+                )
 
         # Stats
         self._total_calls = 0
@@ -115,7 +118,7 @@ class Embedder:
         retry_rate = self._total_retries / self._total_calls if self._total_calls else 0.0
 
         return {
-            "total_api_calls": self._tsotal_calls,
+            "total_api_calls": self._total_calls,
             "total_items": self._total_items,
             "total_failed": self._total_failed,
             "success_rate": (self._total_items - self._total_failed) / self._total_items if self._total_items else 0.0,

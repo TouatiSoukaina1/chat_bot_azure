@@ -1,7 +1,7 @@
 import os
 import time
 import logging
-from typing import List, Dict, Optional, Iterable
+from typing import List, Dict, Optional, Iterable,Iterator
 from azure.cosmos import CosmosClient, exceptions
 from dotenv import load_dotenv
 load_dotenv()
@@ -9,19 +9,12 @@ load_dotenv()
 # from app.core.metrics import record_chunk
 from azure.cosmos import exceptions
 from azure.core import MatchConditions
+from azure.identity import DefaultAzureCredential
 
 class DocumentRepository:
-    """
-    Accès à Azure Cosmos DB (containers :
-      - documsnts  (pk: /file_type)
-      - chunks     (pk: /document_id)
-    ) pour piloter les pipelines d'extraction, chunking, embedding & indexing.
-    """
-
     def __init__(
         self,
         uri: Optional[str] = None,
-        key: Optional[str] = None,
         database_name: Optional[str] = None,
         container_documents: Optional[str] = None,
         container_chunks: Optional[str] = None,
@@ -30,36 +23,57 @@ class DocumentRepository:
         self.logger = logger or logging.getLogger("app.repository")
 
         self.uri = uri or os.getenv("COSMOSDB_URI")
-        self.key = key or os.getenv("COSMOS_KEY")
         self.database_name = database_name or os.getenv("COSMOS_DATABASE")
         self.container_documents = container_documents or os.getenv("COSMOSDB_CONTAINER_DOCUMENTS")
         self.container_chunks = container_chunks or os.getenv("COSMOSDB_CONTAINER_CHUNKS")
-        #print("==================================. ", self.container_chunks)
-        #print(f"uri : {self.uri}. - key : {self.key}")
-        self.container_work_items = os.getenv("COSMOSDB_CONTAINER_WORK_ITEMS")
 
-        if not all([self.uri, self.key, self.database_name, self.container_documents, self.container_chunks, self.container_work_items]):
-            raise ValueError("Configuration Cosmos DB incomplète.")
-
-        self.work_container = self.database.get_container_client(self.container_work_items)
-
-        if not all([self.uri, self.key, self.database_name, self.container_documents, self.container_chunks]):
-            self.logger.error("Configuration Cosmos DB incomplète (URI/KEY/DATABASE/CONTAINERS manquants).")
-            raise ValueError("Configuration Cosmos DB incomplète (URI/KEY/DATABASE/CONTAINERS manquants).")
+        if not all([self.uri, self.database_name, self.container_documents, self.container_chunks]):
+            raise ValueError("Config Cosmos incomplète (URI/DATABASE/CONTAINERS).")
 
         try:
-            self.client = CosmosClient(self.uri, credential=self.key)
+            credential = DefaultAzureCredential()
+            self.client = CosmosClient(self.uri, credential=credential)
             self.database = self.client.get_database_client(self.database_name)
             self.docs_container = self.database.get_container_client(self.container_documents)
             self.chunks_container = self.database.get_container_client(self.container_chunks)
-            self.logger.info("✅ Connexion Cosmos DB initialisée avec succès.")
+            self.logger.info("✅ Connexion Cosmos DB (keyless) OK.")
         except exceptions.CosmosHttpResponseError as e:
-            self.logger.error(f"❌ Erreur connexion Cosmos DB: {e}")
+            self.logger.error("❌ Erreur connexion Cosmos DB: %s", e)
             raise
 
     # -------------------------------------------------------------------------
     # INSERT / UPSERT DOCUMENTS
     # -------------------------------------------------------------------------
+    def iter_all_documents(
+        self,
+        max_item_count: int = 200,
+        partition_key: Optional[str] = None,
+    ) -> Iterator[Dict]:
+        """
+        Itère sur tous les documents du container documents.
+        - partition_key: si tu connais une valeur de PK (ex: file_type), c'est plus rapide/moins coûteux.
+        """
+        query = "SELECT * FROM c"
+
+        if partition_key is not None:
+            it = self.docs_container.query_items(
+                query=query,
+                parameters=[],
+                partition_key=partition_key,
+                max_item_count=max_item_count,
+            )
+        else:
+            it = self.docs_container.query_items(
+                query=query,
+                parameters=[],
+                enable_cross_partition_query=True,
+                max_item_count=max_item_count,
+            )
+
+        # Pagination automatique via by_page()
+        for page in it.by_page():
+            for item in page:
+                yield item
     def is_processed(self, path: str) -> bool:
         """Vérifie si un document avec ce chemin a déjà été inséré."""
         try:
@@ -300,6 +314,33 @@ class DocumentRepository:
     # -------------------------------------------------------------------------
     # RACCOURCIS
     # -------------------------------------------------------------------------
+    def create_chunk_if_absent(self, chunk: Dict) -> bool:
+        """
+        Tente de créer un chunk. Retourne True si créé, False si déjà présent.
+        (Plus économique que read-before-write)
+        """
+        try:
+            self.chunks_container.create_item(body=chunk)
+            return True
+        except exceptions.CosmosHttpResponseError as e:
+            # 409 Conflict => item déjà existe
+            if getattr(e, "status_code", None) == 409:
+                return False
+            raise
+
+    def create_work_item_if_absent(self, work_item: Dict) -> bool:
+        """
+        Tente de créer un work_item. Retourne True si créé, False si déjà présent.
+        Container work_items PK = /work_type
+        """
+        try:
+            self.work_container.create_item(body=work_item)
+            return True
+        except exceptions.CosmosHttpResponseError as e:
+            if getattr(e, "status_code", None) == 409:
+                return False
+            raise
+    
     def get_chunks_to_index(self, limit: Optional[int] = None) -> List[Dict]:
         return self.get_chunks(status="embedded", limit=limit)
 
