@@ -18,6 +18,7 @@ class DocumentRepository:
         database_name: Optional[str] = None,
         container_documents: Optional[str] = None,
         container_chunks: Optional[str] = None,
+        container_work_items: Optional[str] = None,
         logger: Optional[logging.Logger] = None,
     ):
         self.logger = logger or logging.getLogger("app.repository")
@@ -26,8 +27,8 @@ class DocumentRepository:
         self.database_name = database_name or os.getenv("COSMOS_DATABASE")
         self.container_documents = container_documents or os.getenv("COSMOSDB_CONTAINER_DOCUMENTS")
         self.container_chunks = container_chunks or os.getenv("COSMOSDB_CONTAINER_CHUNKS")
-
-        if not all([self.uri, self.database_name, self.container_documents, self.container_chunks]):
+        self.container_work_items = container_work_items or os.getenv("COSMOSDB_CONTAINER_WORK_ITEMS")
+        if not all([self.uri, self.database_name, self.container_documents, self.container_chunks, self.container_work_items]):
             raise ValueError("Config Cosmos incomplète (URI/DATABASE/CONTAINERS).")
 
         try:
@@ -36,6 +37,7 @@ class DocumentRepository:
             self.database = self.client.get_database_client(self.database_name)
             self.docs_container = self.database.get_container_client(self.container_documents)
             self.chunks_container = self.database.get_container_client(self.container_chunks)
+            self.work_container = self.database.get_container_client(self.container_work_items)  
             self.logger.info("✅ Connexion Cosmos DB (keyless) OK.")
         except exceptions.CosmosHttpResponseError as e:
             self.logger.error("❌ Erreur connexion Cosmos DB: %s", e)
