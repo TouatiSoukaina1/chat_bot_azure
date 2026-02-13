@@ -8,9 +8,9 @@ from typing import List, Dict
 
 from azure.cosmos import exceptions
 
-from app.core.database import DocumentRepository
-from app.data_preparation.processors.embedder import Embedder
-from app.data_preparation.indexing.azure_search_indexer import AzureSearchIndexer
+from backend.app.core.database import DocumentRepository
+from backend.app.data_preparation.processors.embedder import Embedder
+from backend.app.data_preparation.indexing.azure_search_indexer import AzureSearchIndexer
 
 logging.basicConfig(level=logging.INFO)
 
@@ -46,6 +46,31 @@ class IndexingWorker:
         self.max_attempts = max_attempts
         self.sleep_s = sleep_s
 
+    def run_once(self, limit: int | None = None, lease_seconds: int | None = None) -> int:
+        """
+        Traite un seul cycle:
+        - claim work_items queued
+        - process en batchs de 16
+        - retourne nb de jobs claimés (0 si queue vide)
+
+        limit / lease_seconds sont optionnels (override).
+        """
+        jobs = self.repo.claim_work_items(
+            work_type=WORK_TYPE,
+            limit=limit or self.claim_limit,
+            lease_seconds=lease_seconds or self.lease_seconds,
+            worker_id=self.worker_id,
+        )
+
+        if not jobs:
+            self.logger.info("Aucun job à traiter (queue vide).")
+            return 0
+
+        for i in range(0, len(jobs), 16):
+            self._process_batch(jobs[i : i + 16])
+
+        return len(jobs)
+    
     def run_forever(self):
         self.logger.info("IndexingWorker started (worker_id=%s)", self.worker_id)
 
@@ -141,45 +166,61 @@ class IndexingWorker:
 
         if not docs_to_upload:
             return
+        chunk_meta: Dict[str, Dict] = {}
+        for doc in docs_to_upload:
+            cid = doc["id"]
+            job = job_by_chunk.get(cid)
+            if not job:
+                continue
+            chunk_meta[cid] = {
+                "document_id": doc.get("document_id"),
+                "work_id": job.get("id"),
+                "attempts": int(job.get("attempts", 0)),
+                "max_attempts": int(job.get("max_attempts", self.max_attempts)),
+            }
 
+        # Upload vers Azure Search
         succeeded_ids, failed = self.indexer.upload(docs_to_upload, batch_size=500)
 
-        for doc in docs_to_upload:
-            chunk_id = doc["id"]
-            doc_id = doc.get("document_id")
-            job = job_by_chunk.get(chunk_id)
-            if job is None:
+        # ✅ succès : chunk indexed + work_item complete
+        for chunk_id in succeeded_ids:
+            meta = chunk_meta.get(chunk_id)
+            if not meta:
                 continue
+            doc_id = meta["document_id"]
+            work_id = meta["work_id"]
 
-            work_id = job["id"]
-            attempts = int(job.get("attempts", 0))
-            max_attempts = int(job.get("max_attempts", self.max_attempts))
+            self.repo.update_chunk_status(
+                chunk_id=chunk_id,
+                status="indexed",
+                document_id=doc_id,
+            )
+            self.repo.complete_work_item(work_id, WORK_TYPE)
 
-            if chunk_id in succeeded_ids:
-                self.repo.update_chunk_status(chunk_id, "indexed", document_id=doc_id)
-                self.repo.complete_work_item(work_id, WORK_TYPE)
+        # ❌ échecs : retry/backoff ou dead-letter
+        for f in failed:
+            chunk_id = f.get("id")
+            err = f.get("error", "upload failed")
+
+            meta = chunk_meta.get(chunk_id)
+            if not meta:
+                continue
+            doc_id = meta["document_id"]
+            work_id = meta["work_id"]
+            attempts = meta["attempts"]
+            max_attempts = meta["max_attempts"]
+
+            self.repo.update_chunk_status(
+                chunk_id=chunk_id,
+                status="index_failed",
+                last_error=err,
+                inc_retry=True,
+                document_id=doc_id,
+            )
+
+            if attempts + 1 >= max_attempts:
+                self.repo.dead_letter_work_item(work_id, WORK_TYPE, f"search upload failed: {err}")
             else:
-                err = failed.get(chunk_id, "unknown upload failure")
-                self.repo.update_chunk_status(chunk_id, "index_failed", last_error=err, inc_retry=True, document_id=doc_id)
+                backoff = compute_backoff_s(attempts)
+                self.repo.requeue_work_item(work_id, WORK_TYPE, f"search upload failed: {err}", backoff)
 
-                if attempts + 1 >= max_attempts:
-                    self.repo.dead_letter_work_item(work_id, WORK_TYPE, err)
-                else:
-                    backoff = compute_backoff_s(attempts)
-                    self.repo.requeue_work_item(work_id, WORK_TYPE, err, backoff)
-
-
-if __name__ == "__main__":
-    wid = os.getenv("WORKER_ID", "worker-1")
-    claim_limit = int(os.getenv("WORKER_CLAIM_LIMIT", "64"))
-    lease_seconds = int(os.getenv("WORKER_LEASE_SECONDS", "90"))
-    max_attempts = int(os.getenv("WORKER_MAX_ATTEMPTS", "5"))
-    sleep_s = float(os.getenv("WORKER_SLEEP_S", "2.0"))
-
-    IndexingWorker(
-        worker_id=wid,
-        claim_limit=claim_limit,
-        lease_seconds=lease_seconds,
-        max_attempts=max_attempts,
-        sleep_s=sleep_s,
-    ).run_forever()

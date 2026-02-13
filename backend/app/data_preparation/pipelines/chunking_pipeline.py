@@ -2,8 +2,8 @@ import logging
 import time
 import hashlib
 
-from app.core.database import DocumentRepository
-from app.data_preparation.processors.chunker import Chunker
+from backend.app.core.database import DocumentRepository
+from backend.app.data_preparation.processors.chunker import Chunker
 
 
 def _hash_text(text: str) -> str:
@@ -42,15 +42,17 @@ class ChunkingPipeline:
             if not text:
                 self.logger.warning(f"Document vide (après strip) ignoré : {path}")
                 continue
+            
+            doc_title = (doc.get("title") or doc.get("document_title") or doc.get("name") or "").strip()
 
-            chunks = self.chunker.chunk_text(text)
+            chunks = self.chunker.chunk_text(text, doc_title=doc_title)
             if not chunks:
                 self.logger.warning(f"Aucun chunk généré pour : {path}")
                 continue
 
             inserted_for_doc = 0
             enqueued_for_doc = 0
-
+  
             for ch in chunks:
                 content = (ch.get("text") or "").strip()
                 if not content:
@@ -59,6 +61,9 @@ class ChunkingPipeline:
                 order = int(ch["id"])
                 chunk_id = f"{doc_id}_chunk_{order}"
                 content_hash = _hash_text(content)
+
+                section_title = (ch.get("section_title") or "").strip()
+                chunk_doc_title = (ch.get("doc_title") or doc_title or "").strip()
 
                 # 1) Insert chunk seulement s'il n'existe pas déjà
                 if not self.repo.chunk_exists(chunk_id=chunk_id, document_id=doc_id):
@@ -72,6 +77,8 @@ class ChunkingPipeline:
                         "type": ftype,
                         "source_path": path,
                         "created_at": now,
+                        "section_title": section_title,
+                        "doc_title": chunk_doc_title,
                     })
                     inserted_for_doc += 1
                 else:

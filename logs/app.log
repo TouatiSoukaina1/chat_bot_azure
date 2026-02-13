@@ -1,0 +1,150 @@
+2026-02-11 16:19:08,152 | INFO | app | ✅ Logging initialisé (level=INFO, file=logs\app.log)
+2026-02-11 16:19:11,080 | INFO | app.repository | ✅ Connexion Cosmos DB (keyless) OK.
+2026-02-12 16:02:22,447 | INFO | app | ✅ Logging initialisé (level=INFO, file=logs\app.log)
+2026-02-12 16:02:22,454 | INFO | app | ✅ Logging initialisé (level=INFO, file=logs\app.log)
+2026-02-12 16:02:25,393 | INFO | app.repository | ✅ Connexion Cosmos DB (keyless) OK.
+2026-02-12 16:02:34,089 | INFO | scripts.backfill_indexing_jobs | Backfill terminé: 0 nouveaux work_items créés.
+2026-02-12 16:02:34,090 | INFO | scripts.run_full_pipeline | === INDEXING WORKER ===
+2026-02-12 16:02:35,715 | INFO | app.repository | ✅ Connexion Cosmos DB (keyless) OK.
+2026-02-12 16:02:35,931 | INFO | app.embedder | ✓ Embedder initialisé (deployment=text-embedding-ada-002, batch_size=16, cache=off)
+2026-02-12 16:02:41,417 | INFO | httpx | HTTP Request: POST https://openiarag123.openai.azure.com/openai/deployments/text-embedding-ada-002/embeddings?api-version=2024-10-21 "HTTP/1.1 200 OK"
+2026-02-12 16:02:44,576 | INFO | app.repository | [Cosmos] Chunk ba596cfb3024652da53a91c17df98f97_chunk_0 → indexed
+2026-02-12 16:02:45,257 | INFO | app.repository | [Cosmos] Chunk ba596cfb3024652da53a91c17df98f97_chunk_1 → indexed
+2026-02-12 16:02:45,661 | INFO | app.repository | [Cosmos] Chunk ba596cfb3024652da53a91c17df98f97_chunk_2 → indexed
+2026-02-12 16:02:45,883 | INFO | app.repository | [Cosmos] Chunk ba596cfb3024652da53a91c17df98f97_chunk_3 → indexed
+2026-02-12 16:02:46,122 | INFO | app.repository | [Cosmos] Chunk ba596cfb3024652da53a91c17df98f97_chunk_4 → indexed
+2026-02-12 16:02:46,511 | INFO | app.repository | [Cosmos] Chunk ba596cfb3024652da53a91c17df98f97_chunk_5 → indexed
+2026-02-12 16:02:46,727 | INFO | app.repository | [Cosmos] Chunk ba596cfb3024652da53a91c17df98f97_chunk_6 → indexed
+2026-02-12 16:02:47,116 | INFO | app.repository | [Cosmos] Chunk ba596cfb3024652da53a91c17df98f97_chunk_7 → indexed
+2026-02-12 16:02:47,330 | INFO | app.repository | [Cosmos] Chunk ba596cfb3024652da53a91c17df98f97_chunk_8 → indexed
+2026-02-12 16:02:47,568 | INFO | app.repository | [Cosmos] Chunk ba596cfb3024652da53a91c17df98f97_chunk_9 → indexed
+2026-02-12 16:02:49,669 | INFO | httpx | HTTP Request: POST https://openiarag123.openai.azure.com/openai/deployments/text-embedding-ada-002/embeddings?api-version=2024-10-21 "HTTP/1.1 200 OK"
+2026-02-12 16:02:50,039 | INFO | app.repository | [Cosmos] Chunk 59b93fcc176429bcecc0dc5c7d64c789_chunk_0 → indexed
+2026-02-12 16:02:50,258 | INFO | app.repository | [Cosmos] Chunk 59b93fcc176429bcecc0dc5c7d64c789_chunk_1 → indexed
+2026-02-12 16:02:50,654 | INFO | app.repository | [Cosmos] Chunk 59b93fcc176429bcecc0dc5c7d64c789_chunk_2 → indexed
+2026-02-12 16:02:50,882 | INFO | app.repository | [Cosmos] Chunk 59b93fcc176429bcecc0dc5c7d64c789_chunk_3 → indexed
+2026-02-12 16:02:51,108 | INFO | app.repository | [Cosmos] Chunk 59b93fcc176429bcecc0dc5c7d64c789_chunk_4 → indexed
+2026-02-12 16:02:51,331 | INFO | app.repository | [Cosmos] Chunk 59b93fcc176429bcecc0dc5c7d64c789_chunk_5 → indexed
+2026-02-12 16:02:51,558 | INFO | app.repository | [Cosmos] Chunk 59b93fcc176429bcecc0dc5c7d64c789_chunk_6 → indexed
+2026-02-12 16:02:51,950 | INFO | app.repository | [Cosmos] Chunk 59b93fcc176429bcecc0dc5c7d64c789_chunk_7 → indexed
+2026-02-12 16:02:52,167 | INFO | app.repository | [Cosmos] Chunk cd5be1c34be8f540c5ece7a90c52240c_chunk_0 → indexed
+2026-02-12 16:02:52,394 | INFO | app.repository | [Cosmos] Chunk cd5be1c34be8f540c5ece7a90c52240c_chunk_1 → indexed
+2026-02-12 16:02:54,086 | INFO | httpx | HTTP Request: POST https://openiarag123.openai.azure.com/openai/deployments/text-embedding-ada-002/embeddings?api-version=2024-10-21 "HTTP/1.1 200 OK"
+2026-02-12 16:02:54,407 | INFO | app.repository | [Cosmos] Chunk cd5be1c34be8f540c5ece7a90c52240c_chunk_2 → indexed
+2026-02-12 16:02:54,632 | INFO | app.repository | [Cosmos] Chunk cd5be1c34be8f540c5ece7a90c52240c_chunk_3 → indexed
+2026-02-12 16:02:54,858 | INFO | app.repository | [Cosmos] Chunk cd5be1c34be8f540c5ece7a90c52240c_chunk_4 → indexed
+2026-02-12 16:02:55,080 | INFO | app.repository | [Cosmos] Chunk cd5be1c34be8f540c5ece7a90c52240c_chunk_5 → indexed
+2026-02-12 16:02:55,301 | INFO | app.repository | [Cosmos] Chunk cd5be1c34be8f540c5ece7a90c52240c_chunk_6 → indexed
+2026-02-12 16:02:55,519 | INFO | app.repository | [Cosmos] Chunk cd5be1c34be8f540c5ece7a90c52240c_chunk_7 → indexed
+2026-02-12 16:02:55,748 | INFO | app.repository | [Cosmos] Chunk cd5be1c34be8f540c5ece7a90c52240c_chunk_8 → indexed
+2026-02-12 16:02:55,966 | INFO | app.repository | [Cosmos] Chunk cd5be1c34be8f540c5ece7a90c52240c_chunk_9 → indexed
+2026-02-12 16:02:56,176 | INFO | app.repository | [Cosmos] Chunk cd5be1c34be8f540c5ece7a90c52240c_chunk_10 → indexed
+2026-02-12 16:02:56,396 | INFO | app.repository | [Cosmos] Chunk cd5be1c34be8f540c5ece7a90c52240c_chunk_11 → indexed
+2026-02-12 16:03:00,447 | INFO | httpx | HTTP Request: POST https://openiarag123.openai.azure.com/openai/deployments/text-embedding-ada-002/embeddings?api-version=2024-10-21 "HTTP/1.1 200 OK"
+2026-02-12 16:03:01,151 | INFO | app.repository | [Cosmos] Chunk cd5be1c34be8f540c5ece7a90c52240c_chunk_12 → indexed
+2026-02-12 16:03:01,692 | INFO | app.repository | [Cosmos] Chunk cd5be1c34be8f540c5ece7a90c52240c_chunk_13 → indexed
+2026-02-12 16:03:02,270 | INFO | app.repository | [Cosmos] Chunk cd5be1c34be8f540c5ece7a90c52240c_chunk_14 → indexed
+2026-02-12 16:03:02,793 | INFO | app.repository | [Cosmos] Chunk aa7270cb6a6fc9d1fa3864eb89287433_chunk_0 → indexed
+2026-02-12 16:03:03,344 | INFO | app.repository | [Cosmos] Chunk aa7270cb6a6fc9d1fa3864eb89287433_chunk_1 → indexed
+2026-02-12 16:03:03,867 | INFO | app.repository | [Cosmos] Chunk aa7270cb6a6fc9d1fa3864eb89287433_chunk_2 → indexed
+2026-02-12 16:03:04,402 | INFO | app.repository | [Cosmos] Chunk aa7270cb6a6fc9d1fa3864eb89287433_chunk_3 → indexed
+2026-02-12 16:03:04,925 | INFO | app.repository | [Cosmos] Chunk aa7270cb6a6fc9d1fa3864eb89287433_chunk_4 → indexed
+2026-02-12 16:03:05,460 | INFO | app.repository | [Cosmos] Chunk aa7270cb6a6fc9d1fa3864eb89287433_chunk_5 → indexed
+2026-02-12 16:03:06,287 | INFO | app.repository | [Cosmos] Chunk aa7270cb6a6fc9d1fa3864eb89287433_chunk_6 → indexed
+2026-02-12 16:03:08,401 | INFO | httpx | HTTP Request: POST https://openiarag123.openai.azure.com/openai/deployments/text-embedding-ada-002/embeddings?api-version=2024-10-21 "HTTP/1.1 200 OK"
+2026-02-12 16:03:08,746 | INFO | app.repository | [Cosmos] Chunk aa7270cb6a6fc9d1fa3864eb89287433_chunk_7 → indexed
+2026-02-12 16:03:09,658 | INFO | app.repository | [Cosmos] Chunk aa7270cb6a6fc9d1fa3864eb89287433_chunk_8 → indexed
+2026-02-12 16:03:09,878 | INFO | app.repository | [Cosmos] Chunk 3fe6eee76b3b0729c666a1b798aa3ca8_chunk_0 → indexed
+2026-02-12 16:03:10,108 | INFO | app.repository | [Cosmos] Chunk 3fe6eee76b3b0729c666a1b798aa3ca8_chunk_1 → indexed
+2026-02-12 16:03:10,333 | INFO | app.repository | [Cosmos] Chunk 3fe6eee76b3b0729c666a1b798aa3ca8_chunk_2 → indexed
+2026-02-12 16:03:10,553 | INFO | app.repository | [Cosmos] Chunk 3fe6eee76b3b0729c666a1b798aa3ca8_chunk_3 → indexed
+2026-02-12 16:03:10,771 | INFO | app.repository | [Cosmos] Chunk 3fe6eee76b3b0729c666a1b798aa3ca8_chunk_4 → indexed
+2026-02-12 16:03:10,985 | INFO | app.repository | [Cosmos] Chunk 3fe6eee76b3b0729c666a1b798aa3ca8_chunk_5 → indexed
+2026-02-12 16:03:11,203 | INFO | app.repository | [Cosmos] Chunk 3fe6eee76b3b0729c666a1b798aa3ca8_chunk_6 → indexed
+2026-02-12 16:03:11,417 | INFO | app.repository | [Cosmos] Chunk 3fe6eee76b3b0729c666a1b798aa3ca8_chunk_7 → indexed
+2026-02-12 16:03:14,292 | INFO | httpx | HTTP Request: POST https://openiarag123.openai.azure.com/openai/deployments/text-embedding-ada-002/embeddings?api-version=2024-10-21 "HTTP/1.1 200 OK"
+2026-02-12 16:03:14,618 | INFO | app.repository | [Cosmos] Chunk 3fe6eee76b3b0729c666a1b798aa3ca8_chunk_8 → indexed
+2026-02-12 16:03:15,516 | INFO | app.repository | [Cosmos] Chunk 38736dba57ee2a5a479537fdeb71c1ea_chunk_0 → indexed
+2026-02-12 16:03:15,723 | INFO | app.repository | [Cosmos] Chunk 38736dba57ee2a5a479537fdeb71c1ea_chunk_1 → indexed
+2026-02-12 16:03:15,923 | INFO | app.repository | [Cosmos] Chunk 38736dba57ee2a5a479537fdeb71c1ea_chunk_2 → indexed
+2026-02-12 16:03:16,125 | INFO | app.repository | [Cosmos] Chunk 38736dba57ee2a5a479537fdeb71c1ea_chunk_3 → indexed
+2026-02-12 16:03:16,328 | INFO | app.repository | [Cosmos] Chunk 38736dba57ee2a5a479537fdeb71c1ea_chunk_4 → indexed
+2026-02-12 16:03:16,536 | INFO | app.repository | [Cosmos] Chunk 38736dba57ee2a5a479537fdeb71c1ea_chunk_5 → indexed
+2026-02-12 16:03:16,737 | INFO | app.repository | [Cosmos] Chunk 38736dba57ee2a5a479537fdeb71c1ea_chunk_6 → indexed
+2026-02-12 16:03:16,941 | INFO | app.repository | [Cosmos] Chunk 38736dba57ee2a5a479537fdeb71c1ea_chunk_7 → indexed
+2026-02-12 16:03:17,154 | INFO | app.repository | [Cosmos] Chunk 38736dba57ee2a5a479537fdeb71c1ea_chunk_8 → indexed
+2026-02-12 16:03:19,034 | INFO | httpx | HTTP Request: POST https://openiarag123.openai.azure.com/openai/deployments/text-embedding-ada-002/embeddings?api-version=2024-10-21 "HTTP/1.1 200 OK"
+2026-02-12 16:03:19,319 | INFO | app.repository | [Cosmos] Chunk 415f00d53b282428e7a6630f08a61b1b_chunk_0 → indexed
+2026-02-12 16:03:19,527 | INFO | app.repository | [Cosmos] Chunk 415f00d53b282428e7a6630f08a61b1b_chunk_1 → indexed
+2026-02-12 16:03:19,735 | INFO | app.repository | [Cosmos] Chunk 415f00d53b282428e7a6630f08a61b1b_chunk_2 → indexed
+2026-02-12 16:03:19,951 | INFO | app.repository | [Cosmos] Chunk 415f00d53b282428e7a6630f08a61b1b_chunk_3 → indexed
+2026-02-12 16:03:20,153 | INFO | app.repository | [Cosmos] Chunk 415f00d53b282428e7a6630f08a61b1b_chunk_4 → indexed
+2026-02-12 16:03:20,358 | INFO | app.repository | [Cosmos] Chunk 415f00d53b282428e7a6630f08a61b1b_chunk_5 → indexed
+2026-02-12 16:03:20,566 | INFO | app.repository | [Cosmos] Chunk 415f00d53b282428e7a6630f08a61b1b_chunk_6 → indexed
+2026-02-12 16:03:20,950 | INFO | app.repository | [Cosmos] Chunk 415f00d53b282428e7a6630f08a61b1b_chunk_7 → indexed
+2026-02-12 16:03:21,353 | INFO | app.repository | [Cosmos] Chunk 415f00d53b282428e7a6630f08a61b1b_chunk_8 → indexed
+2026-02-12 16:03:21,565 | INFO | app.repository | [Cosmos] Chunk 415f00d53b282428e7a6630f08a61b1b_chunk_9 → indexed
+2026-02-12 16:03:23,210 | INFO | httpx | HTTP Request: POST https://openiarag123.openai.azure.com/openai/deployments/text-embedding-ada-002/embeddings?api-version=2024-10-21 "HTTP/1.1 200 OK"
+2026-02-12 16:03:23,444 | INFO | app.repository | [Cosmos] Chunk 198f1b5f3bdbb7cccea3c258b6d6b47a_chunk_0 → indexed
+2026-02-12 16:03:23,659 | INFO | app.repository | [Cosmos] Chunk 198f1b5f3bdbb7cccea3c258b6d6b47a_chunk_1 → indexed
+2026-02-12 16:03:23,887 | INFO | app.repository | [Cosmos] Chunk 198f1b5f3bdbb7cccea3c258b6d6b47a_chunk_2 → indexed
+2026-02-12 16:03:24,748 | INFO | app.repository | [Cosmos] Chunk 198f1b5f3bdbb7cccea3c258b6d6b47a_chunk_3 → indexed
+2026-02-12 16:03:24,972 | INFO | app.repository | [Cosmos] Chunk 198f1b5f3bdbb7cccea3c258b6d6b47a_chunk_4 → indexed
+2026-02-12 16:03:25,197 | INFO | app.repository | [Cosmos] Chunk 198f1b5f3bdbb7cccea3c258b6d6b47a_chunk_5 → indexed
+2026-02-12 16:03:25,428 | INFO | app.repository | [Cosmos] Chunk 198f1b5f3bdbb7cccea3c258b6d6b47a_chunk_6 → indexed
+2026-02-12 16:03:25,649 | INFO | app.repository | [Cosmos] Chunk 198f1b5f3bdbb7cccea3c258b6d6b47a_chunk_7 → indexed
+2026-02-12 16:03:25,871 | INFO | app.repository | [Cosmos] Chunk 77c78c45d751c5f4613b820f0b0ef989_chunk_0 → indexed
+2026-02-12 16:03:26,091 | INFO | app.repository | [Cosmos] Chunk 77c78c45d751c5f4613b820f0b0ef989_chunk_1 → indexed
+2026-02-12 16:03:28,396 | INFO | httpx | HTTP Request: POST https://openiarag123.openai.azure.com/openai/deployments/text-embedding-ada-002/embeddings?api-version=2024-10-21 "HTTP/1.1 200 OK"
+2026-02-12 16:03:28,676 | INFO | app.repository | [Cosmos] Chunk 77c78c45d751c5f4613b820f0b0ef989_chunk_2 → indexed
+2026-02-12 16:03:28,901 | INFO | app.repository | [Cosmos] Chunk 77c78c45d751c5f4613b820f0b0ef989_chunk_3 → indexed
+2026-02-12 16:03:29,118 | INFO | app.repository | [Cosmos] Chunk 77c78c45d751c5f4613b820f0b0ef989_chunk_4 → indexed
+2026-02-12 16:03:29,329 | INFO | app.repository | [Cosmos] Chunk 77c78c45d751c5f4613b820f0b0ef989_chunk_5 → indexed
+2026-02-12 16:03:29,549 | INFO | app.repository | [Cosmos] Chunk 77c78c45d751c5f4613b820f0b0ef989_chunk_6 → indexed
+2026-02-12 16:03:29,772 | INFO | app.repository | [Cosmos] Chunk 77c78c45d751c5f4613b820f0b0ef989_chunk_7 → indexed
+2026-02-12 16:03:29,996 | INFO | app.repository | [Cosmos] Chunk 77c78c45d751c5f4613b820f0b0ef989_chunk_8 → indexed
+2026-02-12 16:03:30,229 | INFO | app.repository | [Cosmos] Chunk ee4cc1ff80c1f949acbe850dbdaf9820_chunk_0 → indexed
+2026-02-12 16:03:30,457 | INFO | app.repository | [Cosmos] Chunk ee4cc1ff80c1f949acbe850dbdaf9820_chunk_1 → indexed
+2026-02-12 16:03:30,680 | INFO | app.repository | [Cosmos] Chunk ee4cc1ff80c1f949acbe850dbdaf9820_chunk_2 → indexed
+2026-02-12 16:03:32,585 | INFO | httpx | HTTP Request: POST https://openiarag123.openai.azure.com/openai/deployments/text-embedding-ada-002/embeddings?api-version=2024-10-21 "HTTP/1.1 200 OK"
+2026-02-12 16:03:32,872 | INFO | app.repository | [Cosmos] Chunk ee4cc1ff80c1f949acbe850dbdaf9820_chunk_3 → indexed
+2026-02-12 16:03:33,099 | INFO | app.repository | [Cosmos] Chunk ee4cc1ff80c1f949acbe850dbdaf9820_chunk_4 → indexed
+2026-02-12 16:03:33,495 | INFO | app.repository | [Cosmos] Chunk ee4cc1ff80c1f949acbe850dbdaf9820_chunk_5 → indexed
+2026-02-12 16:03:33,709 | INFO | app.repository | [Cosmos] Chunk ee4cc1ff80c1f949acbe850dbdaf9820_chunk_6 → indexed
+2026-02-12 16:03:33,933 | INFO | app.repository | [Cosmos] Chunk ee4cc1ff80c1f949acbe850dbdaf9820_chunk_7 → indexed
+2026-02-12 16:03:34,155 | INFO | app.repository | [Cosmos] Chunk e28b1de3c17b0869daeed98cf12e6cd6_chunk_0 → indexed
+2026-02-12 16:03:34,561 | INFO | app.repository | [Cosmos] Chunk e28b1de3c17b0869daeed98cf12e6cd6_chunk_1 → indexed
+2026-02-12 16:03:34,787 | INFO | app.repository | [Cosmos] Chunk e28b1de3c17b0869daeed98cf12e6cd6_chunk_2 → indexed
+2026-02-12 16:03:35,015 | INFO | app.repository | [Cosmos] Chunk e28b1de3c17b0869daeed98cf12e6cd6_chunk_3 → indexed
+2026-02-12 16:03:35,247 | INFO | app.repository | [Cosmos] Chunk e28b1de3c17b0869daeed98cf12e6cd6_chunk_4 → indexed
+2026-02-12 16:03:36,959 | INFO | httpx | HTTP Request: POST https://openiarag123.openai.azure.com/openai/deployments/text-embedding-ada-002/embeddings?api-version=2024-10-21 "HTTP/1.1 200 OK"
+2026-02-12 16:03:37,267 | INFO | app.repository | [Cosmos] Chunk e28b1de3c17b0869daeed98cf12e6cd6_chunk_5 → indexed
+2026-02-12 16:03:37,494 | INFO | app.repository | [Cosmos] Chunk e28b1de3c17b0869daeed98cf12e6cd6_chunk_6 → indexed
+2026-02-12 16:03:37,719 | INFO | app.repository | [Cosmos] Chunk e28b1de3c17b0869daeed98cf12e6cd6_chunk_7 → indexed
+2026-02-12 16:03:37,940 | INFO | app.repository | [Cosmos] Chunk e28b1de3c17b0869daeed98cf12e6cd6_chunk_8 → indexed
+2026-02-12 16:03:38,148 | INFO | app.repository | [Cosmos] Chunk e28b1de3c17b0869daeed98cf12e6cd6_chunk_9 → indexed
+2026-02-12 16:03:38,367 | INFO | app.repository | [Cosmos] Chunk e28b1de3c17b0869daeed98cf12e6cd6_chunk_10 → indexed
+2026-02-12 16:03:38,589 | INFO | app.repository | [Cosmos] Chunk e28b1de3c17b0869daeed98cf12e6cd6_chunk_11 → indexed
+2026-02-12 16:03:38,817 | INFO | app.repository | [Cosmos] Chunk 5b0ce7b9b09845c9a9905b9892c0bbeb_chunk_0 → indexed
+2026-02-12 16:03:39,040 | INFO | app.repository | [Cosmos] Chunk 5b0ce7b9b09845c9a9905b9892c0bbeb_chunk_1 → indexed
+2026-02-12 16:03:39,263 | INFO | app.repository | [Cosmos] Chunk 5b0ce7b9b09845c9a9905b9892c0bbeb_chunk_2 → indexed
+2026-02-12 16:03:41,318 | INFO | httpx | HTTP Request: POST https://openiarag123.openai.azure.com/openai/deployments/text-embedding-ada-002/embeddings?api-version=2024-10-21 "HTTP/1.1 200 OK"
+2026-02-12 16:03:41,895 | INFO | app.repository | [Cosmos] Chunk 5b0ce7b9b09845c9a9905b9892c0bbeb_chunk_3 → indexed
+2026-02-12 16:03:42,117 | INFO | app.repository | [Cosmos] Chunk 5b0ce7b9b09845c9a9905b9892c0bbeb_chunk_4 → indexed
+2026-02-12 16:03:43,380 | INFO | app.repository | [Cosmos] Chunk 5b0ce7b9b09845c9a9905b9892c0bbeb_chunk_5 → indexed
+2026-02-12 16:03:43,764 | INFO | app.repository | [Cosmos] Chunk 5b0ce7b9b09845c9a9905b9892c0bbeb_chunk_6 → indexed
+2026-02-12 16:03:43,986 | INFO | app.repository | [Cosmos] Chunk 5b0ce7b9b09845c9a9905b9892c0bbeb_chunk_7 → indexed
+2026-02-12 16:03:44,385 | INFO | app.repository | [Cosmos] Chunk 5b0ce7b9b09845c9a9905b9892c0bbeb_chunk_8 → indexed
+2026-02-12 16:03:44,794 | INFO | app.repository | [Cosmos] Chunk 5b0ce7b9b09845c9a9905b9892c0bbeb_chunk_9 → indexed
+2026-02-12 16:03:45,015 | INFO | app.repository | [Cosmos] Chunk 5b0ce7b9b09845c9a9905b9892c0bbeb_chunk_10 → indexed
+2026-02-12 16:03:45,239 | INFO | app.repository | [Cosmos] Chunk 5b0ce7b9b09845c9a9905b9892c0bbeb_chunk_11 → indexed
+2026-02-12 16:03:45,476 | INFO | app.repository | [Cosmos] Chunk c4654a248939183bbff26a8113b9f03d_chunk_0 → indexed
+2026-02-12 16:03:47,169 | INFO | httpx | HTTP Request: POST https://openiarag123.openai.azure.com/openai/deployments/text-embedding-ada-002/embeddings?api-version=2024-10-21 "HTTP/1.1 200 OK"
+2026-02-12 16:03:47,618 | INFO | app.repository | [Cosmos] Chunk c4654a248939183bbff26a8113b9f03d_chunk_1 → indexed
+2026-02-12 16:03:48,020 | INFO | app.repository | [Cosmos] Chunk c4654a248939183bbff26a8113b9f03d_chunk_2 → indexed
+2026-02-12 16:03:48,418 | INFO | app.repository | [Cosmos] Chunk c4654a248939183bbff26a8113b9f03d_chunk_3 → indexed
+2026-02-12 16:03:48,644 | INFO | app.repository | [Cosmos] Chunk c4654a248939183bbff26a8113b9f03d_chunk_4 → indexed
+2026-02-12 16:03:48,867 | INFO | app.repository | [Cosmos] Chunk c4654a248939183bbff26a8113b9f03d_chunk_5 → indexed
+2026-02-12 16:03:49,091 | INFO | app.repository | [Cosmos] Chunk c4654a248939183bbff26a8113b9f03d_chunk_6 → indexed
+2026-02-12 16:03:49,454 | INFO | app.IndexingWorker | Aucun job à traiter (queue vide).
+2026-02-12 16:03:49,455 | INFO | scripts.run_full_pipeline | ✅ Pipeline terminé. Jobs traités=126

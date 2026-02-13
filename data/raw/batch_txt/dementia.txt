@@ -1,6 +1,4 @@
-Dementia
-
-Key facts
+# Key facts
 
 In 2021, 57 million people had dementia worldwide, over 60% of whom live in low-and middle-income countries. Every year, there are nearly 10 million new cases.
 
@@ -12,7 +10,7 @@ In 2019, dementia cost economies globally US$ 1.3 trillion, approximately 50% of
 
 Women are disproportionately affected by dementia, both directly and indirectly. Women experience higher disability-adjusted life years and mortality due to dementia, but also provide 70% of care hours for people living with dementia.
 
-Overview
+# Overview
 
 Dementia is a term for several diseases that affect memory, thinking, and the ability to perform daily activities.
 
@@ -42,7 +40,7 @@ Dementia is a syndrome that can be caused by a number of diseases which over tim
 
 Dementia has physical, psychological, social and economic impacts, not only for people living with dementia, but also for their carers, families and society at large. There is often a lack of awareness and understanding of dementia, resulting in stigmatization and barriers to diagnosis and care.
 
-Signs and symptoms
+# Signs and symptoms
 
 Changes in mood and behaviour sometimes happen even before memory problems occur. Symptoms get worse over time. Eventually, most people with dementia will need others to help with daily activities.
 
@@ -82,11 +80,11 @@ Dementia affects each person in a different way, depending upon the underlying c
 
 Most symptoms become worse over time, while others might disappear or only occur in the later stages of dementia. As the disease progresses, the need for help with personal care increases. People with dementia may not be able to recognize family members or friends, develop difficulties moving around, lose control over their bladder and bowls, have trouble eating and drinking and experience behaviour changes such as aggression that are distressing to the person with dementia as well as those around them.
 
-Common forms of dementia
+# Common forms of dementia
 
 Dementia is caused by many different diseases or injuries that directly and indirectly damage the brain. Alzheimer disease is the most common form and may contribute to 60–70% of cases. Other forms include vascular dementia, dementia with Lewy bodies (abnormal deposits of protein inside nerve cells), and a group of diseases that contribute to frontotemporal dementia (degeneration of the frontal lobe of the brain). Dementia may also develop after a stroke or in the context of certain infections such as HIV, as a result of harmful use of alcohol, repetitive physical injuries to the brain (known as chronic traumatic encephalopathy) or nutritional deficiencies. The boundaries between different forms of dementia are indistinct and mixed forms often co-exist.
 
-Treatment and care
+# Treatment and care
 
 There is no cure for dementia, but a lot can be done to support both people living with the illness and those who care for them.
 
@@ -108,7 +106,7 @@ Selective serotonin reuptake inhibitors (SSRIs) can help with severe symptoms of
 
 If people living with dementia are at risk of hurting themselves or others, medicines like haloperidol and risperidone can help, but these should never be used as the first treatment
 
-Self-care
+# Self-care
 
 For those diagnosed with dementia, there are things that can help manage symptoms:
 
@@ -144,11 +142,11 @@ Join a local support group.
 
 It is important to recognize that providing care and support for a person living with dementia can be challenging, impacting the carer’s own health and well-being. As someone supporting a person living with dementia, reach out to family members, friends, and professionals for help. Take regular breaks and look after yourself. Try stress management techniques such as mindfulness-based exercises and seek professional help and guidance if needed.
 
-Risk factors and prevention
+# Risk factors and prevention
 
 Although age is the strongest known risk factor for dementia, it is not an inevitable consequence of biological ageing. Further, dementia does not exclusively affect older people – young onset dementia (defined as the onset of symptoms before the age of 65 years) accounts for up to 9% of cases. Studies show that people can reduce their risk of cognitive decline and dementia by being physically active , not smoking, avoiding harmful use of alcohol , controlling their weight, eating a healthy diet, and maintaining healthy blood pressure, cholesterol and blood sugar levels. Additional risk factors include depression, social isolation, low educational attainment, cognitive inactivity and air pollution .
 
-Human rights
+# Human rights
 
 Unfortunately, people living with dementia are frequently denied the basic rights and freedoms available to others. In many countries, physical and chemical restraints are used extensively in care homes for older people and in acute-care settings, even when regulations are in place to uphold the rights of people to freedom and choice.
 

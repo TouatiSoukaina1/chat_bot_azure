@@ -1,6 +1,4 @@
-Mpox
-
-Key facts
+# Key facts
 
 Mpox, previously known as monkeypox, is a viral illness caused by the monkeypox virus, a species of the genus Orthopoxvirus . There are two distinct clades of the virus: clade I (with subclades Ia and Ib) and clade II (with subclades IIa and IIb). In 2022–2023 a global outbreak of mpox was caused by the clade IIb strain.
 
@@ -14,7 +12,7 @@ Mpox can be transmitted through close contact with someone who has mpox, with co
 
 Mpox is treated with supportive care for symptoms such as pain and fever, with close attention to nutrition, hydration, skin care, prevention of secondary infections and treatment of co-infections, including HIV where present.
 
-Overview
+# Overview
 
 Mpox is an infectious disease that can cause a painful rash, enlarged lymph nodes, fever, headache, muscle ache, back pain and low energy. Most people fully recover, but some get very sick.
 
@@ -24,7 +22,7 @@ A global outbreak of clade IIb began in 2022 and continues to this day, includin
 
 The natural reservoir of the virus is unknown, but various small mammals such as squirrels and monkeys are susceptible.
 
-Transmission
+# Transmission
 
 Mpox spreads from person to person mainly through close contact with someone who has mpox, including members of a household. Close contact includes skin-to-skin (such as touching or sex) and mouth-to-mouth or mouth-to-skin contact (such as kissing), and it can also include being face-to-face with someone who has mpox (such as talking or breathing close to one another, which can generate infectious respiratory particles).
 
@@ -38,7 +36,7 @@ Animal-to-human transmission of mpox occurs from infected animals to humans from
 
 More research is needed on how mpox spreads during outbreaks in different settings and under different conditions.
 
-Signs and symptoms
+# Signs and symptoms
 
 Mpox causes signs and symptoms which usually begin within a week but can start 1–21 days after exposure. Symptoms typically last 2–4 weeks but may last longer in someone with a weakened immune system.
 
@@ -82,7 +80,7 @@ Children, pregnant people and people with weak immune systems, including people 
 
 Some people with mpox become very sick. For example, the skin can become infected with bacteria, leading to abscesses or serious skin damage. Other complications include pneumonia; corneal infection with loss of vision; pain or difficulty swallowing; vomiting and diarrhoea causing dehydration or malnutrition; and infections of the blood (sepsis), brain (encephalitis), heart (myocarditis), rectum (proctitis), genital organs (balanitis) or urinary passages (urethritis). Mpox can be fatal in some cases.
 
-Diagnosis
+# Diagnosis
 
 Identifying mpox can be difficult because other infections and conditions can look similar. It is important to distinguish mpox from chickenpox, measles, bacterial skin infections, scabies, herpes, syphilis, other sexually transmitted infections, and medication-associated allergies. Someone with mpox may also have another sexually transmitted infection at the same time, such as syphilis or herpes. Alternatively, a child with suspected mpox may also have chickenpox. For these reasons, testing is key for people to get care as early as possible and prevent severe illness and further spread.
 
@@ -90,7 +88,7 @@ The preferred laboratory test for mpox is detection of viral DNA by polymerase c
 
 HIV testing should be offered to adults with mpox, and children as appropriate. Diagnostic tests for other conditions should be considered where feasible, for example, varicella zoster virus (VZV), syphilis and herpes.
 
-Treatment and vaccination
+# Treatment and vaccination
 
 The goal of treating mpox is to take care of the rash, manage pain and prevent complications. Early and supportive care is important to help manage symptoms and avoid further problems.
 
@@ -112,7 +110,7 @@ Some antivirals have received emergency use authorization in some countries and 
 
 Individuals with HIV and mpox should continue taking their antiretroviral therapy (ART). ART should be initiated within 7 days of diagnosis of HIV.
 
-Self-care and prevention
+# Self-care and prevention
 
 Most people with mpox will recover within 2–4 weeks. Things to do to help the symptoms and prevent transmitting mpox to others:
 
@@ -148,7 +146,7 @@ Taking a break from sexual activity with new partners during periods of increase
 
 Health workers should follow infection prevention and control measures to protect themselves while caring for patients with mpox by wearing appropriate personal protective equipment (PPE) (i.e. gloves, gown, eye protection and respirator) and adhering to protocol for safely swabbing lesions for diagnostic testing and handling sharp objects such as needles.
 
-Outbreaks
+# Outbreaks
 
 The monkeypox virus was discovered in Denmark (1958) in monkeys kept for research. The first reported human case of mpox was a nine-month-old boy in the Democratic Republic of the Congo (1970). Following the eradication of smallpox in 1980 and the end of smallpox vaccination worldwide, mpox steadily emerged in central, east and west Africa. Since then, mpox has been reported sporadically in central and east Africa (clade I) and west Africa (clade II). In 2003, an outbreak in the United States of America was linked to imported wild animals (clade II). Since 2005, thousands of cases are reported in the Democratic Republic of the Congo every year. In 2017, mpox re-emerged in Nigeria and continues to spread between people across the country and in travellers to other destinations.
 
@@ -162,6 +160,6 @@ Since 2022, there has also been an upsurge in mpox cases and deaths in the Democ
 
 Over 120 countries have reported mpox between Jan 2022 – Aug 2024, with over 100 000 laboratory-confirmed cases reported and over 220 deaths among confirmed cases.
 
-Stigma and discrimination
+# Stigma and discrimination
 
 Stigma and discrimination for any disease are never acceptable. Stigma linked to mpox can undermine public health efforts or prolong a disease outbreak, as people may be more reluctant to come forward and seek care and treatment. For mpox, stigma, discrimination and racism have been particularly directed against communities initially most affected by the disease, namely men who have sex with men, trans people and gender diverse communities.

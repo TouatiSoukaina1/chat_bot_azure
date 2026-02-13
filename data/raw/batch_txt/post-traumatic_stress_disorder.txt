@@ -1,6 +1,4 @@
-Post-traumatic stress disorder
-
-Key facts
+# Key facts
 
 An estimated 3.9% of the world population has had post-traumatic stress disorder (PTSD) at some stage in their lives.
 
@@ -12,7 +10,7 @@ More women are affected by PTSD than men.
 
 There are effective treatments for PTSD.
 
-Overview
+# Overview
 
 Many people feel extreme fear during or after witnessing or experiencing potentially traumatic events, such as war, accidents, natural disasters or sexual violence. Most people exposed to such events will experience distress but will recover naturally with time. Some people continue to experience a range of mental health conditions that can persist for months or even years, including PTSD, depressive disorders , anxiety disorders and substance use disorders.
 
@@ -20,7 +18,7 @@ Around 70% of people globally will experience a potentially traumatic event duri
 
 Up to 40% of people with PTSD recover within one year (1). There are many effective treatments for PTSD, yet only 1 in 4 people with PTSD in low- and middle-income countries (LMICs) report seeking any form of treatment (2) . Barriers to care include lack of awareness that PTSD can be treated, lack of availability of mental health services, social stigma and lack of trained mental health care providers.
 
-Symptoms and patterns
+# Symptoms and patterns
 
 Experiencing distress or other mental health difficulties after a potentially traumatic event is common but does not mean someone is experiencing PTSD. Someone experiences PTSD when they have symptoms re-experiencing the event, avoid reminders of the event and experience symptoms of heightened arousal that cause significant distress, and interfere with daily activities and family, social, school or working life.
 
@@ -40,19 +38,19 @@ Symptoms of PTSD typically begin immediately after or within one month of a trau
 
 People with PTSD may also have depressive disorder , anxiety disorder s and substance use disorders as well as suicidal thoughts and behaviours . Many of the effects of PTSD (such as physical tension or harmful use of alcohol) are also known risk factors for physical diseases such as cardiovascular disease.
 
-Contributing factors
+# Contributing factors
 
 PTSD, like other mental health conditions, results from interacting social, psychological and biological factors. Anyone can experience PTSD after a potentially traumatic event, but people who have previously experienced traumatic events are more susceptible. Women are more likely to experience PTSD than men. Other factors, including a family history of mental health conditions, younger age, and lower levels of education, can also increase the likelihood of developing PTSD after a potentially traumatic experience.
 
 The nature of the event experienced can also affect the chances of developing PTSD. For example, experiencing ongoing or repeated potentially traumatic events, developing a serious physical injury during the event(s), or witnessing harm to others can all increase risk. Receiving social support following potentially traumatic events can reduce the risk for PTSD.
 
-Treatment
+# Treatment
 
 There are many effective treatments for people with PTSD. Evidence-based psychological interventions are the first choice treatments and can be delivered to individuals or groups, in person or online. Some may also be accessed through self-help manuals, websites and apps. Psychological interventions can help people learn new ways of thinking and coping that may reduce their symptoms. They can help people manage difficult situations and address the events, people or places that trigger their traumatic memories.
 
 The psychological interventions with the most evidence for effective treatment of PTSD are those based on cognitive behavioural therapy with a trauma focus and eye movement desensitization and reprocessing (EMDR). Many of these involve exposure techniques, in which the person is asked to recall, narrate or imagine the traumatic event(s) so that they are exposed to their memories within a safe and supportive environment. Psychological interventions for PTSD may also include real or imagined exposure to triggers that may evoke traumatic memories.
 
-Self-care
+# Self-care
 
 Self-care can have an important role in supporting treatment for PTSD. To help manage symptoms and promote overall well-being, a person can:
 

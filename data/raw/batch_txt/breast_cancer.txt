@@ -1,6 +1,4 @@
-Breast cancer
-
-Key facts
+# Key facts
 
 Breast cancer caused an estimated 670 000 deaths globally in 2022.
 
@@ -14,7 +12,7 @@ Approximately 0.5–1% of breast cancers occur in men.
 
 Effective interventions for early and timely diagnosis linked to comprehensive treatment, rehabilitation and palliative care are essential to reduce the burden of breast cancer and to achieve and maintain optimal functioning and well-being.
 
-Overview
+# Overview
 
 Breast cancer is a disease in which abnormal breast cells grow out of control and form tumours. If left unchecked, the tumours can spread throughout the body and become fatal.
 
@@ -30,7 +28,7 @@ In 2022, there were an estimated 2.3 million women diagnosed with breast cancer 
 
 In contrast, in countries with a low HDI; while only 1 in 27 women is diagnosed with breast cancer in their lifetime, 1 in 48 women will die from it.
 
-Who is at risk?
+# Who is at risk?
 
 Female gender is the strongest breast cancer risk factor. Approximately 99% of breast cancers occur in women and 0.5–1% of breast cancers occur in men. The treatment of breast cancer in men follows the same principles of management as for women.
 
@@ -46,7 +44,7 @@ early diagnosis: being aware of signs and symptoms of breast cancer and the impo
 
 screening: the application of mammography in an apparently healthy population, usually women 50-69 years of age, to identify pre-clinical lesions before recognizable signs or symptoms appear.
 
-Signs and symptoms
+# Signs and symptoms
 
 Most people will not experience any symptoms when the cancer is still early hence the importance of early detection.
 
@@ -70,7 +68,7 @@ Breast cancers may spread to other areas of the body and trigger other symptoms.
 
 Over time, cancerous cells may spread to other organs including the lungs, liver, brain and bones. Once they reach these sites, new cancer-related symptoms such as bone pain or headaches may appear.
 
-Management of breast cancer
+# Management of breast cancer
 
 Treatment for breast cancer depends on the subtype of cancer and how much it has spread outside of the breast to lymph nodes (stages II or III) or to other parts of the body (stage IV). octors combine treatments to minimize the chances of the cancer coming back (recurrence). These include:
 
@@ -106,7 +104,7 @@ Prehabilitation, including lifestyle-based interventions (exercise, diet and nut
 
 Since the whole continuum of care is often complex, patient navigation helps streamline care pathways, improving health outcomes and patient satisfaction, and guiding individuals – especially in resource-limited or fragmented systems – through the cancer care continuum to ensure timely diagnosis and treatment completion. Benefits include increased screening rates, reduced hospital readmissions, better treatment understanding, and improved quality of life.
 
-Global impact
+# Global impact
 
 Age-standardized breast cancer mortality in high-income countries dropped by 40% between the 1980s and 2020. Countries that have succeeded in reducing breast cancer mortality have been able to achieve an annual breast cancer mortality reduction of 2–4% per year.
 

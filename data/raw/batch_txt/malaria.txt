@@ -1,6 +1,4 @@
-Malaria
-
-Key facts
+# Key facts
 
 Globally in 2023, there were an estimated 263 million malaria cases and 597 000 malaria deaths in 83 countries.
 
@@ -10,7 +8,7 @@ In 2023, the WHO African Region was home to 94% of malaria cases (246 million) a
 
 Children under 5 accounted for about 76% of all malaria deaths in the Region.
 
-Overview
+# Overview
 
 Malaria is a life-threatening disease spread to humans by some types of mosquitoes. It is mostly found in tropical countries. It is preventable and curable.
 
@@ -26,7 +24,7 @@ Malaria mostly spreads to people through the bites of some infected female Anoph
 
 There are 5 Plasmodium parasite species that cause malaria in humans and 2 of these species – P. falciparum and P. vivax – pose the greatest threat. P. falciparum is the deadliest malaria parasite and the most prevalent on the African continent. P. vivax is the dominant malaria parasite in most countries outside of sub-Saharan Africa. The other malaria species which can infect humans are P. malariae, P. ovale and P. knowlesi .
 
-Symptoms
+# Symptoms
 
 The most common early symptoms of malaria are fever, headache and chills.
 
@@ -54,7 +52,7 @@ People with severe symptoms should get emergency care right away. Getting treatm
 
 Malaria infection during pregnancy can also cause premature delivery or delivery of a baby with low birth weight.
 
-Disease burden
+# Disease burden
 
 According to the latest World malaria report, there were 263 million cases of malaria in 2023 compared to 252 million cases in 2022. The estimated number of malaria deaths stood at 597 000 in 2023 compared to 600 000 in 2022.
 
@@ -62,7 +60,7 @@ The WHO African Region continues to carry a disproportionately high share of the
 
 Over half of these deaths occurred in four countries: Nigeria (30.9%), the Democratic Republic of the Congo (11.3%), Niger (5.9%) and United Republic of Tanzania (4.3%).
 
-Prevention
+# Prevention
 
 Malaria can be prevented by avoiding mosquito bites and by taking medicines. Talk to a doctor about taking medicines such as chemoprophylaxis before travelling to areas where malaria is common.
 
@@ -102,7 +100,7 @@ Since October 2021, WHO has recommended broad use of the RTS,S/AS01 malaria vacc
 
 Questions and answers on malaria vaccines
 
-Treatment
+# Treatment
 
 Early diagnosis and treatment of malaria reduces disease, prevents deaths and contributes to reducing transmission. WHO recommends that all suspected cases of malaria be confirmed using parasite-based diagnostic testing (through either microscopy or a rapid diagnostic test).
 
@@ -136,16 +134,16 @@ In 2022, WHO developed a strategy to curb antimalarial drug resistance in Africa
 
 For more on WHO’s work on antimalarial drug resistance in the Greater Mekong subregion, visit the Mekong Malaria Elimination Programme webpage.
 
-Genetic mutations
+# Genetic mutations
 
 Most rapid diagnostic tests (RDTs) for malaria target one or two specific proteins produced by the P. falciparum malaria parasite: HRP2 and HRP3. However, parasites with genetic mutations, that prevent the expression of these proteins, are not detected by these tests. This means that malaria patients may not be diagnosed, allowing these mutated parasites to spread. In 2023, these mutated parasites were reported in 41 malaria endemic countries, including in Burkina Faso, Chad, Togo, and Indonesia for the first time. Although their prevalence is still low in most countries, it exceeds 15% in Brazil, Djibouti, Eritrea, Nicaragua and Peru.
 
-Elimination
+# Elimination
 
 Malaria elimination is defined as the interruption of local transmission of a specified malaria parasite species in a defined geographical area as a result of deliberate activities. Continued measures to prevent re-establishment of transmission are required.
 
 Countries and territories certified malaria-free by WHO .
 
-Surveillance
+# Surveillance
 
 Malaria surveillance is the continuous and systematic collection, analysis and interpretation of malaria-related data, and the use of that data in the planning, implementation and evaluation of public health practice. Improved surveillance of malaria cases and deaths helps ministries of health determine which areas or population groups are most affected and enables countries to monitor changing disease patterns. Strong malaria surveillance systems also help countries design effective health interventions and evaluate the impact of their malaria control programmes.

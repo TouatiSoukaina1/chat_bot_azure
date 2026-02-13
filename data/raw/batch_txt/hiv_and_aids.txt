@@ -1,6 +1,4 @@
-HIV and AIDS
-
-Key facts
+# Key facts
 
 HIV remains a major global public health issue, having claimed an estimated 44.1 million lives to date. Transmission is ongoing in all countries globally.
 
@@ -16,7 +14,7 @@ By 2025, 95% of all people living with HIV should have a diagnosis, 95% of whom 
 
 In 2024, of all people living with HIV, 87% knew their status, 77% were receiving antiretroviral therapy and 73% had suppressed viral loads.
 
-Overview
+# Overview
 
 Human immunodeficiency virus (HIV) is a virus that attacks the body’s immune system. Acquired immunodeficiency syndrome (AIDS) occurs at the most advanced stage of infection.
 
@@ -28,7 +26,7 @@ HIV can be prevented and treated with antiretroviral therapy (ART). Untreated HI
 
 WHO now defines Advanced HIV Disease (AHD) as CD4 cell count less than 200 cells/mm3 or WHO stage 3 or 4 event in adults and adolescents. All children younger than 5 years of age living with HIV are considered to have advanced HIV disease, regardless of clinical or immunological status.
 
-Signs and symptoms
+# Signs and symptoms
 
 The signs and symptoms of HIV vary depending on the stage of infection.
 
@@ -66,13 +64,13 @@ cancers such as lymphomas and Kaposi's sarcoma.
 
 HIV can make other infections, such as hepatitis C, hepatitis B and mpox, get worse.
 
-Transmission
+# Transmission
 
 HIV can be transmitted via the exchange of body fluids from people living with HIV, including blood, breast milk, semen, and vaginal secretions. HIV can also be transmitted to a child during pregnancy and delivery. People cannot become infected with HIV through ordinary day-to-day contact such as kissing, hugging, shaking hands, or sharing personal objects, food or water.
 
 People living with HIV who are taking ART and have an undetectable viral load will not transmit HIV to their sexual partners. Early access to ART and support to remain on treatment is therefore critical not only to improve the health of people living with HIV but also to prevent HIV transmission.
 
-Risk factors
+# Risk factors
 
 Behaviours and conditions that put people at greater risk of contracting HIV include:
 
@@ -88,7 +86,7 @@ receiving unsafe injections, blood transfusions, or tissue transplantation; and
 
 medical procedures that involve unsterile cutting or piercing; or accidental needle stick injuries, including among health workers.
 
-Diagnosis
+# Diagnosis
 
 HIV can be diagnosed through rapid diagnostic tests that provide same-day results. This greatly facilitates early diagnosis and linkage with treatment and prevention. People can also use HIV self-tests to test themselves. However, no single test can provide a full HIV positive diagnosis; confirmatory testing is required, conducted by a qualified and trained health worker or community worker. HIV infection can be detected with great accuracy using WHO prequalified tests within a nationally approved testing strategy and algorithm.
 
@@ -96,7 +94,7 @@ Most widely used HIV diagnostic tests detect antibodies produced by a person as 
 
 Following a positive diagnosis, people should be retested before they are enrolled in treatment and care to rule out any potential testing or reporting error. While testing for adolescents and adults has been made simple and efficient, this is not the case for babies born to HIV-positive mothers. For children less than 18 months of age, rapid antibody testing is not sufficient to identify HIV infection – virological testing must be provided as early as birth or at 6 weeks of age. New technologies are now available to perform this test at the point of care and enable same-day results, which will accelerate appropriate linkage with treatment and care.
 
-Prevention
+# Prevention
 
 HIV is a preventable disease. The risk of HIV infection can be reduced by:
 
@@ -126,7 +124,7 @@ Antiretroviral drugs given to people without HIV can prevent infection
 
 When given before possible exposures to HIV it is called pre-exposure prophylaxis (PrEP) and when given after an exposure it is called post-exposure prophylaxis (PEP). People can use PrEP or PEP when the risk of contracting HIV is high; people should seek advice from a clinician when thinking about using PrEP or PEP.
 
-Treatment
+# Treatment
 
 There is no cure for HIV infection. It is treated with antiretroviral drugs, which stop the virus from replicating in the body.
 

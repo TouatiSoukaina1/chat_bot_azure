@@ -378,61 +378,69 @@ class DocumentRepository:
     def claim_work_items(
         self,
         work_type: str,
-        limit: int = 32,
+        worker_id: str,
+        limit: int = 10,
         lease_seconds: int = 60,
-        worker_id: str = "worker-1",
+        now: Optional[int] = None,
     ) -> List[Dict]:
         """
-        Claim (lock) des work items en status='queued' avec un lease (anti double-traitement).
-        - Lecture dans UNE partition (partition_key=work_type) => rapide/peu coûteux
-        - Claim via replace_item + etag (IfNotModified) => évite que 2 workers prennent le même job
+        Claim des work_items :
+        - status=queued
+        - OU status=processing si lease expiré
+        - next_run_at <= now (si défini)
         """
-        now = int(time.time())
-        lease_until = now + lease_seconds
+        now = int(now or time.time())
 
         query = """
-            SELECT TOP @n *
-            FROM c
-            WHERE c.work_type = @wt
-            AND c.status = 'queued'
-            AND (NOT IS_DEFINED(c.lease_until) OR c.lease_until < @now)
-            ORDER BY c.created_at
+        SELECT TOP @limit * FROM c
+        WHERE c.work_type = @wt
+          AND (
+            c.status = "queued"
+            OR (c.status = "processing" AND c.lease_until < @now)
+          )
+          AND (NOT IS_DEFINED(c.next_run_at) OR c.next_run_at <= @now)
+          AND (NOT IS_DEFINED(c.max_attempts) OR NOT IS_DEFINED(c.attempts) OR c.attempts < c.max_attempts)
+        ORDER BY c._ts ASC
         """
+
         params = [
-            {"name": "@n", "value": limit},
+            {"name": "@limit", "value": int(limit)},
             {"name": "@wt", "value": work_type},
             {"name": "@now", "value": now},
         ]
 
-        it = self.work_container.query_items(
-            query=query,
-            parameters=params,
-            partition_key=work_type,  # ✅ single partition
+        # On cible la bonne partition (= work_type)
+        candidates = list(
+            self.work_container.query_items(
+                query=query,
+                parameters=params,
+                partition_key=work_type,
+            )
         )
 
         claimed: List[Dict] = []
-        for item in it:
-            try:
-                etag = item.get("_etag")
-                item["status"] = "processing"
-                item["lease_until"] = lease_until
-                item["worker_id"] = worker_id
-                item["updated_at"] = now
 
-                # Claim atomique par ETag (optimistic concurrency)
+        for job in candidates:
+            # Tentative de "lock" optimiste via etag (évite double claim)
+            try:
+                job["status"] = "processing"
+                job["worker_id"] = worker_id
+                job["lease_until"] = now + int(lease_seconds)
+                job["updated_at"] = now
+
                 self.work_container.replace_item(
-                    item=item["id"],
-                    body=item,
-                    etag=etag,
+                    item=job["id"],
+                    body=job,
+                    etag=job.get("_etag"),
                     match_condition=MatchConditions.IfNotModified,
                 )
-                claimed.append(item)
+                claimed.append(job)
+
             except exceptions.CosmosHttpResponseError as e:
-                # 412 = quelqu'un l'a modifié avant nous (déjà claim)
+                # Conflit (quelqu’un l’a claim juste avant), on ignore
                 if getattr(e, "status_code", None) in (409, 412):
                     continue
-                self.logger.exception(f"Erreur claim_work_items: {e}")
-                continue
+                raise
 
         return claimed
 
@@ -461,3 +469,64 @@ class DocumentRepository:
             self.work_container.upsert_item(item)
         except exceptions.CosmosHttpResponseError as e:
             self.logger.warning(f"fail_work_item failed: {work_id} err={e}")
+    
+    def get_document_by_id(self, document_id: str, file_type: str) -> Optional[Dict]:
+        """
+        Récupère un document par son id Cosmos.
+        Nécessite la partition key (pk) -> ici /file_type.
+
+        Args:
+            document_id: id du document (champ "id")
+            file_type: valeur de la pk (ex: "pdf", "txt", "png")
+
+        Returns:
+            dict du document ou None si introuvable.
+        """
+        try:
+            return self.docs_container.read_item(item=document_id, partition_key=file_type)
+        except exceptions.CosmosResourceNotFoundError:
+            return None
+        except Exception as e:
+            self.logger.exception(f"Erreur get_document_by_id(id={document_id}, pk={file_type}): {e}")
+            return None
+    
+    def chunk_exists(self, chunk_id: str, document_id: str) -> bool:
+        """
+        Vérifie si un chunk existe déjà dans le container chunks.
+        PK chunks = /document_id
+
+        Args:
+            chunk_id: id du chunk (ex: "doc123_chunk_0")
+            document_id: valeur de la partition key (document_id)
+
+        Returns:
+            True si existe, False sinon.
+        """
+        try:
+            _ = self.chunks_container.read_item(item=chunk_id, partition_key=document_id)
+            return True
+        except exceptions.CosmosResourceNotFoundError:
+            return False
+        except Exception as e:
+            self.logger.exception(f"Erreur chunk_exists(id={chunk_id}, pk={document_id}): {e}")
+            return False
+    def work_item_exists(self, work_id: str, work_type: str) -> bool:
+        """
+        Vérifie si un work_item existe déjà.
+        PK work_items = /work_type
+
+        Args:
+            work_id: id du work item (ex: "indexing::doc_chunk_0")
+            work_type: valeur de la pk (ex: "indexing")
+
+        Returns:
+            True si existe, False sinon.
+        """
+        try:
+            _ = self.work_container.read_item(item=work_id, partition_key=work_type)
+            return True
+        except exceptions.CosmosResourceNotFoundError:
+            return False
+        except Exception as e:
+            self.logger.exception(f"Erreur work_item_exists(id={work_id}, pk={work_type}): {e}")
+            return False

@@ -1,7 +1,7 @@
 # app/data_preparation/indexing/azure_search_indexer.py
 import os
 import logging
-from typing import List, Dict, Optional
+from typing import List, Dict, Optional, Any, Tuple
 
 from azure.identity import DefaultAzureCredential
 from azure.search.documents import SearchClient
@@ -75,15 +75,38 @@ class AzureSearchIndexer:
         self.index_client.create_or_update_index(index)
         self.logger.info("✅ Index '%s' prêt (dim=%s)", self.index_name, embedding_dim)
 
-    def upload(self, docs: List[Dict], batch_size: int = 500) -> int:
+    def upload(self, docs: List[Dict[str, Any]], batch_size: int = 500) -> Tuple[List[str], List[Dict[str, Any]]]:
         if not docs:
-            return 0
-        sent = 0
+            return [], []
+
+        succeeded_ids: List[str] = []
+        failed: List[Dict[str, Any]] = []
+
         for i in range(0, len(docs), batch_size):
-            batch = docs[i:i + batch_size]
-            results = self.search_client.upload_documents(documents=batch)
-            failed = [r for r in results if not r.succeeded]
-            if failed:
-                self.logger.warning("⚠️ Upload: %s échecs sur %s", len(failed), len(batch))
-            sent += len(batch)
-        return sent
+            batch = docs[i : i + batch_size]
+
+            try:
+                results = self.search_client.upload_documents(documents=batch)
+            except Exception as e:
+                # ❌ si le call plante, on marque tout le batch en failed
+                err = f"upload_documents exception: {e}"
+                self.logger.exception(err)
+                for doc in batch:
+                    failed.append({"id": doc.get("id"), "error": err})
+                continue
+
+            for doc, r in zip(batch, results):
+                doc_id = doc.get("id")
+                if getattr(r, "succeeded", False):
+                    if doc_id:
+                        succeeded_ids.append(doc_id)
+                else:
+                    err = getattr(r, "error_message", None) or str(r)
+                    failed.append({"id": doc_id, "error": err})
+
+            # warning par batch (plus lisible)
+            batch_failed = [f for f in failed if f["id"] in {d.get("id") for d in batch}]
+            if batch_failed:
+                self.logger.warning("⚠️ Upload: %s échecs sur %s (batch)", len(batch_failed), len(batch))
+
+        return succeeded_ids, failed
