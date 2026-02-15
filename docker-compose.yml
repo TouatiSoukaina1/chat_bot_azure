@@ -1,0 +1,45 @@
+version: "3.9"
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: rag-app:latest
+    container_name: rag-api
+    command: ["python", "-m", "scripts.run_api"]
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    volumes:
+      # pour accéder aux données locales (ingest/parsing si besoin)
+      - ./data:/app/data
+      # pour garder les logs
+      - ./logs:/app/logs
+    restart: unless-stopped
+
+  worker:
+    image: rag-app:latest
+    container_name: rag-worker
+    command: ["python", "-m", "scripts.run_worker"]
+    env_file:
+      - .env
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+    depends_on:
+      - api
+    restart: unless-stopped
+
+  ingest:
+    image: rag-app:latest
+    container_name: rag-ingest
+    command: ["python", "-m", "scripts.run_ingest"]
+    env_file:
+      - .env
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+    restart: "no"
+    profiles: ["ingest"]

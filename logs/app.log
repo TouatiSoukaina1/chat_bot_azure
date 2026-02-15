@@ -148,3 +148,287 @@
 2026-02-12 16:03:49,091 | INFO | app.repository | [Cosmos] Chunk c4654a248939183bbff26a8113b9f03d_chunk_6 → indexed
 2026-02-12 16:03:49,454 | INFO | app.IndexingWorker | Aucun job à traiter (queue vide).
 2026-02-12 16:03:49,455 | INFO | scripts.run_full_pipeline | ✅ Pipeline terminé. Jobs traités=126
+2026-02-15 15:09:28,092 | INFO | app | ✅ Logging initialisé (level=INFO, file=logs/app.log)
+2026-02-15 15:09:29,295 | WARNING | azure.identity._credentials.chained | DefaultAzureCredential failed to retrieve a token from the included credentials.
+Attempted credentials:
+	EnvironmentCredential: EnvironmentCredential authentication unavailable. Environment variables are not fully configured.
+Visit https://aka.ms/azsdk/python/identity/environmentcredential/troubleshoot to troubleshoot this issue.
+	WorkloadIdentityCredential: WorkloadIdentityCredential authentication unavailable. The workload options are not fully configured. See the troubleshooting guide for more information: https://aka.ms/azsdk/python/identity/workloadidentitycredential/troubleshoot. Missing required arguments: 'tenant_id', 'client_id', 'token_file_path'.
+	ManagedIdentityCredential: ManagedIdentityCredential authentication unavailable, no response from the IMDS endpoint.
+	SharedTokenCacheCredential: SharedTokenCacheCredential authentication unavailable. No accounts were found in the cache.
+	VisualStudioCodeCredential: VisualStudioCodeCredential requires the 'azure-identity-broker' package to be installed. You must also ensure you have the Azure Resources extension installed and have signed in to Azure via Visual Studio Code.
+	AzureCliCredential: Azure CLI not found on path
+	AzurePowerShellCredential: PowerShell is not installed
+	AzureDeveloperCliCredential: Azure Developer CLI could not be found. Please visit https://aka.ms/azure-dev for installation instructions and then,once installed, authenticate to your Azure account using 'azd auth login'.
+	BrokerCredential: InteractiveBrowserBrokerCredential unavailable. The 'azure-identity-broker' package is required to use brokered authentication.
+To mitigate this issue, please refer to the troubleshooting guidelines here at https://aka.ms/azsdk/python/identity/defaultazurecredential/troubleshoot.
+2026-02-15 15:10:52,427 | INFO | app | ✅ Logging initialisé (level=INFO, file=logs/app.log)
+2026-02-15 15:10:53,487 | WARNING | azure.identity._credentials.chained | DefaultAzureCredential failed to retrieve a token from the included credentials.
+Attempted credentials:
+	EnvironmentCredential: EnvironmentCredential authentication unavailable. Environment variables are not fully configured.
+Visit https://aka.ms/azsdk/python/identity/environmentcredential/troubleshoot to troubleshoot this issue.
+	WorkloadIdentityCredential: WorkloadIdentityCredential authentication unavailable. The workload options are not fully configured. See the troubleshooting guide for more information: https://aka.ms/azsdk/python/identity/workloadidentitycredential/troubleshoot. Missing required arguments: 'tenant_id', 'client_id', 'token_file_path'.
+	ManagedIdentityCredential: ManagedIdentityCredential authentication unavailable, no response from the IMDS endpoint.
+	SharedTokenCacheCredential: SharedTokenCacheCredential authentication unavailable. No accounts were found in the cache.
+	VisualStudioCodeCredential: VisualStudioCodeCredential requires the 'azure-identity-broker' package to be installed. You must also ensure you have the Azure Resources extension installed and have signed in to Azure via Visual Studio Code.
+	AzureCliCredential: Azure CLI not found on path
+	AzurePowerShellCredential: PowerShell is not installed
+	AzureDeveloperCliCredential: Azure Developer CLI could not be found. Please visit https://aka.ms/azure-dev for installation instructions and then,once installed, authenticate to your Azure account using 'azd auth login'.
+	BrokerCredential: InteractiveBrowserBrokerCredential unavailable. The 'azure-identity-broker' package is required to use brokered authentication.
+To mitigate this issue, please refer to the troubleshooting guidelines here at https://aka.ms/azsdk/python/identity/defaultazurecredential/troubleshoot.
+2026-02-15 15:22:03,552 | INFO | app | ✅ Logging initialisé (level=INFO, file=logs/app.log)
+2026-02-15 15:22:09,126 | INFO | app.repository | ✅ Connexion Cosmos DB (keyless) OK.
+2026-02-15 15:22:09,129 | INFO | app.txtparser | TxtParser initialisé avec encodage UTF-8.
+2026-02-15 15:22:11,049 | INFO | app.repository | ✅ Connexion Cosmos DB (keyless) OK.
+2026-02-15 15:22:11,050 | INFO | app.pdfparser | PdfParser initialisé.
+2026-02-15 15:22:12,947 | INFO | app.repository | ✅ Connexion Cosmos DB (keyless) OK.
+2026-02-15 15:22:13,732 | INFO | root | Using downloaded & verified file: /Users/soukainatouati/.cache/doctr/models/db_resnet50-79bd7d70.pt
+2026-02-15 15:22:16,807 | INFO | root | Using downloaded & verified file: /Users/soukainatouati/.cache/doctr/models/crnn_vgg16_bn-0417f351.pt
+2026-02-15 15:22:16,834 | INFO | app.DoctrOCR | 🧠 Modèle Doctr chargé (det_arch=db_resnet50, reco_arch=crnn_vgg16_bn, device=cpu)
+2026-02-15 15:22:16,835 | INFO | app.extraction | 🚀 15 fichiers envoyés à TxtParser
+2026-02-15 15:22:17,786 | INFO | app.txtparser | Texte extrait depuis /Users/soukainatouati/devs/chat_bot_azure/data/raw/batch_txt/dementia.txt (8493 caractères).
+2026-02-15 15:22:17,853 | INFO | app.txtparser | ✅ Document ajouté : dementia (dementia.txt)
+2026-02-15 15:22:17,964 | INFO | app.txtparser | Texte extrait depuis /Users/soukainatouati/devs/chat_bot_azure/data/raw/batch_txt/breast_cancer.txt (10966 caractères).
+2026-02-15 15:22:18,043 | INFO | app.txtparser | ✅ Document ajouté : breast cancer (breast_cancer.txt)
+2026-02-15 15:22:18,103 | INFO | app.txtparser | Texte extrait depuis /Users/soukainatouati/devs/chat_bot_azure/data/raw/batch_txt/cardiovascular_diseases_cvds_.txt (8110 caractères).
+2026-02-15 15:22:18,171 | INFO | app.txtparser | ✅ Document ajouté : cardiovascular diseases cvds (cardiovascular_diseases_cvds_.txt)
+2026-02-15 15:22:18,225 | INFO | app.txtparser | Texte extrait depuis /Users/soukainatouati/devs/chat_bot_azure/data/raw/batch_txt/diarhee.txt (6845 caractères).
+2026-02-15 15:22:18,314 | INFO | app.txtparser | ✅ Document ajouté : diarhee (diarhee.txt)
+2026-02-15 15:22:18,374 | INFO | app.txtparser | Texte extrait depuis /Users/soukainatouati/devs/chat_bot_azure/data/raw/batch_txt/malaria.txt (10961 caractères).
+2026-02-15 15:22:18,449 | INFO | app.txtparser | ✅ Document ajouté : malaria (malaria.txt)
+2026-02-15 15:22:18,505 | INFO | app.txtparser | Texte extrait depuis /Users/soukainatouati/devs/chat_bot_azure/data/raw/batch_txt/diabetes.txt (6260 caractères).
+2026-02-15 15:22:18,589 | INFO | app.txtparser | ✅ Document ajouté : diabetes (diabetes.txt)
+2026-02-15 15:22:18,647 | INFO | app.txtparser | Texte extrait depuis /Users/soukainatouati/devs/chat_bot_azure/data/raw/batch_txt/Coronavirus_disease_(COVID-19).txt (8815 caractères).
+2026-02-15 15:22:18,711 | INFO | app.txtparser | ✅ Document ajouté : Coronavirus disease (COVID 19) (Coronavirus_disease_(COVID-19).txt)
+2026-02-15 15:22:18,768 | INFO | app.txtparser | Texte extrait depuis /Users/soukainatouati/devs/chat_bot_azure/data/raw/batch_txt/hepatitis_c.txt (10191 caractères).
+2026-02-15 15:22:18,849 | INFO | app.txtparser | ✅ Document ajouté : hepatitis c (hepatitis_c.txt)
+2026-02-15 15:22:18,904 | INFO | app.txtparser | Texte extrait depuis /Users/soukainatouati/devs/chat_bot_azure/data/raw/batch_txt/hepatitis_a.txt (6860 caractères).
+2026-02-15 15:22:18,987 | INFO | app.txtparser | ✅ Document ajouté : hepatitis a (hepatitis_a.txt)
+2026-02-15 15:22:19,055 | INFO | app.txtparser | Texte extrait depuis /Users/soukainatouati/devs/chat_bot_azure/data/raw/batch_txt/hepatitis_d.txt (6136 caractères).
+2026-02-15 15:22:19,131 | INFO | app.txtparser | ✅ Document ajouté : hepatitis d (hepatitis_d.txt)
+2026-02-15 15:22:19,196 | INFO | app.txtparser | Texte extrait depuis /Users/soukainatouati/devs/chat_bot_azure/data/raw/batch_txt/post-traumatic_stress_disorder.txt (7282 caractères).
+2026-02-15 15:22:19,273 | INFO | app.txtparser | ✅ Document ajouté : post traumatic stress disorder (post-traumatic_stress_disorder.txt)
+2026-02-15 15:22:19,347 | INFO | app.txtparser | Texte extrait depuis /Users/soukainatouati/devs/chat_bot_azure/data/raw/batch_txt/hiv_and_aids.txt (8962 caractères).
+2026-02-15 15:22:19,425 | INFO | app.txtparser | ✅ Document ajouté : hiv and aids (hiv_and_aids.txt)
+2026-02-15 15:22:19,497 | INFO | app.txtparser | Texte extrait depuis /Users/soukainatouati/devs/chat_bot_azure/data/raw/batch_txt/cholera.txt (9381 caractères).
+2026-02-15 15:22:19,567 | INFO | app.txtparser | ✅ Document ajouté : cholera (cholera.txt)
+2026-02-15 15:22:19,625 | INFO | app.txtparser | Texte extrait depuis /Users/soukainatouati/devs/chat_bot_azure/data/raw/batch_txt/mpox.txt (13383 caractères).
+2026-02-15 15:22:19,695 | INFO | app.txtparser | ✅ Document ajouté : mpox (mpox.txt)
+2026-02-15 15:22:19,764 | INFO | app.txtparser | Texte extrait depuis /Users/soukainatouati/devs/chat_bot_azure/data/raw/batch_txt/lung_cancer.txt (6765 caractères).
+2026-02-15 15:22:19,842 | INFO | app.txtparser | ✅ Document ajouté : lung cancer (lung_cancer.txt)
+2026-02-15 15:22:19,842 | INFO | app.txtparser | 📦 Traitement terminé: 15/15 docs insérés.
+2026-02-15 15:22:19,843 | INFO | app.extraction | 🔸 Aucun fichier ['.pdf'] trouvé pour PdfParser
+2026-02-15 15:22:19,845 | INFO | app.extraction | 🔸 Aucun fichier ['.jpg', '.jpeg', '.png', '.bmp', '.tiff'] trouvé pour DoctrOCR
+2026-02-15 15:22:19,845 | INFO | app.extraction | 🏁 Extraction terminée — 15 fichiers traités au total.
+2026-02-15 15:22:20,734 | INFO | app.repository | ✅ Connexion Cosmos DB (keyless) OK.
+2026-02-15 15:22:21,066 | INFO | app.ChunkingPipeline | [DEBUG] doc=4b688dd0a39b8bca5d095f247d0e47f4 path=/Users/soukainatouati/devs/chat_bot_azure/data/raw/batch_txt/dementia.txt len(text_content)=8493 preview='# Key facts\n\nIn 2021, 57 million people had dementia worldwide, over 60% of whom live in low-and middle-income countries'
+2026-02-15 15:22:23,903 | INFO | app.repository | [Cosmos] Document 4b688dd0a39b8bca5d095f247d0e47f4 → chunked
+2026-02-15 15:22:23,903 | INFO | app.ChunkingPipeline | ✅ /Users/soukainatouati/devs/chat_bot_azure/data/raw/batch_txt/dementia.txt → chunks insérés: 9 | jobs enqueued: 9 | total chunks générés: 9
+2026-02-15 15:22:23,905 | INFO | app.ChunkingPipeline | [DEBUG] doc=df0a739f1c33794ccca4647de8b25cff path=/Users/soukainatouati/devs/chat_bot_azure/data/raw/batch_txt/breast_cancer.txt len(text_content)=10966 preview='# Key facts\n\nBreast cancer caused an estimated 670 000 deaths globally in 2022.\n\nRoughly half of all breast cancers occu'
+2026-02-15 15:22:26,614 | INFO | app.repository | [Cosmos] Document df0a739f1c33794ccca4647de8b25cff → chunked
+2026-02-15 15:22:26,615 | INFO | app.ChunkingPipeline | ✅ /Users/soukainatouati/devs/chat_bot_azure/data/raw/batch_txt/breast_cancer.txt → chunks insérés: 10 | jobs enqueued: 10 | total chunks générés: 10
+2026-02-15 15:22:26,615 | INFO | app.ChunkingPipeline | [DEBUG] doc=7f055fa693852278dc9fb1045fbc2be5 path=/Users/soukainatouati/devs/chat_bot_azure/data/raw/batch_txt/cardiovascular_diseases_cvds_.txt len(text_content)=8110 preview='# Key facts\n\nCardiovascular diseases (CVDs) are the leading cause of death globally.\n\nAn estimated 19.8 million people d'
+2026-02-15 15:22:28,861 | INFO | app.repository | [Cosmos] Document 7f055fa693852278dc9fb1045fbc2be5 → chunked
+2026-02-15 15:22:28,861 | INFO | app.ChunkingPipeline | ✅ /Users/soukainatouati/devs/chat_bot_azure/data/raw/batch_txt/cardiovascular_diseases_cvds_.txt → chunks insérés: 8 | jobs enqueued: 8 | total chunks générés: 8
+2026-02-15 15:22:28,861 | INFO | app.ChunkingPipeline | [DEBUG] doc=f076a231cae434acd3654b7fba7d2022 path=/Users/soukainatouati/devs/chat_bot_azure/data/raw/batch_txt/diarhee.txt len(text_content)=6845 preview='# Key facts\nDiarrhoeal disease is the third leading cause of death in children 1–59 months of age. It is both preventabl'
+2026-02-15 15:22:30,905 | INFO | app.repository | [Cosmos] Document f076a231cae434acd3654b7fba7d2022 → chunked
+2026-02-15 15:22:30,906 | INFO | app.ChunkingPipeline | ✅ /Users/soukainatouati/devs/chat_bot_azure/data/raw/batch_txt/diarhee.txt → chunks insérés: 7 | jobs enqueued: 7 | total chunks générés: 7
+2026-02-15 15:22:30,906 | INFO | app.ChunkingPipeline | [DEBUG] doc=5f3d9813aa902952953cffa1ac9e64b1 path=/Users/soukainatouati/devs/chat_bot_azure/data/raw/batch_txt/malaria.txt len(text_content)=10961 preview='# Key facts\n\nGlobally in 2023, there were an estimated 263 million malaria cases and 597 000 malaria deaths in 83 countr'
+2026-02-15 15:22:34,184 | INFO | app.repository | [Cosmos] Document 5f3d9813aa902952953cffa1ac9e64b1 → chunked
+2026-02-15 15:22:34,184 | INFO | app.ChunkingPipeline | ✅ /Users/soukainatouati/devs/chat_bot_azure/data/raw/batch_txt/malaria.txt → chunks insérés: 12 | jobs enqueued: 12 | total chunks générés: 12
+2026-02-15 15:22:34,184 | INFO | app.ChunkingPipeline | [DEBUG] doc=e5d5bd4d923950c94c833dda0716ed66 path=/Users/soukainatouati/devs/chat_bot_azure/data/raw/batch_txt/diabetes.txt len(text_content)=6260 preview='# Key facts\n\nThe number of people living with diabetes rose from 200 million in 1990 to 830 million in 2022. Prevalence '
+2026-02-15 15:22:36,695 | INFO | app.repository | [Cosmos] Document e5d5bd4d923950c94c833dda0716ed66 → chunked
+2026-02-15 15:22:36,696 | INFO | app.ChunkingPipeline | ✅ /Users/soukainatouati/devs/chat_bot_azure/data/raw/batch_txt/diabetes.txt → chunks insérés: 9 | jobs enqueued: 9 | total chunks générés: 9
+2026-02-15 15:22:36,696 | INFO | app.ChunkingPipeline | [DEBUG] doc=a84e935a48ef3160d3a27d2420261d10 path=/Users/soukainatouati/devs/chat_bot_azure/data/raw/batch_txt/Coronavirus_disease_(COVID-19).txt len(text_content)=8807 preview='# Key facts\n\nCOVID-19 is a disease caused by the SARS-CoV-2 coronavirus. There are a range of signs and symptoms, but ht'
+2026-02-15 15:22:40,762 | INFO | app.repository | [Cosmos] Document a84e935a48ef3160d3a27d2420261d10 → chunked
+2026-02-15 15:22:40,763 | INFO | app.ChunkingPipeline | ✅ /Users/soukainatouati/devs/chat_bot_azure/data/raw/batch_txt/Coronavirus_disease_(COVID-19).txt → chunks insérés: 9 | jobs enqueued: 9 | total chunks générés: 9
+2026-02-15 15:22:40,763 | INFO | app.ChunkingPipeline | [DEBUG] doc=f5dc2d51f60cf7206bcd314520e34ec1 path=/Users/soukainatouati/devs/chat_bot_azure/data/raw/batch_txt/hepatitis_c.txt len(text_content)=10191 preview='# Key facts\n\nHepatitis C is an inflammation of the liver caused by the hepatitis C virus.\n\nThe virus can cause both acut'
+2026-02-15 15:22:43,418 | INFO | app.repository | [Cosmos] Document f5dc2d51f60cf7206bcd314520e34ec1 → chunked
+2026-02-15 15:22:43,419 | INFO | app.ChunkingPipeline | ✅ /Users/soukainatouati/devs/chat_bot_azure/data/raw/batch_txt/hepatitis_c.txt → chunks insérés: 10 | jobs enqueued: 10 | total chunks générés: 10
+2026-02-15 15:22:43,419 | INFO | app.ChunkingPipeline | [DEBUG] doc=d303c992cce22496cb854b4733a1a6a5 path=/Users/soukainatouati/devs/chat_bot_azure/data/raw/batch_txt/hepatitis_a.txt len(text_content)=6860 preview='# Key facts\n\nHepatitis A is an inflammation of the liver that can cause mild to severe illness.\n\nThe hepatitis A virus ('
+2026-02-15 15:22:46,132 | INFO | app.repository | [Cosmos] Document d303c992cce22496cb854b4733a1a6a5 → chunked
+2026-02-15 15:22:46,132 | INFO | app.ChunkingPipeline | ✅ /Users/soukainatouati/devs/chat_bot_azure/data/raw/batch_txt/hepatitis_a.txt → chunks insérés: 9 | jobs enqueued: 9 | total chunks générés: 9
+2026-02-15 15:22:46,134 | INFO | app.ChunkingPipeline | [DEBUG] doc=e89cff8ff53931f494aeb2dba596d610 path=/Users/soukainatouati/devs/chat_bot_azure/data/raw/batch_txt/hepatitis_d.txt len(text_content)=6135 preview='# Key facts\n\nHepatitis D virus (HDV) is a virus that requires hepatitis B virus (HBV) for its replication. Chronic HDV o'
+2026-02-15 15:22:49,705 | INFO | app.repository | [Cosmos] Document e89cff8ff53931f494aeb2dba596d610 → chunked
+2026-02-15 15:22:49,706 | INFO | app.ChunkingPipeline | ✅ /Users/soukainatouati/devs/chat_bot_azure/data/raw/batch_txt/hepatitis_d.txt → chunks insérés: 8 | jobs enqueued: 8 | total chunks générés: 8
+2026-02-15 15:22:49,706 | INFO | app.ChunkingPipeline | [DEBUG] doc=4b31184a01232c60f848a6ffe1637f2f path=/Users/soukainatouati/devs/chat_bot_azure/data/raw/batch_txt/post-traumatic_stress_disorder.txt len(text_content)=7282 preview='# Key facts\n\nAn estimated 3.9% of the world population has had post-traumatic stress disorder (PTSD) at some stage in th'
+2026-02-15 15:22:51,772 | INFO | app.repository | [Cosmos] Document 4b31184a01232c60f848a6ffe1637f2f → chunked
+2026-02-15 15:22:51,772 | INFO | app.ChunkingPipeline | ✅ /Users/soukainatouati/devs/chat_bot_azure/data/raw/batch_txt/post-traumatic_stress_disorder.txt → chunks insérés: 7 | jobs enqueued: 7 | total chunks générés: 7
+2026-02-15 15:22:51,773 | INFO | app.ChunkingPipeline | [DEBUG] doc=0afd64538cb4eeba1aa6f73b19bb80f3 path=/Users/soukainatouati/devs/chat_bot_azure/data/raw/batch_txt/hiv_and_aids.txt len(text_content)=8962 preview='# Key facts\n\nHIV remains a major global public health issue, having claimed an estimated 44.1 million lives to date. Tra'
+2026-02-15 15:22:55,486 | INFO | app.repository | [Cosmos] Document 0afd64538cb4eeba1aa6f73b19bb80f3 → chunked
+2026-02-15 15:22:55,487 | INFO | app.ChunkingPipeline | ✅ /Users/soukainatouati/devs/chat_bot_azure/data/raw/batch_txt/hiv_and_aids.txt → chunks insérés: 9 | jobs enqueued: 9 | total chunks générés: 9
+2026-02-15 15:22:55,487 | INFO | app.ChunkingPipeline | [DEBUG] doc=bf1398bb95cf580e92d850edffb21671 path=/Users/soukainatouati/devs/chat_bot_azure/data/raw/batch_txt/cholera.txt len(text_content)=9381 preview='# Key facts\n\nCholera is a severe diarrheal disease that can be fatal within hours if not treated. Quick access to treatm'
+2026-02-15 15:22:59,646 | INFO | app.repository | [Cosmos] Document bf1398bb95cf580e92d850edffb21671 → chunked
+2026-02-15 15:22:59,646 | INFO | app.ChunkingPipeline | ✅ /Users/soukainatouati/devs/chat_bot_azure/data/raw/batch_txt/cholera.txt → chunks insérés: 15 | jobs enqueued: 15 | total chunks générés: 15
+2026-02-15 15:22:59,646 | INFO | app.ChunkingPipeline | [DEBUG] doc=0384506d51541f6085f333f22f679cc0 path=/Users/soukainatouati/devs/chat_bot_azure/data/raw/batch_txt/mpox.txt len(text_content)=13383 preview='# Key facts\n\nMpox, previously known as monkeypox, is a viral illness caused by the monkeypox virus, a species of the gen'
+2026-02-15 15:23:02,929 | INFO | app.repository | [Cosmos] Document 0384506d51541f6085f333f22f679cc0 → chunked
+2026-02-15 15:23:02,929 | INFO | app.ChunkingPipeline | ✅ /Users/soukainatouati/devs/chat_bot_azure/data/raw/batch_txt/mpox.txt → chunks insérés: 12 | jobs enqueued: 12 | total chunks générés: 12
+2026-02-15 15:23:02,930 | INFO | app.ChunkingPipeline | [DEBUG] doc=9966f5453e4a9842cd09431dd8933594 path=/Users/soukainatouati/devs/chat_bot_azure/data/raw/batch_txt/lung_cancer.txt len(text_content)=6765 preview='# Overview\n\nLung cancer is a type of cancer that starts when abnormal cells grow in an uncontrolled way in the lungs. It'
+2026-02-15 15:23:05,056 | INFO | app.repository | [Cosmos] Document 9966f5453e4a9842cd09431dd8933594 → chunked
+2026-02-15 15:23:05,056 | INFO | app.ChunkingPipeline | ✅ /Users/soukainatouati/devs/chat_bot_azure/data/raw/batch_txt/lung_cancer.txt → chunks insérés: 8 | jobs enqueued: 8 | total chunks générés: 8
+2026-02-15 15:23:05,056 | INFO | app.ChunkingPipeline | Chunking terminé : 142 nouveaux chunks | 142 nouveaux jobs
+2026-02-15 15:23:05,060 | INFO | app | ✅ Logging initialisé (level=INFO, file=logs/app.log)
+2026-02-15 15:23:07,031 | INFO | app.repository | ✅ Connexion Cosmos DB (keyless) OK.
+2026-02-15 15:23:16,509 | INFO | scripts.backfill_indexing_jobs | Backfill terminé: 0 nouveaux work_items créés.
+2026-02-15 15:23:16,509 | INFO | scripts.run_full_pipeline | === INDEXING WORKER ===
+2026-02-15 15:23:18,235 | INFO | app.repository | ✅ Connexion Cosmos DB (keyless) OK.
+2026-02-15 15:23:18,306 | INFO | app.embedder | ✓ Embedder initialisé (deployment=text-embedding-ada-002, batch_size=16, cache=off)
+2026-02-15 15:23:23,355 | INFO | httpx | HTTP Request: POST https://openiarag123.openai.azure.com/openai/deployments/text-embedding-ada-002/embeddings?api-version=2024-10-21 "HTTP/1.1 200 OK"
+2026-02-15 15:23:25,950 | INFO | app.repository | [Cosmos] Chunk 4b688dd0a39b8bca5d095f247d0e47f4_chunk_0 → indexed
+2026-02-15 15:23:26,245 | INFO | app.repository | [Cosmos] Chunk 4b688dd0a39b8bca5d095f247d0e47f4_chunk_1 → indexed
+2026-02-15 15:23:26,494 | INFO | app.repository | [Cosmos] Chunk 4b688dd0a39b8bca5d095f247d0e47f4_chunk_2 → indexed
+2026-02-15 15:23:26,742 | INFO | app.repository | [Cosmos] Chunk 4b688dd0a39b8bca5d095f247d0e47f4_chunk_3 → indexed
+2026-02-15 15:23:26,983 | INFO | app.repository | [Cosmos] Chunk 4b688dd0a39b8bca5d095f247d0e47f4_chunk_4 → indexed
+2026-02-15 15:23:27,253 | INFO | app.repository | [Cosmos] Chunk 4b688dd0a39b8bca5d095f247d0e47f4_chunk_5 → indexed
+2026-02-15 15:23:27,496 | INFO | app.repository | [Cosmos] Chunk 4b688dd0a39b8bca5d095f247d0e47f4_chunk_6 → indexed
+2026-02-15 15:23:27,737 | INFO | app.repository | [Cosmos] Chunk 4b688dd0a39b8bca5d095f247d0e47f4_chunk_7 → indexed
+2026-02-15 15:23:27,994 | INFO | app.repository | [Cosmos] Chunk 4b688dd0a39b8bca5d095f247d0e47f4_chunk_8 → indexed
+2026-02-15 15:23:28,235 | INFO | app.repository | [Cosmos] Chunk df0a739f1c33794ccca4647de8b25cff_chunk_0 → indexed
+2026-02-15 15:23:30,280 | INFO | httpx | HTTP Request: POST https://openiarag123.openai.azure.com/openai/deployments/text-embedding-ada-002/embeddings?api-version=2024-10-21 "HTTP/1.1 200 OK"
+2026-02-15 15:23:30,753 | INFO | app.repository | [Cosmos] Chunk df0a739f1c33794ccca4647de8b25cff_chunk_1 → indexed
+2026-02-15 15:23:31,005 | INFO | app.repository | [Cosmos] Chunk df0a739f1c33794ccca4647de8b25cff_chunk_2 → indexed
+2026-02-15 15:23:31,243 | INFO | app.repository | [Cosmos] Chunk df0a739f1c33794ccca4647de8b25cff_chunk_3 → indexed
+2026-02-15 15:23:31,478 | INFO | app.repository | [Cosmos] Chunk df0a739f1c33794ccca4647de8b25cff_chunk_4 → indexed
+2026-02-15 15:23:31,720 | INFO | app.repository | [Cosmos] Chunk df0a739f1c33794ccca4647de8b25cff_chunk_5 → indexed
+2026-02-15 15:23:31,966 | INFO | app.repository | [Cosmos] Chunk df0a739f1c33794ccca4647de8b25cff_chunk_6 → indexed
+2026-02-15 15:23:32,206 | INFO | app.repository | [Cosmos] Chunk df0a739f1c33794ccca4647de8b25cff_chunk_7 → indexed
+2026-02-15 15:23:32,459 | INFO | app.repository | [Cosmos] Chunk df0a739f1c33794ccca4647de8b25cff_chunk_8 → indexed
+2026-02-15 15:23:32,703 | INFO | app.repository | [Cosmos] Chunk df0a739f1c33794ccca4647de8b25cff_chunk_9 → indexed
+2026-02-15 15:23:32,939 | INFO | app.repository | [Cosmos] Chunk 7f055fa693852278dc9fb1045fbc2be5_chunk_0 → indexed
+2026-02-15 15:23:34,930 | INFO | httpx | HTTP Request: POST https://openiarag123.openai.azure.com/openai/deployments/text-embedding-ada-002/embeddings?api-version=2024-10-21 "HTTP/1.1 200 OK"
+2026-02-15 15:23:35,388 | INFO | app.repository | [Cosmos] Chunk 7f055fa693852278dc9fb1045fbc2be5_chunk_1 → indexed
+2026-02-15 15:23:35,635 | INFO | app.repository | [Cosmos] Chunk 7f055fa693852278dc9fb1045fbc2be5_chunk_2 → indexed
+2026-02-15 15:23:35,892 | INFO | app.repository | [Cosmos] Chunk 7f055fa693852278dc9fb1045fbc2be5_chunk_3 → indexed
+2026-02-15 15:23:36,146 | INFO | app.repository | [Cosmos] Chunk 7f055fa693852278dc9fb1045fbc2be5_chunk_4 → indexed
+2026-02-15 15:23:36,379 | INFO | app.repository | [Cosmos] Chunk 7f055fa693852278dc9fb1045fbc2be5_chunk_5 → indexed
+2026-02-15 15:23:36,625 | INFO | app.repository | [Cosmos] Chunk 7f055fa693852278dc9fb1045fbc2be5_chunk_6 → indexed
+2026-02-15 15:23:36,901 | INFO | app.repository | [Cosmos] Chunk 7f055fa693852278dc9fb1045fbc2be5_chunk_7 → indexed
+2026-02-15 15:23:37,134 | INFO | app.repository | [Cosmos] Chunk f076a231cae434acd3654b7fba7d2022_chunk_0 → indexed
+2026-02-15 15:23:37,389 | INFO | app.repository | [Cosmos] Chunk f076a231cae434acd3654b7fba7d2022_chunk_1 → indexed
+2026-02-15 15:23:37,639 | INFO | app.repository | [Cosmos] Chunk f076a231cae434acd3654b7fba7d2022_chunk_2 → indexed
+2026-02-15 15:23:40,034 | INFO | httpx | HTTP Request: POST https://openiarag123.openai.azure.com/openai/deployments/text-embedding-ada-002/embeddings?api-version=2024-10-21 "HTTP/1.1 200 OK"
+2026-02-15 15:23:40,544 | INFO | app.repository | [Cosmos] Chunk f076a231cae434acd3654b7fba7d2022_chunk_3 → indexed
+2026-02-15 15:23:40,789 | INFO | app.repository | [Cosmos] Chunk f076a231cae434acd3654b7fba7d2022_chunk_4 → indexed
+2026-02-15 15:23:41,062 | INFO | app.repository | [Cosmos] Chunk f076a231cae434acd3654b7fba7d2022_chunk_5 → indexed
+2026-02-15 15:23:41,314 | INFO | app.repository | [Cosmos] Chunk f076a231cae434acd3654b7fba7d2022_chunk_6 → indexed
+2026-02-15 15:23:41,558 | INFO | app.repository | [Cosmos] Chunk 5f3d9813aa902952953cffa1ac9e64b1_chunk_0 → indexed
+2026-02-15 15:23:41,814 | INFO | app.repository | [Cosmos] Chunk 5f3d9813aa902952953cffa1ac9e64b1_chunk_1 → indexed
+2026-02-15 15:23:42,082 | INFO | app.repository | [Cosmos] Chunk 5f3d9813aa902952953cffa1ac9e64b1_chunk_2 → indexed
+2026-02-15 15:23:42,298 | INFO | app.repository | [Cosmos] Chunk 5f3d9813aa902952953cffa1ac9e64b1_chunk_3 → indexed
+2026-02-15 15:23:42,546 | INFO | app.repository | [Cosmos] Chunk 5f3d9813aa902952953cffa1ac9e64b1_chunk_4 → indexed
+2026-02-15 15:23:42,779 | INFO | app.repository | [Cosmos] Chunk 5f3d9813aa902952953cffa1ac9e64b1_chunk_5 → indexed
+2026-02-15 15:23:44,678 | INFO | httpx | HTTP Request: POST https://openiarag123.openai.azure.com/openai/deployments/text-embedding-ada-002/embeddings?api-version=2024-10-21 "HTTP/1.1 200 OK"
+2026-02-15 15:23:45,141 | INFO | app.repository | [Cosmos] Chunk 5f3d9813aa902952953cffa1ac9e64b1_chunk_6 → indexed
+2026-02-15 15:23:45,379 | INFO | app.repository | [Cosmos] Chunk 5f3d9813aa902952953cffa1ac9e64b1_chunk_7 → indexed
+2026-02-15 15:23:45,622 | INFO | app.repository | [Cosmos] Chunk 5f3d9813aa902952953cffa1ac9e64b1_chunk_8 → indexed
+2026-02-15 15:23:45,852 | INFO | app.repository | [Cosmos] Chunk 5f3d9813aa902952953cffa1ac9e64b1_chunk_9 → indexed
+2026-02-15 15:23:46,076 | INFO | app.repository | [Cosmos] Chunk 5f3d9813aa902952953cffa1ac9e64b1_chunk_10 → indexed
+2026-02-15 15:23:46,318 | INFO | app.repository | [Cosmos] Chunk 5f3d9813aa902952953cffa1ac9e64b1_chunk_11 → indexed
+2026-02-15 15:23:46,567 | INFO | app.repository | [Cosmos] Chunk e5d5bd4d923950c94c833dda0716ed66_chunk_0 → indexed
+2026-02-15 15:23:46,784 | INFO | app.repository | [Cosmos] Chunk e5d5bd4d923950c94c833dda0716ed66_chunk_1 → indexed
+2026-02-15 15:23:47,013 | INFO | app.repository | [Cosmos] Chunk e5d5bd4d923950c94c833dda0716ed66_chunk_2 → indexed
+2026-02-15 15:23:47,223 | INFO | app.repository | [Cosmos] Chunk e5d5bd4d923950c94c833dda0716ed66_chunk_3 → indexed
+2026-02-15 15:23:48,996 | INFO | httpx | HTTP Request: POST https://openiarag123.openai.azure.com/openai/deployments/text-embedding-ada-002/embeddings?api-version=2024-10-21 "HTTP/1.1 200 OK"
+2026-02-15 15:23:49,768 | INFO | app.repository | [Cosmos] Chunk e5d5bd4d923950c94c833dda0716ed66_chunk_4 → indexed
+2026-02-15 15:23:50,002 | INFO | app.repository | [Cosmos] Chunk e5d5bd4d923950c94c833dda0716ed66_chunk_5 → indexed
+2026-02-15 15:23:50,225 | INFO | app.repository | [Cosmos] Chunk e5d5bd4d923950c94c833dda0716ed66_chunk_6 → indexed
+2026-02-15 15:23:50,475 | INFO | app.repository | [Cosmos] Chunk e5d5bd4d923950c94c833dda0716ed66_chunk_7 → indexed
+2026-02-15 15:23:50,690 | INFO | app.repository | [Cosmos] Chunk e5d5bd4d923950c94c833dda0716ed66_chunk_8 → indexed
+2026-02-15 15:23:50,917 | INFO | app.repository | [Cosmos] Chunk a84e935a48ef3160d3a27d2420261d10_chunk_0 → indexed
+2026-02-15 15:23:51,159 | INFO | app.repository | [Cosmos] Chunk a84e935a48ef3160d3a27d2420261d10_chunk_1 → indexed
+2026-02-15 15:23:51,400 | INFO | app.repository | [Cosmos] Chunk a84e935a48ef3160d3a27d2420261d10_chunk_2 → indexed
+2026-02-15 15:23:51,654 | INFO | app.repository | [Cosmos] Chunk a84e935a48ef3160d3a27d2420261d10_chunk_3 → indexed
+2026-02-15 15:23:51,926 | INFO | app.repository | [Cosmos] Chunk a84e935a48ef3160d3a27d2420261d10_chunk_4 → indexed
+2026-02-15 15:23:53,974 | INFO | httpx | HTTP Request: POST https://openiarag123.openai.azure.com/openai/deployments/text-embedding-ada-002/embeddings?api-version=2024-10-21 "HTTP/1.1 200 OK"
+2026-02-15 15:23:54,616 | INFO | app.repository | [Cosmos] Chunk a84e935a48ef3160d3a27d2420261d10_chunk_5 → indexed
+2026-02-15 15:23:54,862 | INFO | app.repository | [Cosmos] Chunk a84e935a48ef3160d3a27d2420261d10_chunk_6 → indexed
+2026-02-15 15:23:55,117 | INFO | app.repository | [Cosmos] Chunk a84e935a48ef3160d3a27d2420261d10_chunk_7 → indexed
+2026-02-15 15:23:55,375 | INFO | app.repository | [Cosmos] Chunk a84e935a48ef3160d3a27d2420261d10_chunk_8 → indexed
+2026-02-15 15:23:55,627 | INFO | app.repository | [Cosmos] Chunk f5dc2d51f60cf7206bcd314520e34ec1_chunk_0 → indexed
+2026-02-15 15:23:55,867 | INFO | app.repository | [Cosmos] Chunk f5dc2d51f60cf7206bcd314520e34ec1_chunk_1 → indexed
+2026-02-15 15:23:56,111 | INFO | app.repository | [Cosmos] Chunk f5dc2d51f60cf7206bcd314520e34ec1_chunk_2 → indexed
+2026-02-15 15:23:56,376 | INFO | app.repository | [Cosmos] Chunk f5dc2d51f60cf7206bcd314520e34ec1_chunk_3 → indexed
+2026-02-15 15:23:56,637 | INFO | app.repository | [Cosmos] Chunk f5dc2d51f60cf7206bcd314520e34ec1_chunk_4 → indexed
+2026-02-15 15:23:56,901 | INFO | app.repository | [Cosmos] Chunk f5dc2d51f60cf7206bcd314520e34ec1_chunk_5 → indexed
+2026-02-15 15:23:58,665 | INFO | httpx | HTTP Request: POST https://openiarag123.openai.azure.com/openai/deployments/text-embedding-ada-002/embeddings?api-version=2024-10-21 "HTTP/1.1 200 OK"
+2026-02-15 15:23:59,128 | INFO | app.repository | [Cosmos] Chunk f5dc2d51f60cf7206bcd314520e34ec1_chunk_6 → indexed
+2026-02-15 15:23:59,375 | INFO | app.repository | [Cosmos] Chunk f5dc2d51f60cf7206bcd314520e34ec1_chunk_7 → indexed
+2026-02-15 15:23:59,631 | INFO | app.repository | [Cosmos] Chunk f5dc2d51f60cf7206bcd314520e34ec1_chunk_8 → indexed
+2026-02-15 15:23:59,872 | INFO | app.repository | [Cosmos] Chunk f5dc2d51f60cf7206bcd314520e34ec1_chunk_9 → indexed
+2026-02-15 15:24:00,117 | INFO | app.repository | [Cosmos] Chunk d303c992cce22496cb854b4733a1a6a5_chunk_0 → indexed
+2026-02-15 15:24:00,354 | INFO | app.repository | [Cosmos] Chunk d303c992cce22496cb854b4733a1a6a5_chunk_1 → indexed
+2026-02-15 15:24:00,639 | INFO | app.repository | [Cosmos] Chunk d303c992cce22496cb854b4733a1a6a5_chunk_2 → indexed
+2026-02-15 15:24:00,909 | INFO | app.repository | [Cosmos] Chunk d303c992cce22496cb854b4733a1a6a5_chunk_3 → indexed
+2026-02-15 15:24:01,171 | INFO | app.repository | [Cosmos] Chunk d303c992cce22496cb854b4733a1a6a5_chunk_4 → indexed
+2026-02-15 15:24:01,434 | INFO | app.repository | [Cosmos] Chunk d303c992cce22496cb854b4733a1a6a5_chunk_5 → indexed
+2026-02-15 15:24:03,289 | INFO | httpx | HTTP Request: POST https://openiarag123.openai.azure.com/openai/deployments/text-embedding-ada-002/embeddings?api-version=2024-10-21 "HTTP/1.1 200 OK"
+2026-02-15 15:24:03,836 | INFO | app.repository | [Cosmos] Chunk d303c992cce22496cb854b4733a1a6a5_chunk_6 → indexed
+2026-02-15 15:24:04,079 | INFO | app.repository | [Cosmos] Chunk d303c992cce22496cb854b4733a1a6a5_chunk_7 → indexed
+2026-02-15 15:24:04,339 | INFO | app.repository | [Cosmos] Chunk d303c992cce22496cb854b4733a1a6a5_chunk_8 → indexed
+2026-02-15 15:24:04,615 | INFO | app.repository | [Cosmos] Chunk e89cff8ff53931f494aeb2dba596d610_chunk_0 → indexed
+2026-02-15 15:24:04,867 | INFO | app.repository | [Cosmos] Chunk e89cff8ff53931f494aeb2dba596d610_chunk_1 → indexed
+2026-02-15 15:24:05,095 | INFO | app.repository | [Cosmos] Chunk e89cff8ff53931f494aeb2dba596d610_chunk_2 → indexed
+2026-02-15 15:24:05,327 | INFO | app.repository | [Cosmos] Chunk e89cff8ff53931f494aeb2dba596d610_chunk_3 → indexed
+2026-02-15 15:24:05,600 | INFO | app.repository | [Cosmos] Chunk e89cff8ff53931f494aeb2dba596d610_chunk_4 → indexed
+2026-02-15 15:24:05,926 | INFO | app.repository | [Cosmos] Chunk e89cff8ff53931f494aeb2dba596d610_chunk_5 → indexed
+2026-02-15 15:24:06,287 | INFO | app.repository | [Cosmos] Chunk e89cff8ff53931f494aeb2dba596d610_chunk_6 → indexed
+2026-02-15 15:24:08,268 | INFO | httpx | HTTP Request: POST https://openiarag123.openai.azure.com/openai/deployments/text-embedding-ada-002/embeddings?api-version=2024-10-21 "HTTP/1.1 200 OK"
+2026-02-15 15:24:08,740 | INFO | app.repository | [Cosmos] Chunk e89cff8ff53931f494aeb2dba596d610_chunk_7 → indexed
+2026-02-15 15:24:08,983 | INFO | app.repository | [Cosmos] Chunk 4b31184a01232c60f848a6ffe1637f2f_chunk_0 → indexed
+2026-02-15 15:24:09,273 | INFO | app.repository | [Cosmos] Chunk 4b31184a01232c60f848a6ffe1637f2f_chunk_1 → indexed
+2026-02-15 15:24:09,903 | INFO | app.repository | [Cosmos] Chunk 4b31184a01232c60f848a6ffe1637f2f_chunk_2 → indexed
+2026-02-15 15:24:11,135 | INFO | app.repository | [Cosmos] Chunk 4b31184a01232c60f848a6ffe1637f2f_chunk_3 → indexed
+2026-02-15 15:24:11,503 | INFO | app.repository | [Cosmos] Chunk 4b31184a01232c60f848a6ffe1637f2f_chunk_4 → indexed
+2026-02-15 15:24:11,794 | INFO | app.repository | [Cosmos] Chunk 4b31184a01232c60f848a6ffe1637f2f_chunk_5 → indexed
+2026-02-15 15:24:12,028 | INFO | app.repository | [Cosmos] Chunk 4b31184a01232c60f848a6ffe1637f2f_chunk_6 → indexed
+2026-02-15 15:24:12,286 | INFO | app.repository | [Cosmos] Chunk 0afd64538cb4eeba1aa6f73b19bb80f3_chunk_0 → indexed
+2026-02-15 15:24:12,544 | INFO | app.repository | [Cosmos] Chunk 0afd64538cb4eeba1aa6f73b19bb80f3_chunk_1 → indexed
+2026-02-15 15:24:14,577 | INFO | httpx | HTTP Request: POST https://openiarag123.openai.azure.com/openai/deployments/text-embedding-ada-002/embeddings?api-version=2024-10-21 "HTTP/1.1 200 OK"
+2026-02-15 15:24:15,073 | INFO | app.repository | [Cosmos] Chunk 0afd64538cb4eeba1aa6f73b19bb80f3_chunk_2 → indexed
+2026-02-15 15:24:15,343 | INFO | app.repository | [Cosmos] Chunk 0afd64538cb4eeba1aa6f73b19bb80f3_chunk_3 → indexed
+2026-02-15 15:24:15,593 | INFO | app.repository | [Cosmos] Chunk 0afd64538cb4eeba1aa6f73b19bb80f3_chunk_4 → indexed
+2026-02-15 15:24:15,854 | INFO | app.repository | [Cosmos] Chunk 0afd64538cb4eeba1aa6f73b19bb80f3_chunk_5 → indexed
+2026-02-15 15:24:16,095 | INFO | app.repository | [Cosmos] Chunk 0afd64538cb4eeba1aa6f73b19bb80f3_chunk_6 → indexed
+2026-02-15 15:24:16,349 | INFO | app.repository | [Cosmos] Chunk 0afd64538cb4eeba1aa6f73b19bb80f3_chunk_7 → indexed
+2026-02-15 15:24:16,698 | INFO | app.repository | [Cosmos] Chunk 0afd64538cb4eeba1aa6f73b19bb80f3_chunk_8 → indexed
+2026-02-15 15:24:16,958 | INFO | app.repository | [Cosmos] Chunk bf1398bb95cf580e92d850edffb21671_chunk_0 → indexed
+2026-02-15 15:24:17,209 | INFO | app.repository | [Cosmos] Chunk bf1398bb95cf580e92d850edffb21671_chunk_1 → indexed
+2026-02-15 15:24:17,450 | INFO | app.repository | [Cosmos] Chunk bf1398bb95cf580e92d850edffb21671_chunk_2 → indexed
+2026-02-15 15:24:19,384 | INFO | httpx | HTTP Request: POST https://openiarag123.openai.azure.com/openai/deployments/text-embedding-ada-002/embeddings?api-version=2024-10-21 "HTTP/1.1 200 OK"
+2026-02-15 15:24:19,827 | INFO | app.repository | [Cosmos] Chunk bf1398bb95cf580e92d850edffb21671_chunk_3 → indexed
+2026-02-15 15:24:20,079 | INFO | app.repository | [Cosmos] Chunk bf1398bb95cf580e92d850edffb21671_chunk_4 → indexed
+2026-02-15 15:24:20,320 | INFO | app.repository | [Cosmos] Chunk bf1398bb95cf580e92d850edffb21671_chunk_5 → indexed
+2026-02-15 15:24:20,554 | INFO | app.repository | [Cosmos] Chunk bf1398bb95cf580e92d850edffb21671_chunk_6 → indexed
+2026-02-15 15:24:20,793 | INFO | app.repository | [Cosmos] Chunk bf1398bb95cf580e92d850edffb21671_chunk_7 → indexed
+2026-02-15 15:24:21,080 | INFO | app.repository | [Cosmos] Chunk bf1398bb95cf580e92d850edffb21671_chunk_8 → indexed
+2026-02-15 15:24:21,313 | INFO | app.repository | [Cosmos] Chunk bf1398bb95cf580e92d850edffb21671_chunk_9 → indexed
+2026-02-15 15:24:21,557 | INFO | app.repository | [Cosmos] Chunk bf1398bb95cf580e92d850edffb21671_chunk_10 → indexed
+2026-02-15 15:24:21,806 | INFO | app.repository | [Cosmos] Chunk bf1398bb95cf580e92d850edffb21671_chunk_11 → indexed
+2026-02-15 15:24:22,054 | INFO | app.repository | [Cosmos] Chunk bf1398bb95cf580e92d850edffb21671_chunk_12 → indexed
+2026-02-15 15:24:23,860 | INFO | httpx | HTTP Request: POST https://openiarag123.openai.azure.com/openai/deployments/text-embedding-ada-002/embeddings?api-version=2024-10-21 "HTTP/1.1 200 OK"
+2026-02-15 15:24:24,489 | INFO | app.repository | [Cosmos] Chunk bf1398bb95cf580e92d850edffb21671_chunk_13 → indexed
+2026-02-15 15:24:24,704 | INFO | app.repository | [Cosmos] Chunk bf1398bb95cf580e92d850edffb21671_chunk_14 → indexed
+2026-02-15 15:24:24,957 | INFO | app.repository | [Cosmos] Chunk 0384506d51541f6085f333f22f679cc0_chunk_0 → indexed
+2026-02-15 15:24:25,197 | INFO | app.repository | [Cosmos] Chunk 0384506d51541f6085f333f22f679cc0_chunk_1 → indexed
+2026-02-15 15:24:25,442 | INFO | app.repository | [Cosmos] Chunk 0384506d51541f6085f333f22f679cc0_chunk_2 → indexed
+2026-02-15 15:24:25,677 | INFO | app.repository | [Cosmos] Chunk 0384506d51541f6085f333f22f679cc0_chunk_3 → indexed
+2026-02-15 15:24:25,915 | INFO | app.repository | [Cosmos] Chunk 0384506d51541f6085f333f22f679cc0_chunk_4 → indexed
+2026-02-15 15:24:26,229 | INFO | app.repository | [Cosmos] Chunk 0384506d51541f6085f333f22f679cc0_chunk_5 → indexed
+2026-02-15 15:24:26,503 | INFO | app.repository | [Cosmos] Chunk 0384506d51541f6085f333f22f679cc0_chunk_6 → indexed
+2026-02-15 15:24:26,758 | INFO | app.repository | [Cosmos] Chunk 0384506d51541f6085f333f22f679cc0_chunk_7 → indexed
+2026-02-15 15:24:28,630 | INFO | httpx | HTTP Request: POST https://openiarag123.openai.azure.com/openai/deployments/text-embedding-ada-002/embeddings?api-version=2024-10-21 "HTTP/1.1 200 OK"
+2026-02-15 15:24:29,292 | INFO | app.repository | [Cosmos] Chunk 0384506d51541f6085f333f22f679cc0_chunk_8 → indexed
+2026-02-15 15:24:29,643 | INFO | app.repository | [Cosmos] Chunk 0384506d51541f6085f333f22f679cc0_chunk_9 → indexed
+2026-02-15 15:24:29,907 | INFO | app.repository | [Cosmos] Chunk 0384506d51541f6085f333f22f679cc0_chunk_10 → indexed
+2026-02-15 15:24:30,135 | INFO | app.repository | [Cosmos] Chunk 0384506d51541f6085f333f22f679cc0_chunk_11 → indexed
+2026-02-15 15:24:30,380 | INFO | app.repository | [Cosmos] Chunk 9966f5453e4a9842cd09431dd8933594_chunk_0 → indexed
+2026-02-15 15:24:30,616 | INFO | app.repository | [Cosmos] Chunk 9966f5453e4a9842cd09431dd8933594_chunk_1 → indexed
+2026-02-15 15:24:30,892 | INFO | app.repository | [Cosmos] Chunk 9966f5453e4a9842cd09431dd8933594_chunk_2 → indexed
+2026-02-15 15:24:31,169 | INFO | app.repository | [Cosmos] Chunk 9966f5453e4a9842cd09431dd8933594_chunk_3 → indexed
+2026-02-15 15:24:31,405 | INFO | app.repository | [Cosmos] Chunk 9966f5453e4a9842cd09431dd8933594_chunk_4 → indexed
+2026-02-15 15:24:31,679 | INFO | app.repository | [Cosmos] Chunk 9966f5453e4a9842cd09431dd8933594_chunk_5 → indexed
+2026-02-15 15:24:32,512 | INFO | httpx | HTTP Request: POST https://openiarag123.openai.azure.com/openai/deployments/text-embedding-ada-002/embeddings?api-version=2024-10-21 "HTTP/1.1 200 OK"
+2026-02-15 15:24:32,791 | INFO | app.repository | [Cosmos] Chunk 9966f5453e4a9842cd09431dd8933594_chunk_6 → indexed
+2026-02-15 15:24:33,018 | INFO | app.repository | [Cosmos] Chunk 9966f5453e4a9842cd09431dd8933594_chunk_7 → indexed
+2026-02-15 15:24:33,384 | INFO | app.IndexingWorker | Aucun job à traiter (queue vide).
+2026-02-15 15:24:33,384 | INFO | scripts.run_full_pipeline | ✅ Pipeline terminé. Jobs traités=142
