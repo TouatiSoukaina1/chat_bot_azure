@@ -20,7 +20,7 @@ def main():
     retriever = AzureSearchRetriever(embedder=emb)
     rag = RagChatService(retriever=retriever)
 
-    q = "Explique le contenu principal et cite tes sources."
+    q = "c'est quoi les symptomes de Mpox, et le traitement ?"
     out = rag.answer(q, top_k=5)
 
     print("\n=== ANSWER ===\n", out["answer"])

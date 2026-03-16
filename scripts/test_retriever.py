@@ -22,7 +22,7 @@ def main():
     emb = Embedder(batch_size=16)  # ton embedder OK
     retriever = AzureSearchRetriever(embedder=emb)
 
-    q = "C'est quoi les symptomes de Mpx ?"
+    q = "C'est quoi les symptomes de Mpox ?"
     hits = retriever.retrieve(q, top_k=5)
 
     print("hits =", len(hits))
