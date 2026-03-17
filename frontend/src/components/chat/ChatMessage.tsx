@@ -1,3 +1,4 @@
+import ReactMarkdown from "react-markdown"
 import type { Message } from "../../types/chat"
 import SourceList from "./SourceList"
 
@@ -17,7 +18,13 @@ export default function ChatMessage({ message }: ChatMessageProps) {
             : "max-w-2xl border border-zinc-800 bg-zinc-900 text-white"
         }`}
       >
-        {message.content}
+        {isUser ? (
+          <div className="whitespace-pre-wrap">{message.content}</div>
+        ) : (
+          <div className="prose prose-invert max-w-none prose-p:my-2 prose-ul:my-2 prose-li:my-1 prose-strong:text-white">
+            <ReactMarkdown>{message.content}</ReactMarkdown>
+          </div>
+        )}
       </div>
 
       {!isUser && <SourceList sources={message.sources} />}

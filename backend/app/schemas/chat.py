@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import List, Optional
+from typing import List, Optional, Literal
 
 
 class SourceItem(BaseModel):
@@ -32,7 +32,7 @@ class ConversationCreate(BaseModel):
 class ChatRequest(BaseModel):
     message: str
     conversation_id: Optional[str] = None
-
+    knowledge_scope: Literal["global", "private", "all"] = "all"
 
 class ChatResponse(BaseModel):
     answer: str

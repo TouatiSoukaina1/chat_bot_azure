@@ -221,6 +221,9 @@ class RagChatService:
                 "score": ch.get("score"),
                 "title": title,
                 "excerpt": excerpt,
+                "scope": ch.get("scope"),
+                "owner_user_id": ch.get("owner_user_id"),
+                "source_type": ch.get("source_type"),
             })
 
         return {

@@ -92,6 +92,9 @@ class AzureSearchRetriever:
             "chunk_order",
             "source_path",
             "file_type",
+            "scope",
+            "owner_user_id",
+            "source_type",
         ]
 
         vector_query = VectorizedQuery(
@@ -118,5 +121,8 @@ class AzureSearchRetriever:
                 "chunk_order": r.get("chunk_order"),
                 "source_path": r.get("source_path"),
                 "file_type": r.get("file_type"),
+                "scope": r.get("scope"),
+                "owner_user_id": r.get("owner_user_id"),
+                "source_type": r.get("source_type"),
             })
         return out
