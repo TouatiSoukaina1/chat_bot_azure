@@ -1,6 +1,3 @@
-# chat_bot_azure/backend/app/workers/indexing_worker.py
-
-import os
 import time
 import random
 import logging
@@ -47,14 +44,6 @@ class IndexingWorker:
         self.sleep_s = sleep_s
 
     def run_once(self, limit: int | None = None, lease_seconds: int | None = None) -> int:
-        """
-        Traite un seul cycle:
-        - claim work_items queued
-        - process en batchs de 16
-        - retourne nb de jobs claimés (0 si queue vide)
-
-        limit / lease_seconds sont optionnels (override).
-        """
         jobs = self.repo.claim_work_items(
             work_type=WORK_TYPE,
             limit=limit or self.claim_limit,
@@ -66,11 +55,13 @@ class IndexingWorker:
             self.logger.info("Aucun job à traiter (queue vide).")
             return 0
 
+        self.logger.info("✅ %s jobs claimés par %s", len(jobs), self.worker_id)
+
         for i in range(0, len(jobs), 16):
             self._process_batch(jobs[i : i + 16])
 
         return len(jobs)
-    
+
     def run_forever(self):
         self.logger.info("IndexingWorker started (worker_id=%s)", self.worker_id)
 
@@ -86,6 +77,8 @@ class IndexingWorker:
                 time.sleep(self.sleep_s)
                 continue
 
+            self.logger.info("✅ %s jobs claimés par %s", len(jobs), self.worker_id)
+
             for i in range(0, len(jobs), 16):
                 self._process_batch(jobs[i : i + 16])
 
@@ -94,12 +87,15 @@ class IndexingWorker:
         texts: List[str] = []
         job_by_chunk: Dict[str, Dict] = {}
 
+        self.logger.info("📦 Début traitement batch de %s jobs", len(jobs))
+
         for job in jobs:
             work_id = job.get("id")
             chunk_id = job.get("chunk_id")
             doc_id = job.get("document_id")
 
             if not work_id or not chunk_id or not doc_id:
+                self.logger.warning("Job invalide ignoré: %s", job)
                 continue
 
             if "max_attempts" not in job:
@@ -108,17 +104,25 @@ class IndexingWorker:
             try:
                 ch = self.repo.chunks_container.read_item(item=chunk_id, partition_key=doc_id)
             except exceptions.CosmosResourceNotFoundError:
+                self.logger.warning("❌ Chunk introuvable chunk_id=%s doc_id=%s", chunk_id, doc_id)
                 self.repo.dead_letter_work_item(work_id, WORK_TYPE, "chunk not found")
                 continue
             except Exception as e:
                 attempts = int(job.get("attempts", 0))
                 backoff = compute_backoff_s(attempts)
+                self.logger.exception("Erreur lecture chunk Cosmos chunk_id=%s: %s", chunk_id, e)
                 self.repo.requeue_work_item(work_id, WORK_TYPE, f"cosmos read error: {e}", backoff)
                 continue
 
             content = (ch.get("content") or "").strip()
             if not content:
-                self.repo.update_chunk_status(chunk_id, "skipped_empty", last_error="empty content", document_id=doc_id)
+                self.logger.warning("⚠️ Chunk vide chunk_id=%s doc_id=%s", chunk_id, doc_id)
+                self.repo.update_chunk_status(
+                    chunk_id,
+                    "skipped_empty",
+                    last_error="empty content",
+                    document_id=doc_id,
+                )
                 self.repo.complete_work_item(work_id, WORK_TYPE)
                 continue
 
@@ -127,7 +131,18 @@ class IndexingWorker:
             job_by_chunk[chunk_id] = job
 
         if not chunks:
+            self.logger.info("Aucun chunk exploitable dans ce batch.")
             return
+
+        # ===== LOG 1 : après lecture des chunks Cosmos =====
+        self.logger.info(
+            "🧩 %s chunks valides lus depuis Cosmos. Exemple: id=%s scope=%s owner=%s source_type=%s",
+            len(chunks),
+            chunks[0].get("id"),
+            chunks[0].get("scope"),
+            chunks[0].get("owner_user_id"),
+            chunks[0].get("source_type"),
+        )
 
         embeddings = self.embedder.generate_embeddings(texts)
 
@@ -144,8 +159,13 @@ class IndexingWorker:
             max_attempts = int(job.get("max_attempts", self.max_attempts))
 
             if emb is None:
+                self.logger.warning("❌ Embedding None pour chunk_id=%s", chunk_id)
                 self.repo.update_chunk_status(
-                    chunk_id, "embedding_failed", last_error="embedding=None", inc_retry=True, document_id=doc_id
+                    chunk_id,
+                    "embedding_failed",
+                    last_error="embedding=None",
+                    inc_retry=True,
+                    document_id=doc_id,
                 )
                 if attempts + 1 >= max_attempts:
                     self.repo.dead_letter_work_item(work_id, WORK_TYPE, "embedding failed (None)")
@@ -159,13 +179,38 @@ class IndexingWorker:
                 "content": ch.get("content", ""),
                 "content_vector": emb,
                 "document_id": doc_id,
-                "chunk_order": int(ch.get("order", 0)),
+                "chunk_order": int(ch.get("chunk_order", 0)),
                 "source_path": ch.get("source_path", ""),
-                "file_type": ch.get("type", ""),
+                "file_type": ch.get("file_type", ""),
+
+                # métadonnées filtrage / sécurité
+                "scope": ch.get("scope", "global"),
+                "owner_user_id": ch.get("owner_user_id"),
+                "source_type": ch.get("source_type", "who"),
+                "kb": ch.get("kb", "who"),
+
+                # métadonnées utiles UI
+                "doc_title": ch.get("doc_title", ""),
+                "section_title": ch.get("section_title", ""),
+                "filename": ch.get("filename", ""),
             })
 
         if not docs_to_upload:
+            self.logger.info("Aucun document prêt à uploader dans Azure Search.")
             return
+
+        # ===== LOG 2 : juste avant upload Azure Search =====
+        sample = docs_to_upload[0]
+        self.logger.info(
+            "🚀 Upload Azure Search de %s chunks. Exemple: id=%s scope=%s owner=%s source_type=%s chunk_order=%s",
+            len(docs_to_upload),
+            sample.get("id"),
+            sample.get("scope"),
+            sample.get("owner_user_id"),
+            sample.get("source_type"),
+            sample.get("chunk_order"),
+        )
+
         chunk_meta: Dict[str, Dict] = {}
         for doc in docs_to_upload:
             cid = doc["id"]
@@ -179,10 +224,15 @@ class IndexingWorker:
                 "max_attempts": int(job.get("max_attempts", self.max_attempts)),
             }
 
-        # Upload vers Azure Search
         succeeded_ids, failed = self.indexer.upload(docs_to_upload, batch_size=500)
 
-        # ✅ succès : chunk indexed + work_item complete
+        # ===== LOG 3 : après upload Azure Search =====
+        self.logger.info(
+            "📊 Résultat upload Azure Search: succès=%s | échecs=%s",
+            len(succeeded_ids),
+            len(failed),
+        )
+
         for chunk_id in succeeded_ids:
             meta = chunk_meta.get(chunk_id)
             if not meta:
@@ -197,7 +247,6 @@ class IndexingWorker:
             )
             self.repo.complete_work_item(work_id, WORK_TYPE)
 
-        # ❌ échecs : retry/backoff ou dead-letter
         for f in failed:
             chunk_id = f.get("id")
             err = f.get("error", "upload failed")
@@ -209,6 +258,8 @@ class IndexingWorker:
             work_id = meta["work_id"]
             attempts = meta["attempts"]
             max_attempts = meta["max_attempts"]
+
+            self.logger.warning("❌ Upload Search échoué chunk_id=%s err=%s", chunk_id, err)
 
             self.repo.update_chunk_status(
                 chunk_id=chunk_id,
@@ -222,5 +273,9 @@ class IndexingWorker:
                 self.repo.dead_letter_work_item(work_id, WORK_TYPE, f"search upload failed: {err}")
             else:
                 backoff = compute_backoff_s(attempts)
-                self.repo.requeue_work_item(work_id, WORK_TYPE, f"search upload failed: {err}", backoff)
-
+                self.repo.requeue_work_item(
+                    work_id,
+                    WORK_TYPE,
+                    f"search upload failed: {err}",
+                    backoff,
+                )

@@ -1,29 +1,33 @@
-# backend/app/data_preparation/parsers/pdf_parser.py
 from backend.app.data_preparation.parsers.base_parser import BaseParser
-import fitz  # PyMuPDF
+import fitz
 import os
 import logging
 
+
 class PdfParser(BaseParser):
     """
-    Classe de parsing pour les fichiers PDF.
-    Extrait le texte à partir de fichiers PDF en conservant la structure des pages.
+    Parsing PDF texte natif.
+    Pas d'OCR ici.
     """
     supported_extensions = [".pdf"]
 
-    def __init__(self):
-        super().__init__()
+    def __init__(
+        self,
+        kb: str = "who",
+        scope: str = "global",
+        owner_user_id=None,
+        source_type: str = "who",
+    ):
+        super().__init__(
+            kb=kb,
+            scope=scope,
+            owner_user_id=owner_user_id,
+            source_type=source_type,
+        )
         self.logger = logging.getLogger("app.pdfparser")
         self.logger.info("PdfParser initialisé.")
 
     def extract_text(self, file_path: str) -> str:
-        """
-        Extrait le texte d’un fichier PDF.
-        param :
-            file_path : chemin du fichier PDF
-        return :
-            texte extrait sous forme de chaîne
-        """
         try:
             if not os.path.exists(file_path):
                 self.logger.error(f"Fichier introuvable : {file_path}")

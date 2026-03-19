@@ -4,6 +4,7 @@ import logging
 import os
 import re
 import hashlib
+from datetime import datetime, timezone
 
 from backend.app.core.database import DocumentRepository
 
@@ -11,19 +12,35 @@ from backend.app.core.database import DocumentRepository
 class BaseParser(ABC):
     """
     Parseur abstrait: extrait du texte et l'insère dans CosmosDB.
+
     Ajouts:
       - id stable (hash path)
       - title (depuis filename)
       - kb (optionnel)
-      - normalisation texte (clean + option markdown headings)
+      - métadonnées d'accès:
+          - scope
+          - owner_user_id
+          - source_type
+      - timestamps
+      - normalisation texte
     """
 
-    def __init__(self, kb: str = "who"):
+    def __init__(
+        self,
+        kb: str = "who",
+        scope: str = "global",
+        owner_user_id: Optional[str] = None,
+        source_type: str = "who",
+    ):
         self.logger = logging.getLogger(self.__class__.__name__)
         base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../.."))
         self.source_dir = os.path.join(base_dir, "data", "raw")
         self.repository = DocumentRepository()
+
         self.kb = kb
+        self.scope = scope
+        self.owner_user_id = owner_user_id
+        self.source_type = source_type
 
     @abstractmethod
     def extract_text(self, file_path: str, **kwargs) -> str:
@@ -32,8 +49,11 @@ class BaseParser(ABC):
     # ---------- helpers ----------
 
     @staticmethod
+    def _utc_now_iso() -> str:
+        return datetime.now(timezone.utc).isoformat()
+
+    @staticmethod
     def _make_doc_id(path: str) -> str:
-        # id stable même si tu changes filename; évite collisions
         return hashlib.md5(path.encode("utf-8")).hexdigest()
 
     @staticmethod
@@ -46,15 +66,10 @@ class BaseParser(ABC):
     def _basic_clean(text: str) -> str:
         text = (text or "").replace("\r\n", "\n").replace("\r", "\n")
         text = re.sub(r"\n{3,}", "\n\n", text)
-        # supprime espaces inutiles
         text = re.sub(r"[ \t]+\n", "\n", text)
         return text.strip()
 
     def normalize_to_markdown(self, text: str) -> str:
-        """
-        Option: ici tu pourras convertir tes docs WHO en format # Overview, # Symptoms, etc.
-        Pour le moment, on fait juste un clean.
-        """
         return self._basic_clean(text)
 
     # ---------- main ----------
@@ -71,10 +86,8 @@ class BaseParser(ABC):
             file_ext = os.path.splitext(path)[1].lower()
             file_type = file_ext.replace(".", "")
 
-            # ✅ id stable
             doc_id = self._make_doc_id(path)
 
-            # Vérifie si le document existe déjà (mieux que path seul)
             if self.repository.get_document_by_id(doc_id, file_type=file_type):
                 self.logger.debug(f"⏭️ Doc déjà présent, ignoré : {path}")
                 continue
@@ -82,9 +95,11 @@ class BaseParser(ABC):
             try:
                 raw_text = self.extract_text(path, **kwargs)
                 text = self.normalize_to_markdown(raw_text)
-                print(f"✅ Doc traité: {text[:100]}... (id={doc_id}, type={file_type})")
+
                 if text:
                     title = self._title_from_filename(filename)
+                    now = self._utc_now_iso()
+
                     document = {
                         "id": doc_id,
                         "filename": filename,
@@ -94,10 +109,19 @@ class BaseParser(ABC):
                         "text_content": text,
                         "status": "parsed",
                         "kb": self.kb,
+                        "scope": self.scope,
+                        "owner_user_id": self.owner_user_id,
+                        "source_type": self.source_type,
+                        "created_at": now,
+                        "updated_at": now,
                     }
+
                     self.repository.insert_document(document)
                     inserted += 1
-                    self.logger.info(f"✅ Document ajouté : {title} ({filename})")
+                    self.logger.info(
+                        f"✅ Document ajouté : {title} ({filename}) "
+                        f"[scope={self.scope}, owner={self.owner_user_id}, source_type={self.source_type}]"
+                    )
                 else:
                     self.logger.warning(f"⚠️ Aucun texte extrait de {path}")
 

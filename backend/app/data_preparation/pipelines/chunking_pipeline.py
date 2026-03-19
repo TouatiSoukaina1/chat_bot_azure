@@ -14,7 +14,6 @@ class ChunkingPipeline:
     def __init__(self, repo=None, chunker=None, status_in="parsed", status_out="chunked"):
         self.logger = logging.getLogger("app.ChunkingPipeline")
         self.repo = repo or DocumentRepository()
-
         self.chunker = chunker or Chunker(chunk_size=1500, overlap=150)
 
         self.status_in = status_in
@@ -39,11 +38,18 @@ class ChunkingPipeline:
             self.logger.info(
                 f"[DEBUG] doc={doc_id} path={path} len(text_content)={len(text)} preview={repr(text[:120])}"
             )
+
             if not text:
                 self.logger.warning(f"Document vide (après strip) ignoré : {path}")
                 continue
-            
+
+            # ===== métadonnées document =====
             doc_title = (doc.get("title") or doc.get("document_title") or doc.get("name") or "").strip()
+            filename = (doc.get("filename") or "").strip()
+            kb = doc.get("kb", "who")
+            scope = doc.get("scope", "global")
+            owner_user_id = doc.get("owner_user_id")
+            source_type = doc.get("source_type", "who")
 
             chunks = self.chunker.chunk_text(text, doc_title=doc_title)
             if not chunks:
@@ -52,14 +58,14 @@ class ChunkingPipeline:
 
             inserted_for_doc = 0
             enqueued_for_doc = 0
-  
+
             for ch in chunks:
                 content = (ch.get("text") or "").strip()
                 if not content:
                     continue
 
-                order = int(ch["id"])
-                chunk_id = f"{doc_id}_chunk_{order}"
+                chunk_order = int(ch["id"])
+                chunk_id = f"{doc_id}_chunk_{chunk_order}"
                 content_hash = _hash_text(content)
 
                 section_title = (ch.get("section_title") or "").strip()
@@ -69,16 +75,23 @@ class ChunkingPipeline:
                 if not self.repo.chunk_exists(chunk_id=chunk_id, document_id=doc_id):
                     self.repo.insert_chunk({
                         "id": chunk_id,
-                        "document_id": doc_id,       # pk
+                        "document_id": doc_id,          # PK du container chunks
                         "content": content,
                         "content_hash": content_hash,
-                        "order": order,
-                        "status": self.status_out,   # chunked
-                        "type": ftype,
+                        "chunk_order": chunk_order,
+                        "status": self.status_out,      # "chunked"
+                        "file_type": ftype,
+                        "filename": filename,
                         "source_path": path,
                         "created_at": now,
                         "section_title": section_title,
                         "doc_title": chunk_doc_title,
+
+                        # ===== métadonnées RAG / sécurité =====
+                        "kb": kb,
+                        "scope": scope,                 # global | private
+                        "owner_user_id": owner_user_id, # None pour corpus global
+                        "source_type": source_type,     # who | user_upload
                     })
                     inserted_for_doc += 1
                 else:
@@ -86,7 +99,7 @@ class ChunkingPipeline:
 
                 # 2) Enqueue job indexing seulement s'il n'existe pas
                 work_id = f"indexing::{chunk_id}"
-                work_type = "indexing"  # pk work_items
+                work_type = "indexing"  # PK work_items
 
                 if not self.repo.work_item_exists(work_id=work_id, work_type=work_type):
                     self.repo.enqueue_work_item({
@@ -95,22 +108,31 @@ class ChunkingPipeline:
                         "status": "queued",
                         "chunk_id": chunk_id,
                         "document_id": doc_id,
+                        "owner_user_id": owner_user_id,
+                        "scope": scope,
+                        "source_type": source_type,
                         "attempts": 0,
                         "created_at": now,
+                        "updated_at": now,
                     })
                     enqueued_for_doc += 1
                 else:
                     self.logger.debug("Work item déjà présent, skip enqueue: %s", work_id)
 
-            # Update document status uniquement si on a généré du travail utile
             if inserted_for_doc > 0 or enqueued_for_doc > 0:
-                self.repo.update_document_status(document_id=doc_id, file_type=ftype, new_status=self.status_out)
+                self.repo.update_document_status(
+                    document_id=doc_id,
+                    file_type=ftype,
+                    new_status=self.status_out
+                )
 
             total_chunks_inserted += inserted_for_doc
             total_jobs_enqueued += enqueued_for_doc
 
             self.logger.info(
-                f"✅ {path} → chunks insérés: {inserted_for_doc} | jobs enqueued: {enqueued_for_doc} | total chunks générés: {len(chunks)}"
+                f"✅ {path} → chunks insérés: {inserted_for_doc} | "
+                f"jobs enqueued: {enqueued_for_doc} | total chunks générés: {len(chunks)} | "
+                f"scope={scope} | owner={owner_user_id} | source_type={source_type}"
             )
 
         self.logger.info(
