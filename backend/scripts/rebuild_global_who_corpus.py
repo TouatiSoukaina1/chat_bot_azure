@@ -7,7 +7,7 @@ from azure.core.exceptions import ResourceNotFoundError
 
 from backend.app.core.database import DocumentRepository
 from backend.app.data_preparation.indexing.azure_search_indexer import AzureSearchIndexer
-from backend.app.data_preparation.pipelines.extraction_pipeline import run_global_who_extraction
+from backend.app.data_preparation.pipelines.extraction_pipeline import run_extraction_from_directory
 from backend.app.data_preparation.pipelines.chunking_pipeline import ChunkingPipeline
 from backend.app.workers.indexing_worker import IndexingWorker
 
@@ -127,8 +127,14 @@ def recreate_search_index():
 
 def run_extraction():
     print("=== EXTRACTION WHO GLOBAL ===")
-    raw_dir = ROOT / "data" / "raw" / "batch_txt"
-    inserted = run_global_who_extraction(raw_dir=str(raw_dir))
+    #raw_dir = ROOT / "data" / "raw" / "batch_txt"
+    inserted = run_extraction_from_directory(
+        raw_dir=ROOT / "data" / "raw" / "batch_txt",
+        kb="who",
+        scope="global",
+        owner_user_id=None,
+        source_type="who",
+    )
     print(f"Documents extraits: {inserted}")
     return inserted
 

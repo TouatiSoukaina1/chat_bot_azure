@@ -1,29 +1,33 @@
-# backend/app/data_preparation/parsers/txt_parser.py
 from backend.app.data_preparation.parsers.base_parser import BaseParser
 import os
 import logging
 
+
 class TxtParser(BaseParser):
     """
-    Classe de parsing pour les fichiers texte (.txt).
-    Lit et renvoie le contenu du fichier brut.
+    Parseur pour fichiers texte (.txt)
     """
     supported_extensions = [".txt"]
 
-    def __init__(self, encoding="utf-8"):
-        super().__init__()
+    def __init__(
+        self,
+        encoding="utf-8",
+        kb: str = "who",
+        scope: str = "global",
+        owner_user_id=None,
+        source_type: str = "who",
+    ):
+        super().__init__(
+            kb=kb,
+            scope=scope,
+            owner_user_id=owner_user_id,
+            source_type=source_type,
+        )
         self.encoding = encoding
         self.logger = logging.getLogger("app.txtparser")
         self.logger.info("TxtParser initialisé avec encodage UTF-8.")
 
     def extract_text(self, file_path: str) -> str:
-        """
-        Extrait le texte d’un fichier texte (.txt).
-        param :
-            file_path : chemin du fichier
-        return :
-            contenu texte
-        """
         try:
             if not os.path.exists(file_path):
                 self.logger.error(f"Fichier introuvable : {file_path}")
