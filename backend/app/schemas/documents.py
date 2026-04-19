@@ -25,6 +25,7 @@ class DocumentRead(BaseModel):
     scope: Literal["global", "private"]
     source_type: str
     kb: str
+    text_content: Optional[str] = None
     created_at: str
     updated_at: str
     last_error: Optional[str] = None

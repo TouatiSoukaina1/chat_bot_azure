@@ -1,0 +1,9 @@
+[run]
+omit =
+    app/core/logging_config.py
+    app/utils/logging_config.py
+    app/services/chat_service.py
+    app/services/document_service.py
+    app/services/history_service.py
+    app/services/search_service.py
+    app/data_preparation/parsers/image_parser.py

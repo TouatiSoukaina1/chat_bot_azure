@@ -1,3 +1,4 @@
+import logging
 import os
 import time
 from pathlib import Path
@@ -7,17 +8,22 @@ from azure.core.exceptions import ResourceNotFoundError
 
 from backend.app.core.database import DocumentRepository
 from backend.app.data_preparation.indexing.azure_search_indexer import AzureSearchIndexer
-from backend.app.data_preparation.pipelines.extraction_pipeline import run_extraction_from_directory
+from backend.app.data_preparation.pipelines.extraction_pipeline import run_global_who_extraction
 from backend.app.data_preparation.pipelines.chunking_pipeline import ChunkingPipeline
 from backend.app.workers.indexing_worker import IndexingWorker
-
 
 ROOT = Path(__file__).resolve().parents[2]
 load_dotenv(ROOT / ".env", override=True)
 
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s | %(levelname)s | %(name)s | %(message)s",
+)
+logger = logging.getLogger("backend.scripts.rebuild_global_who_corpus")
+
 
 def cleanup_global_who_cosmos(repo: DocumentRepository):
-    print("=== CLEANUP COSMOS: WHO GLOBAL ===")
+    logger.info("=== CLEANUP COSMOS: WHO GLOBAL ===")
 
     docs = list(
         repo.docs_container.query_items(
@@ -40,10 +46,10 @@ def cleanup_global_who_cosmos(repo: DocumentRepository):
     )
 
     if not docs:
-        print("Aucun document WHO/global trouvé dans Cosmos.")
+        logger.info("Aucun document WHO/global trouvé dans Cosmos.")
         return
 
-    print(f"Documents trouvés: {len(docs)}")
+    logger.info("Documents trouvés: %s", len(docs))
 
     deleted_chunks = 0
     deleted_jobs = 0
@@ -53,7 +59,6 @@ def cleanup_global_who_cosmos(repo: DocumentRepository):
         doc_id = doc["id"]
         file_type = doc["file_type"]
 
-        # 1) chunks liés
         chunks = list(
             repo.chunks_container.query_items(
                 query="SELECT c.id FROM c WHERE c.document_id = @doc_id",
@@ -69,7 +74,6 @@ def cleanup_global_who_cosmos(repo: DocumentRepository):
             )
             deleted_chunks += 1
 
-        # 2) work_items d'indexing liés
         jobs = list(
             repo.work_container.query_items(
                 query="""
@@ -92,67 +96,66 @@ def cleanup_global_who_cosmos(repo: DocumentRepository):
             )
             deleted_jobs += 1
 
-        # 3) document
         repo.docs_container.delete_item(
             item=doc_id,
             partition_key=file_type,
         )
         deleted_docs += 1
 
-        print(f"Supprimé doc={doc_id} | chunks={len(chunks)} | jobs={len(jobs)}")
+        logger.info(
+            "Supprimé doc=%s | chunks=%s | jobs=%s",
+            doc_id,
+            len(chunks),
+            len(jobs),
+        )
 
-    print("=== CLEANUP COSMOS TERMINÉ ===")
-    print(f"Documents supprimés : {deleted_docs}")
-    print(f"Chunks supprimés    : {deleted_chunks}")
-    print(f"Jobs supprimés      : {deleted_jobs}")
+    logger.info("=== CLEANUP COSMOS TERMINÉ ===")
+    logger.info("Documents supprimés : %s", deleted_docs)
+    logger.info("Chunks supprimés    : %s", deleted_chunks)
+    logger.info("Jobs supprimés      : %s", deleted_jobs)
 
 
 def recreate_search_index():
-    print("=== RECREATE AZURE SEARCH INDEX ===")
+    logger.info("=== RECREATE AZURE SEARCH INDEX ===")
     indexer = AzureSearchIndexer()
     index_name = indexer.index_name
 
     try:
         indexer.index_client.delete_index(index_name)
-        print(f"Index supprimé: {index_name}")
+        logger.info("Index supprimé: %s", index_name)
     except ResourceNotFoundError:
-        print(f"Index inexistant, création directe: {index_name}")
+        logger.info("Index inexistant, création directe: %s", index_name)
     except Exception as e:
-        print(f"Suppression index ignorée: {e}")
+        logger.warning("Suppression index ignorée: %s", e)
 
     embedding_dim = int(os.getenv("EMBEDDING_DIM", "1536"))
     indexer.create_or_update_index(embedding_dim=embedding_dim)
-    print(f"Index prêt: {index_name}")
+    logger.info("Index prêt: %s", index_name)
 
 
-def run_extraction():
-    print("=== EXTRACTION WHO GLOBAL ===")
-    #raw_dir = ROOT / "data" / "raw" / "batch_txt"
-    inserted = run_extraction_from_directory(
-        raw_dir=ROOT / "data" / "raw" / "batch_txt",
-        kb="who",
-        scope="global",
-        owner_user_id=None,
-        source_type="who",
-    )
-    print(f"Documents extraits: {inserted}")
+def run_extraction() -> int:
+    raw_dir = ROOT / "data" / "raw" / "batch_txt"
+    logger.info("=== EXTRACTION WHO GLOBAL ===")
+    logger.info("Dossier source: %s", raw_dir)
+
+    inserted = run_global_who_extraction(raw_dir=str(raw_dir))
+    logger.info("Documents extraits / mis à jour: %s", inserted)
     return inserted
 
 
-def run_chunking():
-    print("=== CHUNKING ===")
+def run_chunking() -> int:
+    logger.info("=== CHUNKING ===")
     pipeline = ChunkingPipeline(status_in="parsed", status_out="chunked")
     inserted_chunks = pipeline.run()
-    print(f"Nouveaux chunks: {inserted_chunks}")
+    logger.info("Nouveaux chunks: %s", inserted_chunks)
     return inserted_chunks
 
 
-def run_indexing():
-    print("=== INDEXING ===")
+def run_indexing() -> int:
+    logger.info("=== INDEXING ===")
     worker = IndexingWorker(worker_id="rebuild-global-who")
 
     total_claimed = 0
-
     while True:
         claimed = worker.run_once(limit=64, lease_seconds=120)
         if claimed == 0:
@@ -160,11 +163,12 @@ def run_indexing():
         total_claimed += claimed
         time.sleep(1)
 
-    print(f"Jobs d'indexing traités: {total_claimed}")
+    logger.info("Jobs d'indexing traités: %s", total_claimed)
     return total_claimed
 
 
 def main():
+    logger.info("=== START REBUILD WHO GLOBAL ===")
     repo = DocumentRepository()
 
     cleanup_global_who_cosmos(repo)
@@ -173,7 +177,7 @@ def main():
     run_chunking()
     run_indexing()
 
-    print("=== REBUILD WHO GLOBAL TERMINÉ ===")
+    logger.info("=== REBUILD WHO GLOBAL TERMINÉ ===")
 
 
 if __name__ == "__main__":

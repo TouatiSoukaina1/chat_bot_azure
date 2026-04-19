@@ -2,35 +2,49 @@ import type { DocumentItem } from "../../types/documents"
 
 type Props = {
   documents: DocumentItem[]
-  onRemove: (id: string) => void
+  onSelect: (documentId: string) => void | Promise<void>
 }
 
-function formatSize(bytes: number) {
-  if (bytes < 1024) return `${bytes} B`
-  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`
-  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`
-}
-
-function statusBadge(status: DocumentItem["status"]) {
+function getStatusLabel(status?: string) {
   switch (status) {
     case "uploading":
-      return "bg-blue-600/20 text-blue-300 border-blue-500/30"
+      return "Upload..."
     case "processing":
-      return "bg-violet-600/20 text-violet-300 border-violet-500/30"
+      return "Traitement..."
+    case "parsed":
+      return "Texte extrait"
+    case "chunked":
+      return "Indexation..."
     case "ready":
-      return "bg-green-600/20 text-green-300 border-green-500/30"
+      return "Prêt"
     case "failed":
-      return "bg-red-600/20 text-red-300 border-red-500/30"
+      return "Erreur"
     default:
-      return "bg-zinc-700/20 text-zinc-300 border-zinc-600/30"
+      return "Inconnu"
   }
 }
 
-export default function DocumentList({ documents, onRemove }: Props) {
-  if (documents.length === 0) {
+function getStatusClass(status?: string) {
+  switch (status) {
+    case "uploading":
+    case "processing":
+    case "parsed":
+    case "chunked":
+      return "border border-amber-500/30 bg-amber-500/10 text-amber-300"
+    case "ready":
+      return "border border-emerald-500/30 bg-emerald-500/10 text-emerald-300"
+    case "failed":
+      return "border border-red-500/30 bg-red-500/10 text-red-300"
+    default:
+      return "border border-zinc-700 bg-zinc-800 text-zinc-300"
+  }
+}
+
+export default function DocumentList({ documents, onSelect }: Props) {
+  if (!documents.length) {
     return (
       <div className="rounded-3xl border border-zinc-800 bg-zinc-900 p-6 text-sm text-zinc-400">
-        Aucun document pour le moment.
+        Aucun document disponible.
       </div>
     )
   }
@@ -38,40 +52,28 @@ export default function DocumentList({ documents, onRemove }: Props) {
   return (
     <div className="space-y-3">
       {documents.map((doc) => (
-        <div
+        <button
           key={doc.id}
-          className="rounded-3xl border border-zinc-800 bg-zinc-900 p-4"
+          onClick={() => onSelect(doc.id)}
+          className="w-full rounded-3xl border border-zinc-800 bg-zinc-900 p-4 text-left transition hover:border-zinc-700 hover:bg-zinc-800"
         >
-          <div className="flex items-start justify-between gap-4">
+          <div className="flex items-start justify-between gap-3">
             <div className="min-w-0">
               <p className="truncate text-sm font-medium text-white">
+                {doc.title || doc.filename || "Document sans titre"}
+              </p>
+              <p className="mt-1 truncate text-xs text-zinc-400">
                 {doc.filename}
               </p>
-              <p className="mt-1 text-xs text-zinc-400">
-                {doc.fileType.toUpperCase()} • {formatSize(doc.fileSize)}
-              </p>
             </div>
 
-            <div className="flex items-center gap-2">
-              <span
-                className={`rounded-full border px-3 py-1 text-xs ${statusBadge(doc.status)}`}
-              >
-                {doc.status}
-              </span>
-
-              <button
-                onClick={() => onRemove(doc.id)}
-                className="rounded-lg px-2 py-1 text-xs text-zinc-400 hover:bg-zinc-800 hover:text-white"
-              >
-                Supprimer
-              </button>
-            </div>
+            <span
+              className={`shrink-0 rounded-full px-2.5 py-1 text-[11px] ${getStatusClass(doc.status)}`}
+            >
+              {getStatusLabel(doc.status)}
+            </span>
           </div>
-
-          {doc.error ? (
-            <p className="mt-3 text-xs text-red-400">{doc.error}</p>
-          ) : null}
-        </div>
+        </button>
       ))}
     </div>
   )

@@ -49,3 +49,19 @@ if __name__ == "__main__":
     #run_extraction()
     #chunking_pipeline = ChunkingPipeline()
     #chunking_pipeline.run()
+
+# az containerapp job create \
+#   --name who-global-job \
+#   --resource-group <RG_NAME> \
+#   --environment <CONTAINER_APPS_ENV_NAME> \
+#   --trigger-type Schedule \
+#   --cron-expression "0 2 * * *" \
+#   --replica-timeout 1800 \
+#   --replica-retry-limit 1 \
+#   --parallelism 1 \
+#   --replica-completion-count 1 \
+#   --image <ACR_NAME>.azurecr.io/<IMAGE_NAME>:<TAG> \
+#   --cpu 1.0 \
+#   --memory 2Gi \
+#   --command "python" \
+#   --args "-m" "backend.scripts.run_global_who_pipeline"

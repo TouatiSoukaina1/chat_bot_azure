@@ -1,15 +1,26 @@
-import os
-import time
 import logging
-from typing import List, Dict, Optional, Iterable,Iterator
-from azure.cosmos import CosmosClient, exceptions
+import os
+import threading
+import time
+from typing import Dict, Iterable, Iterator, List, Optional
+
 from dotenv import load_dotenv
-load_dotenv()
-# Optionnel si tu veux relier au monitoring Prometheus
-# from app.core.metrics import record_chunk
-from azure.cosmos import exceptions
 from azure.core import MatchConditions
+from azure.cosmos import CosmosClient, exceptions
 from azure.identity import DefaultAzureCredential
+
+load_dotenv()
+
+# Réduit fortement le bruit Azure/Cosmos
+logging.getLogger("azure").setLevel(logging.WARNING)
+logging.getLogger("azure").propagate = False
+logging.getLogger("azure.cosmos").setLevel(logging.WARNING)
+logging.getLogger("azure.cosmos").propagate = False
+logging.getLogger("azure.core.pipeline").setLevel(logging.WARNING)
+logging.getLogger("azure.core.pipeline").propagate = False
+logging.getLogger("azure.core.pipeline.policies.http_logging_policy").setLevel(logging.WARNING)
+logging.getLogger("azure.core.pipeline.policies.http_logging_policy").propagate = False
+
 
 class DocumentRepository:
     def __init__(
@@ -28,20 +39,94 @@ class DocumentRepository:
         self.container_documents = container_documents or os.getenv("COSMOSDB_CONTAINER_DOCUMENTS")
         self.container_chunks = container_chunks or os.getenv("COSMOSDB_CONTAINER_CHUNKS")
         self.container_work_items = container_work_items or os.getenv("COSMOSDB_CONTAINER_WORK_ITEMS")
-        if not all([self.uri, self.database_name, self.container_documents, self.container_chunks, self.container_work_items]):
+
+        if not all(
+            [
+                self.uri,
+                self.database_name,
+                self.container_documents,
+                self.container_chunks,
+                self.container_work_items,
+            ]
+        ):
             raise ValueError("Config Cosmos incomplète (URI/DATABASE/CONTAINERS).")
 
+        # Lazy init : on ne connecte pas Cosmos ici
+        self._client = None
+        self._database = None
+        self._docs_container = None
+        self._chunks_container = None
+        self._work_container = None
+        self._credential = None
+        self._lock = threading.Lock()
+
+    # -------------------------------------------------------------------------
+    # Lazy connection
+    # -------------------------------------------------------------------------
+    def _ensure_connected(self) -> None:
+        if self._client is not None:
+            return
+
+        with self._lock:
+            if self._client is not None:
+                return
+
+            try:
+                self._credential = DefaultAzureCredential()
+                self._client = CosmosClient(self.uri, credential=self._credential)
+                self._database = self._client.get_database_client(self.database_name)
+                self._docs_container = self._database.get_container_client(self.container_documents)
+                self._chunks_container = self._database.get_container_client(self.container_chunks)
+                self._work_container = self._database.get_container_client(self.container_work_items)
+                self.logger.info("✅ Connexion Cosmos DB OK (lazy init).")
+            except exceptions.CosmosHttpResponseError as e:
+                self.logger.error("❌ Erreur connexion Cosmos DB: %s", e)
+                raise
+
+    @property
+    def client(self):
+        self._ensure_connected()
+        return self._client
+
+    @property
+    def database(self):
+        self._ensure_connected()
+        return self._database
+
+    @property
+    def docs_container(self):
+        self._ensure_connected()
+        return self._docs_container
+
+    @property
+    def chunks_container(self):
+        self._ensure_connected()
+        return self._chunks_container
+
+    @property
+    def work_container(self):
+        self._ensure_connected()
+        return self._work_container
+
+    def close(self) -> None:
         try:
-            credential = DefaultAzureCredential()
-            self.client = CosmosClient(self.uri, credential=credential)
-            self.database = self.client.get_database_client(self.database_name)
-            self.docs_container = self.database.get_container_client(self.container_documents)
-            self.chunks_container = self.database.get_container_client(self.container_chunks)
-            self.work_container = self.database.get_container_client(self.container_work_items)  
-            self.logger.info("✅ Connexion Cosmos DB (keyless) OK.")
-        except exceptions.CosmosHttpResponseError as e:
-            self.logger.error("❌ Erreur connexion Cosmos DB: %s", e)
-            raise
+            if self._client is not None and hasattr(self._client, "close"):
+                self._client.close()
+        except Exception:
+            pass
+        finally:
+            self._client = None
+            self._database = None
+            self._docs_container = None
+            self._chunks_container = None
+            self._work_container = None
+            self._credential = None
+
+    def __del__(self):
+        try:
+            self.close()
+        except Exception:
+            pass
 
     # -------------------------------------------------------------------------
     # INSERT / UPSERT DOCUMENTS
@@ -51,10 +136,6 @@ class DocumentRepository:
         max_item_count: int = 200,
         partition_key: Optional[str] = None,
     ) -> Iterator[Dict]:
-        """
-        Itère sur tous les documents du container documents.
-        - partition_key: si tu connais une valeur de PK (ex: file_type), c'est plus rapide/moins coûteux.
-        """
         query = "SELECT * FROM c"
 
         if partition_key is not None:
@@ -72,26 +153,31 @@ class DocumentRepository:
                 max_item_count=max_item_count,
             )
 
-        # Pagination automatique via by_page()
         for page in it.by_page():
             for item in page:
                 yield item
+
     def is_processed(self, path: str) -> bool:
-        """Vérifie si un document avec ce chemin a déjà été inséré."""
         try:
             query = "SELECT VALUE COUNT(1) FROM c WHERE c.path = @path"
             params = [{"name": "@path", "value": path}]
-            result = list(self.docs_container.query_items(query=query, parameters=params, enable_cross_partition_query=True))
-            return result and result[0] > 0
+            result = list(
+                self.docs_container.query_items(
+                    query=query,
+                    parameters=params,
+                    enable_cross_partition_query=True,
+                )
+            )
+            return bool(result and result[0] > 0)
         except Exception as e:
-            self.logger.warning(f"Erreur is_processed({path}): {e}")
+            self.logger.warning("Erreur is_processed(%s): %s", path, e)
             return False
-        
+
     def insert_document(self, document: Dict) -> None:
         try:
             self.docs_container.upsert_item(document)
         except Exception as e:
-            self.logger.exception(f"Erreur insert_document: {e}")
+            self.logger.exception("Erreur insert_document: %s", e)
             raise
 
     def insert_documents(self, documents: Iterable[Dict]) -> int:
@@ -99,7 +185,7 @@ class DocumentRepository:
         for doc in documents:
             self.insert_document(doc)
             count += 1
-        self.logger.info(f"✅ {count} documents insérés dans CosmosDB.")
+        self.logger.info("✅ %s documents insérés dans CosmosDB.", count)
         return count
 
     # -------------------------------------------------------------------------
@@ -108,13 +194,21 @@ class DocumentRepository:
     def get_document_by_path(self, path: str) -> Optional[Dict]:
         query = "SELECT * FROM c WHERE c.path = @path"
         params = [{"name": "@path", "value": path}]
-        items = list(self.docs_container.query_items(query=query, parameters=params, enable_cross_partition_query=True))
+        items = list(
+            self.docs_container.query_items(
+                query=query,
+                parameters=params,
+                enable_cross_partition_query=True,
+            )
+        )
         return items[0] if items else None
 
     def get_documents_by_status(
-        self, status: Optional[str] = "chunked", file_types: Optional[List[str]] = None, limit: Optional[int] = None
+        self,
+        status: Optional[str] = "chunked",
+        file_types: Optional[List[str]] = None,
+        limit: Optional[int] = None,
     ) -> List[Dict]:
-        """Récupère les documents selon leur statut (par défaut 'chunked')."""
         clauses, params = [], []
         if status:
             clauses.append("c.status = @status")
@@ -130,7 +224,11 @@ class DocumentRepository:
         where = f" WHERE {' AND '.join(clauses)}" if clauses else ""
         query = f"SELECT * FROM c{where}"
 
-        it = self.docs_container.query_items(query=query, parameters=params, enable_cross_partition_query=True)
+        it = self.docs_container.query_items(
+            query=query,
+            parameters=params,
+            enable_cross_partition_query=True,
+        )
         items = []
         for i, item in enumerate(it):
             items.append(item)
@@ -146,11 +244,11 @@ class DocumentRepository:
             doc = self.docs_container.read_item(item=document_id, partition_key=file_type)
             doc["status"] = new_status
             self.docs_container.upsert_item(doc)
-            self.logger.info(f"[Cosmos] Document {document_id} → {new_status}")
+            self.logger.info("[Cosmos] Document %s → %s", document_id, new_status)
         except exceptions.CosmosResourceNotFoundError:
-            self.logger.warning(f"Document introuvable: id={document_id}, pk={file_type}")
+            self.logger.warning("Document introuvable: id=%s, pk=%s", document_id, file_type)
         except Exception as e:
-            self.logger.exception(f"Erreur update_document_status: {e}")
+            self.logger.exception("Erreur update_document_status: %s", e)
             raise
 
     def mark_document_error(self, document_id: str, file_type: str, message: str) -> None:
@@ -159,9 +257,9 @@ class DocumentRepository:
             doc["status"] = "failed"
             doc["last_error"] = message
             self.docs_container.upsert_item(doc)
-            self.logger.warning(f"[Cosmos] Document {document_id} marqué failed: {message}")
+            self.logger.warning("[Cosmos] Document %s marqué failed: %s", document_id, message)
         except exceptions.CosmosResourceNotFoundError:
-            self.logger.warning(f"Document introuvable pour erreur: id={document_id}, pk={file_type}")
+            self.logger.warning("Document introuvable pour erreur: id=%s, pk=%s", document_id, file_type)
 
     # -------------------------------------------------------------------------
     # INSERT / UPSERT CHUNKS
@@ -170,7 +268,7 @@ class DocumentRepository:
         try:
             self.chunks_container.upsert_item(chunk)
         except Exception as e:
-            self.logger.exception(f"Erreur insert_chunk: {e}")
+            self.logger.exception("Erreur insert_chunk: %s", e)
             raise
 
     def insert_chunks(self, chunks: Iterable[Dict]) -> int:
@@ -178,7 +276,7 @@ class DocumentRepository:
         for ch in chunks:
             self.insert_chunk(ch)
             count += 1
-        self.logger.info(f"✅ {count} chunks insérés dans CosmosDB.")
+        self.logger.info("✅ %s chunks insérés dans CosmosDB.", count)
         return count
 
     # -------------------------------------------------------------------------
@@ -187,11 +285,20 @@ class DocumentRepository:
     def _read_chunk_by_id(self, chunk_id: str) -> Optional[Dict]:
         query = "SELECT * FROM c WHERE c.id = @id"
         params = [{"name": "@id", "value": chunk_id}]
-        items = list(self.chunks_container.query_items(query=query, parameters=params, enable_cross_partition_query=True))
+        items = list(
+            self.chunks_container.query_items(
+                query=query,
+                parameters=params,
+                enable_cross_partition_query=True,
+            )
+        )
         return items[0] if items else None
 
     def get_chunks(
-        self, status: Optional[str] = None, document_ids: Optional[List[str]] = None, limit: Optional[int] = None
+        self,
+        status: Optional[str] = None,
+        document_ids: Optional[List[str]] = None,
+        limit: Optional[int] = None,
     ) -> List[Dict]:
         clauses, params = [], []
         if status:
@@ -207,7 +314,11 @@ class DocumentRepository:
 
         where = f" WHERE {' AND '.join(clauses)}" if clauses else ""
         query = f"SELECT * FROM c{where}"
-        it = self.chunks_container.query_items(query=query, parameters=params, enable_cross_partition_query=True)
+        it = self.chunks_container.query_items(
+            query=query,
+            parameters=params,
+            enable_cross_partition_query=True,
+        )
         items = []
         for i, item in enumerate(it):
             items.append(item)
@@ -216,7 +327,7 @@ class DocumentRepository:
         return items
 
     # -------------------------------------------------------------------------
-    # UPDATE CHUNKS (avec retry et logs enrichis)
+    # UPDATE CHUNKS
     # -------------------------------------------------------------------------
     def update_chunk_status(
         self,
@@ -227,7 +338,6 @@ class DocumentRepository:
         retry_count: Optional[int] = None,
         document_id: Optional[str] = None,
     ) -> None:
-        """Met à jour le statut d’un chunk avec gestion d’erreurs et retry Cosmos."""
         for attempt in range(3):
             try:
                 if document_id:
@@ -235,7 +345,7 @@ class DocumentRepository:
                 else:
                     chunk = self._read_chunk_by_id(chunk_id)
                     if not chunk:
-                        self.logger.warning(f"Chunk introuvable: id={chunk_id}")
+                        self.logger.warning("Chunk introuvable: id=%s", chunk_id)
                         return
                     document_id = chunk.get("document_id")
 
@@ -252,22 +362,19 @@ class DocumentRepository:
                     chunk["retry_count"] = current_retry + 1
 
                 self.chunks_container.upsert_item(chunk)
-                self.logger.info(f"[Cosmos] Chunk {chunk_id} → {status}")
-                # record_chunk("db_update", "success")
+                self.logger.info("[Cosmos] Chunk %s → %s", chunk_id, status)
                 return
 
             except exceptions.CosmosHttpResponseError as e:
-                if e.status_code == 429:
+                if getattr(e, "status_code", None) == 429:
                     delay = (2 ** attempt) * 0.5
-                    self.logger.warning(f"⚠️ Throttling CosmosDB, retry dans {delay:.1f}s...")
+                    self.logger.warning("⚠️ Throttling CosmosDB, retry dans %.1fs...", delay)
                     time.sleep(delay)
                     continue
-                self.logger.exception(f"Erreur Cosmos update_chunk_status: {e}")
-                # record_chunk("db_update", "failed")
+                self.logger.exception("Erreur Cosmos update_chunk_status: %s", e)
                 break
             except Exception as e:
-                self.logger.exception(f"Erreur update_chunk_status: {e}")
-                # record_chunk("db_update", "failed")
+                self.logger.exception("Erreur update_chunk_status: %s", e)
                 break
 
     def save_chunk_embedding(
@@ -277,7 +384,6 @@ class DocumentRepository:
         mark_status: Optional[str] = "embedded",
         document_id: Optional[str] = None,
     ) -> None:
-        """Ajoute/met à jour l'embedding d'un chunk avec retry et logs."""
         for attempt in range(3):
             try:
                 if document_id:
@@ -285,7 +391,7 @@ class DocumentRepository:
                 else:
                     chunk = self._read_chunk_by_id(chunk_id)
                     if not chunk:
-                        self.logger.warning(f"Chunk introuvable: id={chunk_id}")
+                        self.logger.warning("Chunk introuvable: id=%s", chunk_id)
                         return
                     document_id = chunk.get("document_id")
 
@@ -295,46 +401,34 @@ class DocumentRepository:
                 chunk.pop("last_error", None)
 
                 self.chunks_container.upsert_item(chunk)
-                self.logger.info(f"[Cosmos] Embedding enregistré pour chunk {chunk_id}")
-                # record_chunk("embedding_save", "success")
+                self.logger.info("[Cosmos] Embedding enregistré pour chunk %s", chunk_id)
                 return
 
             except exceptions.CosmosHttpResponseError as e:
-                if e.status_code == 429:
+                if getattr(e, "status_code", None) == 429:
                     delay = (2 ** attempt) * 0.5
-                    self.logger.warning(f"⚠️ Throttling CosmosDB, retry dans {delay:.1f}s...")
+                    self.logger.warning("⚠️ Throttling CosmosDB, retry dans %.1fs...", delay)
                     time.sleep(delay)
                     continue
-                self.logger.exception(f"Erreur Cosmos save_chunk_embedding: {e}")
-                # record_chunk("embedding_save", "failed")
+                self.logger.exception("Erreur Cosmos save_chunk_embedding: %s", e)
                 break
             except Exception as e:
-                self.logger.exception(f"Erreur save_chunk_embedding: {e}")
-                # record_chunk("embedding_save", "failed")
+                self.logger.exception("Erreur save_chunk_embedding: %s", e)
                 break
 
     # -------------------------------------------------------------------------
     # RACCOURCIS
     # -------------------------------------------------------------------------
     def create_chunk_if_absent(self, chunk: Dict) -> bool:
-        """
-        Tente de créer un chunk. Retourne True si créé, False si déjà présent.
-        (Plus économique que read-before-write)
-        """
         try:
             self.chunks_container.create_item(body=chunk)
             return True
         except exceptions.CosmosHttpResponseError as e:
-            # 409 Conflict => item déjà existe
             if getattr(e, "status_code", None) == 409:
                 return False
             raise
 
     def create_work_item_if_absent(self, work_item: Dict) -> bool:
-        """
-        Tente de créer un work_item. Retourne True si créé, False si déjà présent.
-        Container work_items PK = /work_type
-        """
         try:
             self.work_container.create_item(body=work_item)
             return True
@@ -342,14 +436,19 @@ class DocumentRepository:
             if getattr(e, "status_code", None) == 409:
                 return False
             raise
-    
+
     def get_chunks_to_index(self, limit: Optional[int] = None) -> List[Dict]:
         return self.get_chunks(status="embedded", limit=limit)
 
     def get_failed_chunks(self, limit: Optional[int] = None) -> List[Dict]:
         return self.get_chunks(status="failed", limit=limit)
 
-    def get_chunks_by_document(self, document_id: str, status: Optional[str] = None, limit: Optional[int] = None) -> List[Dict]:
+    def get_chunks_by_document(
+        self,
+        document_id: str,
+        status: Optional[str] = None,
+        limit: Optional[int] = None,
+    ) -> List[Dict]:
         clauses = ["c.document_id = @did"]
         params = [{"name": "@did", "value": document_id}]
         if status:
@@ -357,22 +456,21 @@ class DocumentRepository:
             params.append({"name": "@st", "value": status})
         where = " WHERE " + " AND ".join(clauses)
         query = f"SELECT * FROM c{where}"
-        it = self.chunks_container.query_items(query=query, parameters=params, enable_cross_partition_query=True)
+        it = self.chunks_container.query_items(
+            query=query,
+            parameters=params,
+            enable_cross_partition_query=True,
+        )
         out = []
         for i, item in enumerate(it):
             out.append(item)
             if limit and i + 1 >= limit:
                 break
         return out
-    
+
     def enqueue_work_item(self, work_item: Dict) -> None:
-        """
-        Upsert d'un work item.
-        Container work_items: PK = /work_type
-        """
         if "id" not in work_item or "work_type" not in work_item:
             raise ValueError("work_item doit contenir 'id' et 'work_type'.")
-
         self.work_container.upsert_item(work_item)
 
     def claim_work_items(
@@ -383,12 +481,6 @@ class DocumentRepository:
         lease_seconds: int = 60,
         now: Optional[int] = None,
     ) -> List[Dict]:
-        """
-        Claim des work_items :
-        - status=queued
-        - OU status=processing si lease expiré
-        - next_run_at <= now (si défini)
-        """
         now = int(now or time.time())
 
         query = """
@@ -409,7 +501,6 @@ class DocumentRepository:
             {"name": "@now", "value": now},
         ]
 
-        # On cible la bonne partition (= work_type)
         candidates = list(
             self.work_container.query_items(
                 query=query,
@@ -421,7 +512,6 @@ class DocumentRepository:
         claimed: List[Dict] = []
 
         for job in candidates:
-            # Tentative de "lock" optimiste via etag (évite double claim)
             try:
                 job["status"] = "processing"
                 job["worker_id"] = worker_id
@@ -437,7 +527,6 @@ class DocumentRepository:
                 claimed.append(job)
 
             except exceptions.CosmosHttpResponseError as e:
-                # Conflit (quelqu’un l’a claim juste avant), on ignore
                 if getattr(e, "status_code", None) in (409, 412):
                     continue
                 raise
@@ -454,7 +543,7 @@ class DocumentRepository:
             item.pop("last_error", None)
             self.work_container.upsert_item(item)
         except exceptions.CosmosHttpResponseError as e:
-            self.logger.warning(f"complete_work_item failed: {work_id} err={e}")
+            self.logger.warning("complete_work_item failed: %s err=%s", work_id, e)
 
     def fail_work_item(self, work_id: str, work_type: str, error: str, inc_attempts: bool = True) -> None:
         now = int(time.time())
@@ -468,65 +557,48 @@ class DocumentRepository:
                 item["attempts"] = int(item.get("attempts", 0)) + 1
             self.work_container.upsert_item(item)
         except exceptions.CosmosHttpResponseError as e:
-            self.logger.warning(f"fail_work_item failed: {work_id} err={e}")
-    
+            self.logger.warning("fail_work_item failed: %s err=%s", work_id, e)
+
     def get_document_by_id(self, document_id: str, file_type: str) -> Optional[Dict]:
-        """
-        Récupère un document par son id Cosmos.
-        Nécessite la partition key (pk) -> ici /file_type.
-
-        Args:
-            document_id: id du document (champ "id")
-            file_type: valeur de la pk (ex: "pdf", "txt", "png")
-
-        Returns:
-            dict du document ou None si introuvable.
-        """
         try:
             return self.docs_container.read_item(item=document_id, partition_key=file_type)
         except exceptions.CosmosResourceNotFoundError:
             return None
         except Exception as e:
-            self.logger.exception(f"Erreur get_document_by_id(id={document_id}, pk={file_type}): {e}")
+            self.logger.exception(
+                "Erreur get_document_by_id(id=%s, pk=%s): %s",
+                document_id,
+                file_type,
+                e,
+            )
             return None
-    
+
     def chunk_exists(self, chunk_id: str, document_id: str) -> bool:
-        """
-        Vérifie si un chunk existe déjà dans le container chunks.
-        PK chunks = /document_id
-
-        Args:
-            chunk_id: id du chunk (ex: "doc123_chunk_0")
-            document_id: valeur de la partition key (document_id)
-
-        Returns:
-            True si existe, False sinon.
-        """
         try:
             _ = self.chunks_container.read_item(item=chunk_id, partition_key=document_id)
             return True
         except exceptions.CosmosResourceNotFoundError:
             return False
         except Exception as e:
-            self.logger.exception(f"Erreur chunk_exists(id={chunk_id}, pk={document_id}): {e}")
+            self.logger.exception(
+                "Erreur chunk_exists(id=%s, pk=%s): %s",
+                chunk_id,
+                document_id,
+                e,
+            )
             return False
+
     def work_item_exists(self, work_id: str, work_type: str) -> bool:
-        """
-        Vérifie si un work_item existe déjà.
-        PK work_items = /work_type
-
-        Args:
-            work_id: id du work item (ex: "indexing::doc_chunk_0")
-            work_type: valeur de la pk (ex: "indexing")
-
-        Returns:
-            True si existe, False sinon.
-        """
         try:
             _ = self.work_container.read_item(item=work_id, partition_key=work_type)
             return True
         except exceptions.CosmosResourceNotFoundError:
             return False
         except Exception as e:
-            self.logger.exception(f"Erreur work_item_exists(id={work_id}, pk={work_type}): {e}")
+            self.logger.exception(
+                "Erreur work_item_exists(id=%s, pk=%s): %s",
+                work_id,
+                work_type,
+                e,
+            )
             return False

@@ -1,95 +1,110 @@
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { api } from "../lib/api"
-import type { DocumentItem } from "../types/documents"
 
-function mapBackendDocument(doc: any): DocumentItem {
-  return {
-    id: doc.id,
-    filename: doc.filename,
-    fileType: doc.file_type,
-    fileSize: doc.file_size ?? 0,
-    uploadedAt: doc.created_at,
-    status:
-      doc.status === "ready"
-        ? "ready"
-        : doc.status === "failed"
-        ? "failed"
-        : doc.status === "processing"
-        ? "processing"
-        : doc.status === "parsed" || doc.status === "chunked" || doc.status === "indexed"
-        ? "processing"
-        : "idle",
-    error: doc.last_error ?? null,
-  }
-}
+import type { DocumentItem } from "../types/documents"
 
 export function useDocuments() {
   const [documents, setDocuments] = useState<DocumentItem[]>([])
+  const [selectedDocument, setSelectedDocument] = useState<DocumentItem | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [uploading, setUploading] = useState(false)
 
-  const loadDocuments = async () => {
-    try {
-      const response = await api.get("/documents")
-      setDocuments(response.data.map(mapBackendDocument))
-    } catch (error) {
-      console.error("Erreur chargement documents:", error)
-    }
-  }
+  const fetchDocuments = useCallback(async () => {
+    const res = await api.get("/documents")
+    setDocuments(res.data)
+    setLoading(false)
+  }, [])
 
-  const uploadDocument = async (file: File) => {
-    const tempId = crypto.randomUUID()
+  const loadDocument = useCallback(async (documentId: string) => {
+    const res = await api.get(`/documents/${documentId}`)
+    setSelectedDocument(res.data)
+  }, [])
 
-    setDocuments((prev) => [
-      {
+  const uploadDocument = useCallback(
+    async (file: File) => {
+      const tempId = `temp-${Date.now()}`
+      const tempDoc: DocumentItem = {
         id: tempId,
+        title: file.name,
         filename: file.name,
-        fileType: file.name.split(".").pop()?.toLowerCase() || "file",
-        fileSize: file.size,
-        uploadedAt: new Date().toISOString(),
         status: "uploading",
-      },
-      ...prev,
-    ])
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+        text_content: "",
+        owner_user_id: null,
+        path: "",
+        file_type: file.name.split(".").pop()?.toLowerCase() || "",
+        scope: "private",
+        source_type: "user_upload",
+        kb: "user",
+        }
+    //   const tempDoc: DocumentItem = {
+    //     id: tempId,
+    //     title: file.name,
+    //     filename: file.name,
+    //     status: "uploading",
+    //     created_at: new Date().toISOString(),
+    //   }
 
-    try {
-      const formData = new FormData()
-      formData.append("file", file)
+      setUploading(true)
+      setDocuments((prev) => [tempDoc, ...prev])
 
-      await api.post("/documents/upload", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
+      try {
+        const formData = new FormData()
+        formData.append("file", file)
 
-      await loadDocuments()
-    } catch (error) {
-      console.error("Erreur upload document:", error)
+        const res = await api.post("/documents/upload", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
 
-      setDocuments((prev) =>
-        prev.map((doc) =>
-          doc.id === tempId
-            ? {
-                ...doc,
-                status: "failed",
-                error: error instanceof Error ? error.message : "Erreur inconnue",
-              }
-            : doc
+        const realDoc = res.data.document
+
+        setDocuments((prev) =>
+          prev.map((doc) => (doc.id === tempId ? realDoc : doc))
         )
-      )
-    }
-  }
 
-  const removeDocument = (id: string) => {
-    setDocuments((prev) => prev.filter((doc) => doc.id !== id))
-  }
+        if (realDoc?.id) {
+          await loadDocument(realDoc.id)
+        }
+      } catch (error) {
+        setDocuments((prev) =>
+          prev.map((doc) =>
+            doc.id === tempId ? { ...doc, status: "failed" } : doc
+          )
+        )
+      } finally {
+        setUploading(false)
+      }
+    },
+    [loadDocument]
+  )
 
   useEffect(() => {
-    loadDocuments()
-  }, [])
+    fetchDocuments()
+  }, [fetchDocuments])
+
+  useEffect(() => {
+    const hasPending = documents.some((doc) =>
+      ["uploading", "processing", "parsed", "chunked"].includes(doc.status || "")
+    )
+
+    if (!hasPending) return
+
+    const interval = setInterval(() => {
+      fetchDocuments()
+    }, 3000)
+
+    return () => clearInterval(interval)
+  }, [documents, fetchDocuments])
 
   return {
     documents,
+    selectedDocument,
+    loading,
+    uploading,
+    loadDocument,
     uploadDocument,
-    removeDocument,
-    reloadDocuments: loadDocuments,
   }
 }

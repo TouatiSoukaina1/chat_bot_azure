@@ -72,3 +72,35 @@ def get_document(
         raise HTTPException(status_code=404, detail="Document introuvable")
 
     return items[0]
+
+@router.get("/documents/{document_id}/chunks")
+def get_document_chunks(
+    document_id: str,
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    repo = DocumentRepository()
+
+    # vérifier que le document appartient bien au user
+    query_doc = """
+    SELECT * FROM c
+    WHERE c.id = @id
+      AND c.owner_user_id = @owner_user_id
+    """
+    doc_params = [
+        {"name": "@id", "value": document_id},
+        {"name": "@owner_user_id", "value": current_user.user_id},
+    ]
+
+    docs = list(
+        repo.docs_container.query_items(
+            query=query_doc,
+            parameters=doc_params,
+            enable_cross_partition_query=True,
+        )
+    )
+
+    if not docs:
+        raise HTTPException(status_code=404, detail="Document introuvable")
+
+    chunks = repo.get_chunks_by_document(document_id=document_id)
+    return chunks
