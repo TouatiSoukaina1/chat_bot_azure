@@ -11,3 +11,4 @@ azure-search-documents
 PyJWT
 PyMuPDF
 python-doctr
+pytest-cov

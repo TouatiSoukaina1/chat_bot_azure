@@ -15,3 +15,5 @@ indexing
 retriever/indexer
 RAG service
 repositories
+mettre a jours les tests 
+modification de frontend page d'acceuil et chat

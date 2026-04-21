@@ -12,7 +12,11 @@ export default function DocumentDetails({ document }: Props) {
       </div>
     )
   }
-
+{document?.status === "deleting" && (
+  <div className="mb-4 rounded-2xl border border-orange-500/30 bg-orange-500/10 px-4 py-3 text-sm text-orange-300">
+    Suppression du document en cours...
+  </div>
+)}
   return (
     <div className="rounded-3xl border border-zinc-800 bg-zinc-900 p-6">
       <div className="mb-4 border-b border-zinc-800 pb-4">

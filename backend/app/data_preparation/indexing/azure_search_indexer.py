@@ -163,3 +163,36 @@ class AzureSearchIndexer:
                 self.logger.warning("⚠️ Upload: %s échecs sur %s (batch)", len(batch_failed), len(normalized_batch))
 
         return succeeded_ids, failed
+    
+    def delete_documents(self, document_ids: List[str]) -> None:
+        if not document_ids:
+            self.logger.info("Aucun document à supprimer dans Azure Search.")
+            return
+
+        docs = [{"id": doc_id} for doc_id in document_ids]
+
+        try:
+            results = self.search_client.delete_documents(documents=docs)
+        except Exception as e:
+            self.logger.exception("Erreur delete_documents Azure Search: %s", e)
+            raise
+
+        failed = []
+        succeeded = []
+
+        for doc_id, result in zip(document_ids, results):
+            if getattr(result, "succeeded", False):
+                succeeded.append(doc_id)
+            else:
+                err = getattr(result, "error_message", None) or str(result)
+                failed.append({"id": doc_id, "error": err})
+
+        self.logger.info(
+            "Azure Search delete: %s supprimés, %s échecs",
+            len(succeeded),
+            len(failed),
+        )
+
+        if failed:
+            self.logger.error("Échec suppression Azure Search: %s", failed)
+            raise RuntimeError(f"Suppression Azure Search incomplète: {failed}")

@@ -1,3 +1,4 @@
+import hashlib
 import os
 import tempfile
 from datetime import datetime, timezone
@@ -5,7 +6,6 @@ from pathlib import Path
 from uuid import uuid4
 
 from fastapi import UploadFile, HTTPException
-
 from app.core.database import DocumentRepository
 from app.data_preparation.parsers.txt_parser import TxtParser
 from app.data_preparation.parsers.pdf_parser import PdfParser
@@ -52,17 +52,42 @@ class DocumentIngestionService:
         if not upload_file.filename:
             raise HTTPException(status_code=400, detail="Nom de fichier manquant")
 
-        parser = self._get_parser(upload_file.filename, owner_user_id)
-
         ext = Path(upload_file.filename).suffix.lower()
         file_type = ext.replace(".", "") or "bin"
         document_id = str(uuid4())
         now = utc_now_iso()
 
-        # on lit le fichier uploadé
+        # lecture du fichier uploadé
         data = await upload_file.read()
         if not data:
             raise HTTPException(status_code=400, detail="Fichier vide")
+
+        # hash du contenu pour détecter les doublons
+        file_hash = hashlib.sha256(data).hexdigest()
+
+        existing_docs = list(
+            self.repo.docs_container.query_items(
+                query="""
+                SELECT * FROM c
+                WHERE c.owner_user_id = @owner_user_id
+                  AND c.file_hash = @file_hash
+                  AND c.status != "failed"
+                """,
+                parameters=[
+                    {"name": "@owner_user_id", "value": owner_user_id},
+                    {"name": "@file_hash", "value": file_hash},
+                ],
+                enable_cross_partition_query=True,
+            )
+        )
+
+        if existing_docs:
+            raise HTTPException(
+                status_code=409,
+                detail="Ce document existe déjà dans votre espace privé.",
+            )
+
+        parser = self._get_parser(upload_file.filename, owner_user_id)
 
         # on écrit temporairement pour réutiliser tes parseurs actuels
         tmp_path = None
@@ -92,6 +117,7 @@ class DocumentIngestionService:
                 "file_type": file_type,
                 "mime_type": upload_file.content_type,
                 "file_size": len(data),
+                "file_hash": file_hash,
                 "text_content": text,
                 "status": "parsed",
                 "scope": "private",
