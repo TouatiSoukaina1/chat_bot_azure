@@ -6,11 +6,13 @@ from pathlib import Path
 from uuid import uuid4
 
 from fastapi import UploadFile, HTTPException
+
 from app.core.database import DocumentRepository
 from app.data_preparation.parsers.txt_parser import TxtParser
 from app.data_preparation.parsers.pdf_parser import PdfParser
 from app.data_preparation.parsers.markdown_parser import MarkdownParser
 from app.data_preparation.pipelines.chunking_pipeline import ChunkingPipeline
+from app.data_preparation.processors.chunker import Chunker
 from app.workers.indexing_worker import IndexingWorker
 
 
@@ -48,21 +50,47 @@ class DocumentIngestionService:
         self,
         upload_file: UploadFile,
         owner_user_id: str,
+        chunk_mode: str = "auto",
+        chunk_size: int = 1500,
+        overlap: int = 150,
     ) -> dict:
         if not upload_file.filename:
             raise HTTPException(status_code=400, detail="Nom de fichier manquant")
+
+        allowed_modes = {"auto", "markdown", "fixed"}
+        if chunk_mode not in allowed_modes:
+            raise HTTPException(
+                status_code=400,
+                detail=f"chunk_mode invalide: {chunk_mode}",
+            )
+
+        if chunk_size < 100:
+            raise HTTPException(
+                status_code=400,
+                detail="chunk_size doit être >= 100",
+            )
+
+        if overlap < 0:
+            raise HTTPException(
+                status_code=400,
+                detail="overlap doit être >= 0",
+            )
+
+        if overlap >= chunk_size:
+            raise HTTPException(
+                status_code=400,
+                detail="overlap doit être strictement inférieur à chunk_size",
+            )
 
         ext = Path(upload_file.filename).suffix.lower()
         file_type = ext.replace(".", "") or "bin"
         document_id = str(uuid4())
         now = utc_now_iso()
 
-        # lecture du fichier uploadé
         data = await upload_file.read()
         if not data:
             raise HTTPException(status_code=400, detail="Fichier vide")
 
-        # hash du contenu pour détecter les doublons
         file_hash = hashlib.sha256(data).hexdigest()
 
         existing_docs = list(
@@ -89,7 +117,6 @@ class DocumentIngestionService:
 
         parser = self._get_parser(upload_file.filename, owner_user_id)
 
-        # on écrit temporairement pour réutiliser tes parseurs actuels
         tmp_path = None
         try:
             with tempfile.NamedTemporaryFile(delete=False, suffix=ext) as tmp:
@@ -126,21 +153,37 @@ class DocumentIngestionService:
                 "created_at": now,
                 "updated_at": now,
                 "last_error": None,
+                "chunking_config": {
+                    "mode": chunk_mode,
+                    "chunk_size": chunk_size,
+                    "overlap": overlap,
+                },
             }
 
             self.repo.insert_document(document)
 
-            # chunking synchrone
-            ChunkingPipeline(status_in="parsed", status_out="chunked").run()
+            chunker = Chunker(
+                chunk_size=chunk_size,
+                overlap=overlap,
+                mode=chunk_mode,
+            )
 
-            # indexing synchrone
-            worker = IndexingWorker(worker_id=f"upload-{document_id}")
+            ChunkingPipeline(
+                repo=self.repo,
+                chunker=chunker,
+                status_in="parsed",
+                status_out="chunked",
+            ).run(document_ids=[document_id])
+
+            worker = IndexingWorker(
+                repo=self.repo,
+                worker_id=f"upload-{document_id}",
+            )
             while True:
                 claimed = worker.run_once(limit=64, lease_seconds=120)
                 if claimed == 0:
                     break
 
-            # statut final du document
             chunks = self.repo.get_chunks_by_document(document_id=document_id)
             if chunks and all(ch.get("status") == "indexed" for ch in chunks):
                 document["status"] = "ready"

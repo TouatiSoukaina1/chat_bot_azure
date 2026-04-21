@@ -32,20 +32,22 @@ export default function DocumentsPage() {
   return (
     <div className="min-h-screen bg-zinc-950 p-6 text-white">
       <div className="mx-auto max-w-6xl space-y-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-semibold">Mes documents</h1>
-            <p className="text-sm text-zinc-400">
-              Consulte les documents privés disponibles dans ton espace.
-            </p>
-          </div>
+        <div>
+          <h1 className="text-2xl font-semibold">Mes documents</h1>
+          <p className="mt-1 text-sm text-zinc-400">
+            Consulte les documents privés disponibles dans ton espace.
+          </p>
+        </div>
 
+        <div className="max-w-3xl">
           <DocumentUpload onUpload={uploadDocument} uploading={uploading} />
         </div>
 
         {feedbackMessage && (
           <div
-            className={`flex items-start justify-between gap-4 rounded-2xl px-4 py-3 text-sm ${feedbackClass(feedbackType)}`}
+            className={`flex items-start justify-between gap-4 rounded-2xl px-4 py-3 text-sm ${feedbackClass(
+              feedbackType
+            )}`}
           >
             <span>{feedbackMessage}</span>
 

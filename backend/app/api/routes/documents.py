@@ -12,12 +12,18 @@ router = APIRouter(tags=["documents"])
 @router.post("/documents/upload", response_model=DocumentUploadResponse)
 async def upload_document(
     file: UploadFile = File(...),
+    chunk_mode: str = Form("auto"),
+    chunk_size: int = Form(1500),
+    overlap: int = Form(150),
     current_user: CurrentUser = Depends(get_current_user),
 ):
     service = DocumentIngestionService()
     document = await service.ingest_uploaded_file(
         upload_file=file,
         owner_user_id=current_user.user_id,
+        chunk_mode=chunk_mode,
+        chunk_size=chunk_size,
+        overlap=overlap,
     )
     return {"document": document}
 

@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react"
 import { api } from "../lib/api"
 import type { DocumentItem } from "../types/documents"
+import type { ChunkingOptions } from "../components/documents/DocumentUpload"
 
 export function useDocuments() {
   const [documents, setDocuments] = useState<DocumentItem[]>([])
@@ -36,7 +37,7 @@ export function useDocuments() {
   }, [])
 
   const uploadDocument = useCallback(
-    async (file: File) => {
+    async (file: File, options: ChunkingOptions) => {
       const normalizedName = file.name.trim().toLowerCase()
 
       const alreadyExistsByName = documents.some(
@@ -79,6 +80,9 @@ export function useDocuments() {
       try {
         const formData = new FormData()
         formData.append("file", file)
+        formData.append("chunk_mode", options.chunkMode)
+        formData.append("chunk_size", String(options.chunkSize))
+        formData.append("overlap", String(options.overlap))
 
         const res = await api.post("/documents/upload", formData, {
           headers: {
