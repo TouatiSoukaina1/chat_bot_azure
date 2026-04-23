@@ -155,6 +155,7 @@ class DocumentIngestionService:
                 "last_error": None,
                 "chunking_config": {
                     "mode": chunk_mode,
+                    "effective_mode": None,
                     "chunk_size": chunk_size,
                     "overlap": overlap,
                 },
@@ -168,12 +169,21 @@ class DocumentIngestionService:
                 mode=chunk_mode,
             )
 
+            effective_mode = chunker.detect_effective_mode(text)
+
             ChunkingPipeline(
                 repo=self.repo,
                 chunker=chunker,
                 status_in="parsed",
                 status_out="chunked",
             ).run(document_ids=[document_id])
+
+            document["chunking_config"] = {
+                "requested_mode": chunk_mode,
+                "effective_mode": effective_mode,
+                "chunk_size": chunk_size,
+                "overlap": overlap,
+            }
 
             worker = IndexingWorker(
                 repo=self.repo,

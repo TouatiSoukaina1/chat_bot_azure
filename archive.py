@@ -65,3 +65,10 @@ if __name__ == "__main__":
 #   --memory 2Gi \
 #   --command "python" \
 #   --args "-m" "backend.scripts.run_global_who_pipeline"
+
+
+python -m pytest tests/test_parsers.py
+python -m pytest tests/test_extraction_pipeline.py
+python -m pytest tests/test_chunking_pipeline.py
+python -m pytest tests/test_document_ingestion_service.py
+python -m pytest tests/test_indexing_worker.py

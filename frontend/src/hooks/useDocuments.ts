@@ -32,8 +32,20 @@ export function useDocuments() {
   }, [])
 
   const loadDocument = useCallback(async (documentId: string) => {
-    const res = await api.get(`/documents/${documentId}`)
-    setSelectedDocument(res.data)
+    const [docRes, chunksRes] = await Promise.all([
+      api.get(`/documents/${documentId}`),
+      api.get(`/documents/${documentId}/chunks`),
+    ])
+
+    const chunks = Array.isArray(chunksRes.data) ? chunksRes.data : []
+
+    const document = {
+      ...docRes.data,
+      chunk_count: chunks.length,
+      document_chunks: chunks,
+    }
+
+    setSelectedDocument(document)
   }, [])
 
   const uploadDocument = useCallback(

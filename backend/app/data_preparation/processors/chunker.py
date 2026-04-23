@@ -4,29 +4,34 @@ from typing import List, Dict, Any, Optional
 
 
 class Chunker:
-    """
-    Chunker Markdown-first:
-    - split par headings Markdown (#, ##, ### ...)
-    - sous-chunking par paragraphes (chunk_size / overlap)
-    - conserve section_title dans le dict de sortie
-
-    Retour attendu par ton pipeline:
-      [{"id": 0, "text": "...", "section_title": "Symptoms"}, ...]
-    """
-
     HEADING_RE = re.compile(r"^(#{1,6})\s+(.*)\s*$")
 
     def __init__(
         self,
         chunk_size: int = 1500,
         overlap: int = 150,
-        include_section_prefix: bool = True,  # ajoute [SECTION] Symptoms en tête du chunk
+        include_section_prefix: bool = True,
+        mode: str = "auto",
         logger: Optional[logging.Logger] = None,
     ):
         self.chunk_size = int(chunk_size)
         self.overlap = int(overlap)
         self.include_section_prefix = include_section_prefix
+        self.mode = mode
         self.logger = logger or logging.getLogger("app.Chunker")
+        self.last_effective_mode: str = mode
+
+    def detect_effective_mode(self, text: str) -> str:
+        normalized = self._normalize(text)
+
+        if self.mode == "fixed":
+            return "fixed"
+
+        if self.mode == "markdown":
+            return "markdown"
+
+        sections = self._split_markdown_sections(normalized)
+        return "markdown" if sections else "fixed"
 
     def chunk_text(self, text: str, doc_title: Optional[str] = None) -> List[Dict[str, Any]]:
         if not isinstance(text, str) or not text.strip():
@@ -34,9 +39,13 @@ class Chunker:
             return []
 
         text = self._normalize(text)
-        sections = self._split_markdown_sections(text)
+        effective_mode = self.detect_effective_mode(text)
+        self.last_effective_mode = effective_mode
 
-        # fallback si pas de headings
+        if effective_mode == "fixed":
+            return self._chunk_fixed_windows(text=text, doc_title=doc_title)
+
+        sections = self._split_markdown_sections(text)
         if not sections:
             sections = [("Body", text)]
 
@@ -60,13 +69,7 @@ class Chunker:
 
         return chunks
 
-    # -------------------- Markdown split --------------------
-
     def _split_markdown_sections(self, text: str) -> List[tuple]:
-        """
-        Split sur lignes commençant par # / ## / ### ...
-        On retire la ligne heading du contenu, et on stocke le titre comme section_title.
-        """
         lines = text.split("\n")
 
         sections: List[tuple] = []
@@ -84,32 +87,50 @@ class Chunker:
             line = raw.strip()
             m = self.HEADING_RE.match(line)
             if m:
-                # nouvelle section
                 flush()
-                current_title = (m.group(2) or "").strip()
-                if not current_title:
-                    current_title = "Section"
+                current_title = (m.group(2) or "").strip() or "Section"
                 continue
             buf.append(raw)
 
-        # dernier flush
         if current_title is not None:
             flush()
 
-        # Si le doc commence sans #, on met ça dans "Intro"
-        # (buf au début aura été accumulé dans sections vide si current_title None)
-        # Pour gérer ça proprement:
-        if not sections:
-            return []
-
-        # Gérer un "préambule" avant le premier heading (si besoin)
-        # Ici on ne l'a pas, car flush() n'ajoute que si current_title != None.
-        # Donc si tu veux garder l'intro avant le 1er "#", tu peux la mettre toi-même en "# Overview".
-
-        # Filtre sections vides
         return [(t, b) for (t, b) in sections if b and b.strip()]
 
-    # -------------------- Sous-chunking --------------------
+    def _chunk_fixed_windows(self, text: str, doc_title: Optional[str]) -> List[Dict[str, Any]]:
+        chunks: List[Dict[str, Any]] = []
+        text = text.strip()
+        if not text:
+            return chunks
+
+        start = 0
+        cid = 0
+        step = max(1, self.chunk_size - self.overlap)
+
+        while start < len(text):
+            end = start + self.chunk_size
+            body = text[start:end].strip()
+            if not body:
+                break
+
+            prefix = ""
+            if self.include_section_prefix:
+                if doc_title:
+                    prefix = f"[DOC] {doc_title}\n[SECTION] Body\n\n"
+                else:
+                    prefix = f"[SECTION] Body\n\n"
+
+            chunks.append({
+                "id": cid,
+                "text": (prefix + body).strip(),
+                "section_title": "Body",
+                "doc_title": doc_title,
+            })
+
+            cid += 1
+            start += step
+
+        return chunks
 
     def _chunk_section(
         self,
@@ -152,7 +173,6 @@ class Chunker:
                 })
                 cid += 1
 
-            # overlap en chars: on garde les derniers paragraphes
             carry: List[str] = []
             carry_len = 0
             for p in reversed(current):
@@ -169,7 +189,6 @@ class Chunker:
             if not p:
                 continue
 
-            # paragraphe énorme -> split en phrases simples
             if len(p) > self.chunk_size:
                 for sp in self._split_big_paragraph(p):
                     sp = sp.strip()
@@ -190,8 +209,6 @@ class Chunker:
         finalize()
         return chunks
 
-    # -------------------- Helpers --------------------
-
     @staticmethod
     def _normalize(text: str) -> str:
         text = text.replace("\r\n", "\n").replace("\r", "\n")
@@ -205,7 +222,6 @@ class Chunker:
 
     @staticmethod
     def _split_big_paragraph(p: str) -> List[str]:
-        # split après ponctuation forte (sans NLP)
         sents = re.split(r"(?<=[.!?])\s+(?=[A-Z0-9])", p.strip())
         if len(sents) <= 1:
             sents = re.split(r"(?<=[;:])\s+", p.strip())

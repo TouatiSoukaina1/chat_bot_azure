@@ -1,5 +1,4 @@
-from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
-
+from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile
 from app.core.auth import CurrentUser, get_current_user
 from app.core.database import DocumentRepository
 from app.data_preparation.indexing.azure_search_indexer import AzureSearchIndexer
