@@ -2,7 +2,7 @@ import pytest
 import sys, os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from backend.app.data_preparation.parsers.image_parser import DoctrOCR
+from app.data_preparation.parsers.image_parser import DoctrOCR
 
 @pytest.fixture(scope="session")
 def ocr():

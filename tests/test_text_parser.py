@@ -1,7 +1,7 @@
 import unittest
 import tempfile
 import os
-from backend.app.data_preparation.parsers.txt_parser import TxtParser
+from app.data_preparation.parsers.txt_parser import TxtParser
 
 class TestTxtParser(unittest.TestCase):
     def setUp(self):

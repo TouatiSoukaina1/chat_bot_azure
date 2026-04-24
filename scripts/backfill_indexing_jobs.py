@@ -1,8 +1,8 @@
 import time
 import logging
 
-from backend.app.core.logging_config import setup_logging
-from backend.app.core.database import DocumentRepository
+from app.core.logging_config import setup_logging
+from app.core.database import DocumentRepository
 
 WORK_TYPE = "indexing"
 

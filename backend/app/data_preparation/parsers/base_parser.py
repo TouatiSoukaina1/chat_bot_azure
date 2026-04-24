@@ -6,7 +6,7 @@ import re
 import hashlib
 from datetime import datetime, timezone
 
-from backend.app.core.database import DocumentRepository
+from app.core.database import DocumentRepository
 
 
 class BaseParser(ABC):

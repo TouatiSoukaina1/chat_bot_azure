@@ -1,4 +1,4 @@
-from backend.app.data_preparation.parsers.base_parser import BaseParser
+from app.data_preparation.parsers.base_parser import BaseParser
 import os
 import logging
 
@@ -27,7 +27,7 @@ class TxtParser(BaseParser):
         self.logger = logging.getLogger("app.txtparser")
         self.logger.info("TxtParser initialisé avec encodage UTF-8.")
 
-    def extract_text(self, file_path: str) -> str:
+    def extract_text(self, file_path: str, **kwargs) -> str:
         try:
             if not os.path.exists(file_path):
                 self.logger.error(f"Fichier introuvable : {file_path}")

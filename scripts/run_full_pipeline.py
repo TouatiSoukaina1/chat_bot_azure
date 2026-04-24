@@ -1,10 +1,10 @@
 import time
 import logging
 
-from backend.app.core.logging_config import setup_logging
-from backend.app.data_preparation.pipelines.chunking_pipeline import ChunkingPipeline
-from backend.app.workers.indexing_worker import IndexingWorker
-from backend.app.data_preparation.pipelines.extraction_pipeline import run_extraction
+from app.core.logging_config import setup_logging
+from app.data_preparation.pipelines.chunking_pipeline import ChunkingPipeline
+from app.workers.indexing_worker import IndexingWorker
+from app.data_preparation.pipelines.extraction_pipeline import run_extraction
 from scripts.backfill_indexing_jobs import main as backfill
 
 def main():

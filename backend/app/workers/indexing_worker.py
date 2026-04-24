@@ -5,9 +5,9 @@ from typing import List, Dict
 
 from azure.cosmos import exceptions
 
-from backend.app.core.database import DocumentRepository
-from backend.app.data_preparation.processors.embedder import Embedder
-from backend.app.data_preparation.indexing.azure_search_indexer import AzureSearchIndexer
+from app.core.database import DocumentRepository
+from app.data_preparation.processors.embedder import Embedder
+from app.data_preparation.indexing.azure_search_indexer import AzureSearchIndexer
 
 logging.basicConfig(level=logging.INFO)
 

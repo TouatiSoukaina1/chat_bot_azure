@@ -211,3 +211,20 @@ class ChatHistoryRepository:
             if existing:
                 return existing
         return self.create_conversation(user_id=user_id, title=title)
+    
+    def update_conversation_title(
+        self,
+        conversation_id: str,
+        user_id: str,
+        title: str,
+    ) -> Optional[Dict]:
+        conversation = self.get_conversation(conversation_id, user_id)
+        if not conversation:
+            return None
+
+        conversation["title"] = title.strip() or "Nouvelle conversation"
+        conversation["updated_at"] = self._utc_now_iso()
+        conversation.pop("messages", None)
+
+        self.conversations_container.upsert_item(conversation)
+        return conversation

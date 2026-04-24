@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 ROOT = Path(__file__).resolve().parents[1]
 load_dotenv(dotenv_path=ROOT / ".env", override=True)
 
-from backend.app.data_preparation.processors.embedder import Embedder
+from app.data_preparation.processors.embedder import Embedder
 
 
 def main():

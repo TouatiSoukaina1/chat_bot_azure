@@ -3,7 +3,7 @@ from unittest.mock import patch, MagicMock, mock_open
 import os
 import tempfile
 
-from backend.app.data_preparation.scrapping import WHOScraper
+from app.data_preparation.scrapping import WHOScraper
 
 
 class TestWHOScraper(unittest.TestCase):

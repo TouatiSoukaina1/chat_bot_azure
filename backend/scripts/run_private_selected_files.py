@@ -1,9 +1,9 @@
 from pathlib import Path
 from dotenv import load_dotenv
 
-from backend.app.data_preparation.pipelines.extraction_pipeline import run_private_user_extraction
-from backend.app.data_preparation.pipelines.chunking_pipeline import ChunkingPipeline
-from backend.app.workers.indexing_worker import IndexingWorker
+from app.data_preparation.pipelines.extraction_pipeline import run_private_user_extraction
+from app.data_preparation.pipelines.chunking_pipeline import ChunkingPipeline
+from app.workers.indexing_worker import IndexingWorker
 
 ROOT = Path(__file__).resolve().parents[2]
 load_dotenv(ROOT / ".env", override=True)

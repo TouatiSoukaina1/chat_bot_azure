@@ -1,6 +1,6 @@
 # scripts/list_indexing_work_items.py
 import time
-from backend.app.core.database import DocumentRepository
+from app.core.database import DocumentRepository
 
 def main():
     repo = DocumentRepository()

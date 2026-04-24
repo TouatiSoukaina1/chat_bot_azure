@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import patch, MagicMock
-from backend.app.data_preparation.parsers.image_parser import DoctrOCR
+from app.data_preparation.parsers.image_parser import DoctrOCR
 
 class TestDoctrOCR(unittest.TestCase):
 

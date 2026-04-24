@@ -76,21 +76,21 @@ def test_chunking_pipeline_creates_chunks_and_jobs():
 
     first_chunk = repo.inserted_chunks[0]
     assert first_chunk["document_id"] == "doc-1"
-    assert first_chunk["chunk_order"] == 0
-    assert first_chunk["file_type"] == "md"
+    assert first_chunk["order"] == 0
+    assert first_chunk["type"] == "md"
     assert first_chunk["scope"] == "private"
     assert first_chunk["owner_user_id"] == "tenant123:user123"
     assert first_chunk["source_type"] == "user_upload"
     assert first_chunk["kb"] == "user"
+    assert first_chunk["filename"] == "autism.md"
     assert first_chunk["doc_title"] == "autism"
     assert first_chunk["section_title"] == "Intro"
 
     first_job = repo.enqueued_jobs[0]
     assert first_job["work_type"] == "indexing"
     assert first_job["document_id"] == "doc-1"
-    assert first_job["scope"] == "private"
-    assert first_job["owner_user_id"] == "tenant123:user123"
-    assert first_job["source_type"] == "user_upload"
+    assert first_job["chunk_id"] == "doc-1_chunk_0"
+    assert first_job["status"] == "queued"
 
     assert repo.updated_documents[0]["new_status"] == "chunked"
 

@@ -5,8 +5,8 @@ from dotenv import load_dotenv
 from openai import AzureOpenAI
 from azure.identity import DefaultAzureCredential, get_bearer_token_provider
 
-from backend.app.data_preparation.processors.embedder import Embedder
-from backend.app.data_preparation.retrieval.azure_search_retriever import AzureSearchRetriever
+from app.data_preparation.processors.embedder import Embedder
+from app.data_preparation.retrieval.azure_search_retriever import AzureSearchRetriever
 
 
 # Charge le .env de la racine projet (optionnel)

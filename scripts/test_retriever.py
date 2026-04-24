@@ -1,6 +1,6 @@
 import os 
-from backend.app.data_preparation.processors.embedder import Embedder
-from backend.app.data_preparation.retrieval.azure_search_retriever import AzureSearchRetriever
+from app.data_preparation.processors.embedder import Embedder
+from app.data_preparation.retrieval.azure_search_retriever import AzureSearchRetriever
 from dotenv import load_dotenv
 from pathlib import Path
 

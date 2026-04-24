@@ -2,8 +2,8 @@ import logging
 import time
 import hashlib
 
-from backend.app.core.database import DocumentRepository
-from backend.app.data_preparation.processors.chunker import Chunker
+from app.core.database import DocumentRepository
+from app.data_preparation.processors.chunker import Chunker
 
 
 def _hash_text(text: str) -> str:
@@ -78,6 +78,11 @@ class ChunkingPipeline:
                         "created_at": now,
                         "section_title": section_title,
                         "doc_title": chunk_doc_title,
+                        "scope": doc.get("scope"),
+                        "owner_user_id": doc.get("owner_user_id"),
+                        "source_type": doc.get("source_type"),
+                        "kb": doc.get("kb"),
+                        "filename": doc.get("filename"),
                     })
                     inserted_for_doc += 1
 

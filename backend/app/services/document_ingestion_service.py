@@ -4,7 +4,8 @@ import tempfile
 from datetime import datetime, timezone
 from pathlib import Path
 from uuid import uuid4
-
+import logging
+logger = logging.getLogger("app.document_ingestion")
 from fastapi import UploadFile, HTTPException
 
 from app.core.database import DocumentRepository
@@ -54,6 +55,14 @@ class DocumentIngestionService:
         chunk_size: int = 1500,
         overlap: int = 150,
     ) -> dict:
+        logger.info(
+            "Début ingestion document | user_id=%s filename=%s chunk_mode=%s chunk_size=%s overlap=%s",
+            owner_user_id,
+            upload_file.filename,
+            chunk_mode,
+            chunk_size,
+            overlap,
+        )
         if not upload_file.filename:
             raise HTTPException(status_code=400, detail="Nom de fichier manquant")
 
@@ -65,18 +74,33 @@ class DocumentIngestionService:
             )
 
         if chunk_size < 100:
+            logger.exception(
+                "Erreur ingestion document | user_id=%s filename=%s",
+                owner_user_id,
+                upload_file.filename,
+            )
             raise HTTPException(
                 status_code=400,
                 detail="chunk_size doit être >= 100",
             )
 
         if overlap < 0:
+            logger.exception(
+                "Erreur ingestion document | user_id=%s filename=%s",
+                owner_user_id,
+                upload_file.filename,
+            )
             raise HTTPException(
                 status_code=400,
                 detail="overlap doit être >= 0",
             )
 
         if overlap >= chunk_size:
+            logger.exception(
+                "Erreur ingestion document | user_id=%s filename=%s",
+                owner_user_id,
+                upload_file.filename,
+            )
             raise HTTPException(
                 status_code=400,
                 detail="overlap doit être strictement inférieur à chunk_size",
@@ -89,6 +113,11 @@ class DocumentIngestionService:
 
         data = await upload_file.read()
         if not data:
+            logger.warning(
+                "Fichier vide | user_id=%s filename=%s",
+                owner_user_id,
+                upload_file.filename,
+            )
             raise HTTPException(status_code=400, detail="Fichier vide")
 
         file_hash = hashlib.sha256(data).hexdigest()
@@ -110,6 +139,12 @@ class DocumentIngestionService:
         )
 
         if existing_docs:
+            logger.warning(
+                "Doublon détecté | user_id=%s filename=%s file_hash=%s",
+                owner_user_id,
+                upload_file.filename,
+                file_hash,
+            )
             raise HTTPException(
                 status_code=409,
                 detail="Ce document existe déjà dans votre espace privé.",
@@ -126,6 +161,12 @@ class DocumentIngestionService:
             raw_text = parser.extract_text(tmp_path)
             text = parser.normalize_to_markdown(raw_text)
 
+            logger.info(
+                "Extraction terminée | document_id=%s filename=%s text_len=%s",
+                document_id,
+                upload_file.filename,
+                len(text),
+            )
             if not text.strip():
                 raise HTTPException(
                     status_code=400,
@@ -162,7 +203,11 @@ class DocumentIngestionService:
             }
 
             self.repo.insert_document(document)
-
+            logger.info(
+                "Document inséré Cosmos | document_id=%s filename=%s",
+                document_id,
+                upload_file.filename,
+            )
             chunker = Chunker(
                 chunk_size=chunk_size,
                 overlap=overlap,
@@ -171,12 +216,20 @@ class DocumentIngestionService:
 
             effective_mode = chunker.detect_effective_mode(text)
 
+            logger.info(
+                "Chunking démarré | document_id=%s requested_mode=%s effective_mode=%s",
+                document_id,
+                chunk_mode,
+                effective_mode,
+            )
+
             ChunkingPipeline(
                 repo=self.repo,
                 chunker=chunker,
                 status_in="parsed",
                 status_out="chunked",
             ).run(document_ids=[document_id])
+
 
             document["chunking_config"] = {
                 "requested_mode": chunk_mode,
@@ -195,6 +248,11 @@ class DocumentIngestionService:
                     break
 
             chunks = self.repo.get_chunks_by_document(document_id=document_id)
+            logger.info(
+                "Chunking terminé | document_id=%s chunk_count=%s",
+                document_id,
+                len(chunks),
+            )
             if chunks and all(ch.get("status") == "indexed" for ch in chunks):
                 document["status"] = "ready"
             elif chunks:
@@ -205,7 +263,11 @@ class DocumentIngestionService:
 
             document["updated_at"] = utc_now_iso()
             self.repo.insert_document(document)
-
+            logger.info(
+                "Upload terminé | document_id=%s status=%s",
+                document_id,
+                document["status"],
+            )
             return document
 
         finally:

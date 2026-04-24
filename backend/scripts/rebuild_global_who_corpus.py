@@ -6,11 +6,11 @@ from pathlib import Path
 from dotenv import load_dotenv
 from azure.core.exceptions import ResourceNotFoundError
 
-from backend.app.core.database import DocumentRepository
-from backend.app.data_preparation.indexing.azure_search_indexer import AzureSearchIndexer
-from backend.app.data_preparation.pipelines.extraction_pipeline import run_global_who_extraction
-from backend.app.data_preparation.pipelines.chunking_pipeline import ChunkingPipeline
-from backend.app.workers.indexing_worker import IndexingWorker
+from app.core.database import DocumentRepository
+from app.data_preparation.indexing.azure_search_indexer import AzureSearchIndexer
+from app.data_preparation.pipelines.extraction_pipeline import run_global_who_extraction
+from app.data_preparation.pipelines.chunking_pipeline import ChunkingPipeline
+from app.workers.indexing_worker import IndexingWorker
 
 ROOT = Path(__file__).resolve().parents[2]
 load_dotenv(ROOT / ".env", override=True)

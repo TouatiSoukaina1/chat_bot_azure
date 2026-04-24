@@ -1,9 +1,9 @@
 import fitz
 
-from backend.app.data_preparation.parsers import base_parser as base_parser_module
-from backend.app.data_preparation.parsers.txt_parser import TxtParser
-from backend.app.data_preparation.parsers.markdown_parser import MarkdownParser
-from backend.app.data_preparation.parsers.pdf_parser import PdfParser
+from app.data_preparation.parsers import base_parser as base_parser_module
+from app.data_preparation.parsers.txt_parser import TxtParser
+from app.data_preparation.parsers.markdown_parser import MarkdownParser
+from app.data_preparation.parsers.pdf_parser import PdfParser
 
 
 class FakeRepo:

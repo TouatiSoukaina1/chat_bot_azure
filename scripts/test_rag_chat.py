@@ -1,6 +1,6 @@
-from backend.app.data_preparation.processors.embedder import Embedder
-from backend.app.data_preparation.retrieval.azure_search_retriever import AzureSearchRetriever
-from backend.app.services.rag_chat_service import RagChatService
+from app.data_preparation.processors.embedder import Embedder
+from app.data_preparation.retrieval.azure_search_retriever import AzureSearchRetriever
+from app.services.rag_chat_service import RagChatService
 from dotenv import load_dotenv
 from pathlib import Path
 import os

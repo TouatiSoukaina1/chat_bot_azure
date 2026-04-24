@@ -1,5 +1,5 @@
 import os
-from backend.app.data_preparation.indexing.azure_search_indexer import AzureSearchIndexer
+from app.data_preparation.indexing.azure_search_indexer import AzureSearchIndexer
 
 from pathlib import Path
 from dotenv import load_dotenv

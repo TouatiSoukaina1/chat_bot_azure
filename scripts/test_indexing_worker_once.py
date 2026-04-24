@@ -1,4 +1,4 @@
-from backend.app.workers.indexing_worker import IndexingWorker
+from app.workers.indexing_worker import IndexingWorker
 
 def main():
     w = IndexingWorker(worker_id="smoke-worker", claim_limit=16, lease_seconds=60)

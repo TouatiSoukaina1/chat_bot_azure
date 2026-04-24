@@ -2,7 +2,7 @@ import os
 import tempfile
 import unittest
 from unittest.mock import patch, MagicMock
-from backend.app.data_preparation.parsers.pdf_parser import PdfParser
+from app.data_preparation.parsers.pdf_parser import PdfParser
 
 class TestPdfParser(unittest.TestCase):
     def setUp(self):

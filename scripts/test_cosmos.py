@@ -1,6 +1,6 @@
 import os
 import time
-from backend.app.core.database import DocumentRepository
+from app.core.database import DocumentRepository
 from pathlib import Path
 from dotenv import load_dotenv
 ROOT = Path(__file__).resolve().parents[1]

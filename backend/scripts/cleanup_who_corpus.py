@@ -1,7 +1,7 @@
 from pathlib import Path
 from dotenv import load_dotenv
 
-from backend.app.core.database import DocumentRepository
+from app.core.database import DocumentRepository
 
 ROOT = Path(__file__).resolve().parents[2]
 load_dotenv(ROOT / ".env", override=True)

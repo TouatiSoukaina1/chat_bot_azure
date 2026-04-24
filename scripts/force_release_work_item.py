@@ -1,6 +1,6 @@
 # scripts/force_release_work_item.py
 import time
-from backend.app.core.database import DocumentRepository
+from app.core.database import DocumentRepository
 
 def main():
     repo = DocumentRepository()
