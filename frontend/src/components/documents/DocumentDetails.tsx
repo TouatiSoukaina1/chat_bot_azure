@@ -121,7 +121,7 @@ export default function DocumentDetails({ document }: Props) {
 
             <div className="rounded-2xl border border-zinc-800 bg-zinc-900 px-4 py-3">
               <p className="text-[11px] uppercase tracking-wide text-zinc-500">
-                Taille chunk
+                Taille de chunk
               </p>
               <p className="mt-1 text-sm text-white">
                 {showFixedValues ? (document.chunking_config.chunk_size ?? "—") : "—"}

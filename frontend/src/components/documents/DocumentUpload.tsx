@@ -41,7 +41,7 @@ export default function DocumentUpload({
       <div className="mb-4 flex flex-col gap-1">
         <p className="text-sm font-medium text-white">Ajouter un document</p>
         <p className="text-xs text-zinc-400">
-          Choisis le mode de découpage avant l’indexation.
+          Sélectionnez le mode de découpage avant l’indexation
         </p>
       </div>
 
@@ -63,9 +63,9 @@ export default function DocumentUpload({
 
           <p className="mt-2 text-[11px] leading-relaxed text-zinc-500">
             {chunkMode === "auto" &&
-              "Utilise les sections Markdown si elles existent, sinon applique la taille fixe."}
+              "Utilisez les sections Markdown si elles existent, sinon appliquez une taille fixe."}
             {chunkMode === "markdown" &&
-              "Découpage basé sur les titres Markdown. Les paramètres numériques ne sont pas utilisés."}
+              "Découpage basé sur les titres Markdown. Les paramètres numériques sont ignorés."}
             {chunkMode === "fixed" &&
               "Découpage par taille fixe avec overlap entre les morceaux."}
           </p>
@@ -74,7 +74,7 @@ export default function DocumentUpload({
         <div className="grid grid-cols-2 gap-3">
           <div>
             <label className="mb-2 block text-xs font-medium text-zinc-300">
-              Taille chunk
+              Taille de chunk
             </label>
             <input
               type="number"

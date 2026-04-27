@@ -17,7 +17,7 @@ export default function ChatInput({
         <textarea
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          placeholder="Pose une question sur tes documents..."
+          placeholder="Posez votre question"
           disabled={disabled}
           className="min-h-[56px] flex-1 resize-none rounded-3xl border border-zinc-700 bg-zinc-900 px-4 py-4 text-sm text-white outline-none disabled:opacity-60"
           onKeyDown={(e) => {

@@ -28,8 +28,7 @@ export default function ChatWindow({
           <div className="mt-20 text-center text-zinc-500">
             <p className="text-2xl font-semibold text-zinc-200">Bienvenue</p>
             <p className="mt-3 text-sm text-zinc-400">
-              Pose une question à ton système RAG. Les réponses et leurs sources
-              apparaîtront ici.
+              Interrogez les données de l’OMS et vos documents personnels. Les réponses et leurs sources s’afficheront ici.
             </p>
           </div>
         )}

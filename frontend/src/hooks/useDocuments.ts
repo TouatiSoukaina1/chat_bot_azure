@@ -127,7 +127,7 @@ export function useDocuments() {
 
   const deleteDocument = useCallback(
     async (documentId: string) => {
-      const confirmed = window.confirm("Supprimer ce document ?")
+      const confirmed = window.confirm("Voulez-vous supprimer ce document ?")
       if (!confirmed) return
 
       const previousDocuments = documents

@@ -1,10 +1,9 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 import logging
 import os
 import time
 import uuid
-from fastapi import Request
 
 from app.core.logging_config import setup_logging
 
@@ -17,7 +16,16 @@ from app.api.routes.documents import router as documents_router
 logger = logging.getLogger("app.main")
 http_logger = logging.getLogger("app.http")
 
+
+def get_allowed_origins() -> list[str]:
+    raw = os.getenv("CORS_ALLOW_ORIGINS", "http://localhost:5173")
+    return [origin.strip() for origin in raw.split(",") if origin.strip()]
+
+
+allowed_origins = get_allowed_origins()
+
 logger.info("Application démarrée | APP_ENV=%s", os.getenv("APP_ENV", "dev"))
+logger.info("CORS origins autorisées | origins=%s", allowed_origins)
 
 app = FastAPI(
     title="RAG Chat API",
@@ -26,7 +34,7 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

@@ -35,7 +35,7 @@ export default function DocumentsPage() {
         <div>
           <h1 className="text-2xl font-semibold">Mes documents</h1>
           <p className="mt-1 text-sm text-zinc-400">
-            Consulte les documents privés disponibles dans ton espace.
+            Consultez vos documents privés disponibles dans votre espace personnel
           </p>
         </div>
 

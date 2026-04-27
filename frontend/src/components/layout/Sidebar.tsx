@@ -31,18 +31,7 @@ export default function Sidebar({
         Nouvelle conversation
       </button>
 
-      <div className="relative mb-4">
-        <Search
-          size={16}
-          className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500"
-        />
-        <input
-          value={search}
-          onChange={(e) => onSearchChange(e.target.value)}
-          placeholder="Rechercher dans l’historique"
-          className="w-full rounded-2xl border border-zinc-800 bg-zinc-950 py-3 pl-10 pr-4 text-sm text-white outline-none placeholder:text-zinc-500"
-        />
-      </div>
+      
 
       <div className="flex-1 space-y-2 overflow-y-auto pr-1">
         {conversations.length === 0 ? (
