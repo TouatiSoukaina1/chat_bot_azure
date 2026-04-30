@@ -20,11 +20,11 @@ export default function AuthPage() {
           <div className="max-w-2xl">
             <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-300 backdrop-blur">
               <Sparkles className="h-3.5 w-3.5" />
-              Plateforme RAG sécurisée
+              RAG OPENAI
             </div>
 
             <h1 className="mt-8 text-4xl font-semibold tracking-tight text-white sm:text-5xl xl:text-6xl">
-              Connecte-toi avec Microsoft pour accéder à ton espace RAG
+              Consultez vos documents et conversations de santé en toute sécurité.
             </h1>
 
             {/* <p className="mt-5 max-w-xl text-base leading-7 text-zinc-400 sm:text-lg">
@@ -48,12 +48,12 @@ export default function AuthPage() {
               <FeatureCard
                 icon={<Database className="h-5 w-5" />}
                 title="Persistance cloud"
-                description="Les échanges restent disponibles après reconnexion grâce au stockage côté backend."
+                description="Les échanges restent disponibles après reconnexion."
               />
               <FeatureCard
                 icon={<MessageSquareText className="h-5 w-5" />}
                 title="Expérience fluide"
-                description="Une interface pensée pour discuter naturellement avec tes connaissances métier."
+                description="Interrogez la base globale WHO et vos documents privés grâce à un assistant IA."
               />
               <FeatureCard
                 icon={<Lock className="h-5 w-5" />}
