@@ -4,8 +4,6 @@ import {
   Database,
   MessageSquareText,
   Sparkles,
-  ArrowRight,
-  CheckCircle2,
 } from "lucide-react"
 import AuthButtons from "../components/AuthButtons"
 
@@ -135,18 +133,3 @@ function FeatureCard({
   )
 }
 
-function Step({ label }: { label: string }) {
-  return (
-    <span className="rounded-full border border-white/10 bg-zinc-950/80 px-3 py-1 text-zinc-300">
-      {label}
-    </span>
-  )
-}
-
-function Pill({ label }: { label: string }) {
-  return (
-    <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-sm text-zinc-300">
-      {label}
-    </span>
-  )
-}

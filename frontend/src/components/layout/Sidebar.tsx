@@ -1,4 +1,4 @@
-import { MessageSquare, Plus, Search, Trash2 } from "lucide-react"
+import { MessageSquare, Plus, Trash2 } from "lucide-react"
 import { formatDateLabel } from "../../lib/utils"
 import type { Conversation } from "../../types/chat"
 
@@ -15,8 +15,6 @@ type SidebarProps = {
 export default function Sidebar({
   conversations,
   activeConversationId,
-  search,
-  onSearchChange,
   onNewConversation,
   onSelectConversation,
   onDeleteConversation,
