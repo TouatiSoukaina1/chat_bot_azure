@@ -89,7 +89,7 @@ export default function AuthPage() {
                     Connexion sécurisée
                   </p>
                   <p className="text-sm text-zinc-400">
-                    Accède à ton espace conversationnel personnel
+                    Accédez à votre espace conversationnel personnel
                   </p>
                 </div>
               </div>
@@ -102,8 +102,7 @@ export default function AuthPage() {
               
 
               <p className="mt-5 text-center text-xs leading-6 text-zinc-500">
-                En te connectant avec Microsoft, tu accèdes à ton espace
-                personnel sécurisé et à ton historique conversationnel.
+                En vous connectant avec Microsoft, vous accédez à votre espace personnel sécurisé ainsi qu’à votre historique conversationnel
               </p>
             </div>
           </div>

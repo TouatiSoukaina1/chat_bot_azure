@@ -3,9 +3,10 @@ import os
 from dotenv import load_dotenv
 from azure.cosmos import CosmosClient, PartitionKey
 from azure.identity import DefaultAzureCredential
-
+import logging
 load_dotenv()
 
+logger = logging.getLogger("init.chat")
 uri = os.getenv("COSMOSDB_URI")
 database_name = os.getenv("COSMOS_DATABASE")
 container_conversations = os.getenv("COSMOSDB_CONTAINER_CONVERSATIONS", "conversations")
@@ -24,5 +25,4 @@ database.create_contcainer_if_not_exists(
     id=container_messages,
     partition_key=PartitionKey(path="/conversation_id"),
 )
-
-print("✅ Containers conversations/messages prêts.")
+logger.info("Containers conversations/messages prêts")

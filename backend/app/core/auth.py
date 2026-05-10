@@ -1,4 +1,5 @@
 import json
+import logging
 from dataclasses import dataclass
 from functools import lru_cache
 from urllib.request import urlopen
@@ -10,6 +11,7 @@ from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from app.core.auth_settings import TENANT_ID, API_AUDIENCE, REQUIRED_SCOPE
 
 security = HTTPBearer(auto_error=True)
+logger = logging.getLogger("app.auth")
 
 
 @dataclass
@@ -52,7 +54,6 @@ def get_current_user(
 ) -> CurrentUser:
     token = credentials.credentials
 
-    # lecture non vérifiée juste pour choisir le bon endpoint OIDC
     unverified_claims = jwt.decode(
         token,
         options={
@@ -75,14 +76,14 @@ def get_current_user(
             audience=API_AUDIENCE,
             issuer=openid_config["issuer"],
         )
-        print("Claims JWT:", claims)
     except jwt.ExpiredSignatureError:
+        logger.warning("Token expiré")
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Token expiré",
         )
     except jwt.InvalidTokenError as exc:
-        print("JWT invalide:", exc)
+        logger.warning("JWT invalide: %s", exc)
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail=f"Token invalide: {exc}",
@@ -94,12 +95,20 @@ def get_current_user(
     tid = claims.get("tid")
 
     if not oid or not tid:
+        logger.warning("Claims oid/tid absentes")
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Claims oid/tid absentes",
         )
 
     user_id = f"{tid}:{oid}"
+
+    logger.info(
+        "Utilisateur authentifié | tid=%s oid=%s name=%s",
+        tid,
+        oid,
+        claims.get("name"),
+    )
 
     return CurrentUser(
         user_id=user_id,
