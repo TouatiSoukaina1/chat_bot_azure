@@ -22,7 +22,7 @@ export default function AuthPage() {
             </div>
 
             <h1 className="mt-8 text-4xl font-semibold tracking-tight text-white sm:text-5xl xl:text-6xl">
-              Consultez vos documents et conversations de santé en toute sécurité.
+              MedAI Assistant
             </h1>
 
             {/* <p className="mt-5 max-w-xl text-base leading-7 text-zinc-400 sm:text-lg">
