@@ -40,3 +40,6 @@ dist/
 
 # Secrets
 secrets/
+
+infra/env/*.parameters.json
+!infra/env/*.parameters.example.json
