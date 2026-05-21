@@ -11,3 +11,7 @@ azure-search-documents
 PyJWT
 PyMuPDF
 pytest-cov
+
+azure-monitor-opentelemetry
+opentelemetry-instrumentation-fastapi
+opentelemetry-instrumentation-logging

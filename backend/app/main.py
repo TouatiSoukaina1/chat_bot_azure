@@ -6,8 +6,13 @@ import time
 import uuid
 
 from app.core.logging_config import setup_logging
+from app.core.monitoring import setup_monitoring
 
 setup_logging()
+setup_monitoring()
+
+from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
+from opentelemetry.instrumentation.logging import LoggingInstrumentor
 
 from app.api.routes.chat import router as chat_router
 from app.api.routes.conversations import router as conversations_router
@@ -43,6 +48,9 @@ app.add_middleware(
 app.include_router(chat_router, prefix="/api")
 app.include_router(conversations_router, prefix="/api")
 app.include_router(documents_router, prefix="/api")
+
+LoggingInstrumentor().instrument(set_logging_format=True)
+FastAPIInstrumentor.instrument_app(app)
 
 
 @app.middleware("http")
