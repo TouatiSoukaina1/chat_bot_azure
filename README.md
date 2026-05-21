@@ -7,7 +7,6 @@ Application web RAG orientée santé permettant à un utilisateur authentifié d
 ## Table des matières
 
 - [Présentation](#présentation)
-- [Objectifs du projet](#objectifs-du-projet)
 - [Fonctionnalités principales](#fonctionnalités-principales)
 - [Architecture technique](#architecture-technique)
 - [Stack technique](#stack-technique)
@@ -20,7 +19,6 @@ Application web RAG orientée santé permettant à un utilisateur authentifié d
 - [Lancement en local](#lancement-en-local)
 - [CI/CD](#cicd)
 - [État actuel du projet](#état-actuel-du-projet)
-- [Axes d’amélioration](#axes-damélioration)
 
 ---
 
