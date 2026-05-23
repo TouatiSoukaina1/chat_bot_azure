@@ -10,7 +10,7 @@ L’utilisateur se connecte avec Microsoft Entra ID, accède à un espace person
 
 ## Table des matières
 
-- [Démonstration] (#démonstration)
+- [Démonstration](#démonstration)
 - [Fonctionnalités principales](#fonctionnalités-principales)
 - [Architecture technique](#architecture-technique)
 - [Stack technique](#stack-technique)
@@ -27,7 +27,9 @@ L’utilisateur se connecte avec Microsoft Entra ID, accède à un espace person
 ---
 ## Démonstration
 
-<video src="./demo/demo.mp4" controls width="900"></video>
+Une vidéo de démonstration de l'application est disponible ici :
+
+[![Voir la démo](docs/assets/poster.png)](https://TouatiSoukaina1.github.io/chat_bot_azure/)
 
 ## Fonctionnalités principales
 
