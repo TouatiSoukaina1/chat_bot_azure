@@ -27,7 +27,7 @@ L’utilisateur se connecte avec Microsoft Entra ID, accède à un espace person
 ---
 ## Démonstration
 
-🎥 [Voir la vidéo de démonstration](./demo/demo.mov)
+🎥 [Voir la vidéo de démonstration](./demo/demo.mp4)
 
 ## Fonctionnalités principales
 
