@@ -27,7 +27,7 @@ L’utilisateur se connecte avec Microsoft Entra ID, accède à un espace person
 ---
 ## Démonstration
 
-🎥 [Voir la vidéo de démonstration](./demo/demo.mp4)
+<video src="./demo/demo.mp4" controls width="900"></video>
 
 ## Fonctionnalités principales
 
@@ -281,7 +281,6 @@ Déploiement automatisé via GitHub Actions vers Azure Container Apps avec :
 - OIDC GitHub → Azure
 - build Docker
 - push vers ACR
-- mise à jour du backend
 
 ### Frontend
 Déploiement automatisé via GitHub Actions vers Azure Static Web Apps.
@@ -301,6 +300,8 @@ Déploiement automatisé via GitHub Actions vers Azure Static Web Apps.
 ### En cours d’amélioration
 - Renforcement de la sécurité 
 - Amélioration continue de l’UX
+- Monitoring
+- Evaluation 
 
 ---
 
