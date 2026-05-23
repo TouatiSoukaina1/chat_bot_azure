@@ -34,7 +34,7 @@
 <body>
   <h1>Démo de l'application</h1>
 
-  <video controls preload="metadata" poster="assets/poster.png">
+  <video id="demo-video" controls preload="metadata" poster="assets/poster.png">
     <source src="assets/demo.mp4" type="video/mp4" />
     Votre navigateur ne supporte pas la lecture vidéo.
   </video>
@@ -45,5 +45,13 @@
       upload de documents, traitement, interaction avec le chatbot et affichage des résultats.
     </p>
   </div>
+
+  <script>
+    const video = document.getElementById("demo-video");
+
+    video.addEventListener("loadedmetadata", () => {
+      video.playbackRate = 0.25;
+    });
+  </script>
 </body>
 </html>
