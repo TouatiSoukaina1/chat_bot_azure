@@ -1,3 +1,15 @@
+"""
+Script d’ingestion du corpus WHO global.
+
+Ce pipeline est actuellement conservé sous forme de script dédié, avec une
+logique locale inbox / archive / failed. Il reste séparé du flux principal
+d’upload utilisateur.
+
+Dans cette version du projet, ce choix est volontaire afin de privilégier une
+implémentation simple. Une évolution future consistera
+à déplacer ce traitement dans un job cloud planifié, connecté à un stockage distant.
+"""
+
 import logging
 import shutil
 import sys

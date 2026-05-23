@@ -1,12 +1,16 @@
 # MedAIssist
 
-Application web RAG orientée santé permettant à un utilisateur authentifié de consulter ses conversations, importer ses documents, et interagir avec un assistant conversationnel alimenté par ses sources documentaires.
+
+MedAIssist est une application full stack orientée santé, construite autour d’une architecture RAG sur Azure.
+
+L’utilisateur se connecte avec Microsoft Entra ID, accède à un espace personnel sécurisé, importe ses documents, puis échange avec un assistant conversationnel capable de s’appuyer sur ses documents indexés pour produire des réponses contextualisées.
+
 
 ---
 
 ## Table des matières
 
-- [Présentation](#présentation)
+- [Démonstration] (#démonstration)
 - [Fonctionnalités principales](#fonctionnalités-principales)
 - [Architecture technique](#architecture-technique)
 - [Stack technique](#stack-technique)
@@ -21,15 +25,9 @@ Application web RAG orientée santé permettant à un utilisateur authentifié d
 - [État actuel du projet](#état-actuel-du-projet)
 
 ---
+## Démonstration
 
-## Présentation
-
-MedAIssist est une application full stack orientée santé, construite autour d’une architecture RAG sur Azure.
-
-L’utilisateur se connecte avec Microsoft Entra ID, accède à un espace personnel sécurisé, importe ses documents, puis échange avec un assistant conversationnel capable de s’appuyer sur ses documents indexés pour produire des réponses contextualisées.
-
-
----
+🎥 [Voir la vidéo de démonstration](./demo/demo.mov)
 
 ## Fonctionnalités principales
 
